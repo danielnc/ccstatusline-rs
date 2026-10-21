@@ -1,0 +1,52 @@
+{
+  "name": "transcript/tokens/falsy-stop-reasons",
+  "tags": [
+    "transcript",
+    "tokens-input",
+    "tokens-output",
+    "tokens-cached",
+    "tokens-total"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:01.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":1,\"output_tokens\":2,\"cache_read_input_tokens\":3,\"cache_creation_input_tokens\":4},\"stop_reason\":\"\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:02.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":20,\"cache_read_input_tokens\":30,\"cache_creation_input_tokens\":40},\"stop_reason\":0}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:03.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":200,\"cache_read_input_tokens\":300,\"cache_creation_input_tokens\":400},\"stop_reason\":false}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:04.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":1000,\"output_tokens\":2000,\"cache_read_input_tokens\":3000,\"cache_creation_input_tokens\":4000},\"stop_reason\":[\"x\"]}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "73",
+          "type": "tokens-input"
+        },
+        {
+          "id": "74",
+          "type": "tokens-output"
+        },
+        {
+          "id": "75",
+          "type": "tokens-cached"
+        },
+        {
+          "id": "76",
+          "type": "tokens-total"
+        }
+      ]
+    ]
+  }
+}

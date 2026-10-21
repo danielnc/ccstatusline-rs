@@ -1,0 +1,54 @@
+{
+  "name": "git/refresh/missing-lock",
+  "tags": [
+    "git-group",
+    "model",
+    "refresh"
+  ],
+  "fixtures": [
+    "git-review-repo"
+  ],
+  "cwd": "git-review-repo",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "m",
+          "type": "model"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-review-repo",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-review-repo",
+      "project_dir": "${CASE_DIR}/git-review-repo"
+    }
+  },
+  "files": {
+    "${CASE_DIR}/fakebin/gh": {
+      "executable": "#!/bin/sh\necho \"gh $*\" >> \"$HOME/gh.log\"\ncase \"$1\" in --version) echo 'gh version 2.0';; pr) printf '%s\\n' '{\"number\": 77, \"url\": \"https://github.com/acme/widgets/pull/77\", \"title\": \"Login form\", \"state\": \"OPEN\", \"reviewDecision\": \"REVIEW_REQUIRED\", \"statusCheckRollup\": [{\"__typename\": \"CheckRun\", \"status\": \"COMPLETED\", \"conclusion\": \"SUCCESS\"}, {\"__typename\": \"CheckRun\", \"status\": \"COMPLETED\", \"conclusion\": \"FAILURE\"}, {\"__typename\": \"CheckRun\", \"status\": \"IN_PROGRESS\", \"conclusion\": \"\"}, {\"__typename\": \"CheckRun\", \"status\": \"COMPLETED\", \"conclusion\": \"SKIPPED\"}, {\"__typename\": \"StatusContext\", \"state\": \"PENDING\"}, {\"__typename\": \"StatusContext\", \"state\": \"success\"}]}';; esac\n"
+    }
+  },
+  "pathPrepend": [
+    "fakebin"
+  ],
+  "args": [
+    "--internal-refresh-git-review-cache",
+    "${CASE_DIR}/git-review-repo",
+    "checks"
+  ],
+  "homeTreeIgnore": [
+    ".cache/ccstatusline/git-cache/"
+  ]
+}

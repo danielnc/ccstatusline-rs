@@ -1,0 +1,9 @@
+{
+  "name": "cli/stdin-array",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdinRaw": "[]"
+}

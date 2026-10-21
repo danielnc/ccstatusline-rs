@@ -1,0 +1,23 @@
+{
+  "name": "widgets/remote-control-status/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "remote-control-status"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "remote-control-status"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

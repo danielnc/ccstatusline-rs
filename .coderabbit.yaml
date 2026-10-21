@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit review settings. The rules below restate AGENTS.md.
+language: en
+tone_instructions: >-
+  Be concise and specific. Flag real problems only: bugs, parity or privacy regressions, missing tests, broken
+  docs. No praise, no restating the diff, no style nits that rustfmt or clippy would catch.
+
+reviews:
+  profile: chill
+  high_level_summary: true
+  poem: false
+  sequence_diagrams: false
+  collapse_walkthrough: true
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!Cargo.lock"
+    - "!parity/upstream/package-lock.json"
+    - "!src/unicode_tables.rs"
+  path_instructions:
+    - path: "**"
+      instructions: >-
+        This repository is public. Flag any personal data in code, tests, docs, or commit messages: real names,
+        emails, hostnames, IPs, home paths (/Users/..., /home/...), account or profile names from someone's real
+        setup, private repository, organization or company names. Examples must use generic names (profile-a,
+        example.com). Tokens, OAuth data, keychain values, real transcripts and .env contents must never be
+        committed. Measured numbers must say whose machine, what input, and when.
+    - path: "src/**"
+      instructions: >-
+        Contract, check every change against it: (1) Parity: for the same stdin, config and environment, output
+        must be byte-identical to the pinned upstream ccstatusline release; a change to an upstream widget type
+        needs a parity case under parity/corpus/ proving it. (2) Never read a whole transcript on the render path:
+        transcript data comes from the incremental per-file cache (src/transcript/), parsing only appended bytes,
+        with cold rebuilds streamed and time-capped. (3) No network on the render path: renders read caches only;
+        refreshes run in one detached, lock-guarded background process. (4) Every cache or config write is atomic
+        (temp file + rename, see src/cachefile.rs) and every lock is O_EXCL. (5) Extras beyond upstream are opt-in,
+        behind new widget types or environment variables, never new top-level settings keys (upstream's editor
+        strips unknown keys), so parity holds when they are off. (6) Prefer computing natively over spawning
+        processes; any new subprocess on the render path needs a reason. (7) Use crate::clock::now_ms() for time
+        and src/jsnum.rs for number formatting, so the harness's fixed clock and JS number semantics apply.
+    - path: "src/**/*.rs"
+      instructions: >-
+        Tests (the #[cfg(test)] modules) must stay offline and hermetic: no network, no real keychain, no real
+        ~/.claude, ~/.clauth or ~/.cache; use temporary directories and fake environments.
+    - path: "parity/**"
+      instructions: >-
+        The harness is the parity contract. Cases must be synthetic and deterministic (fixed clock via
+        CCSL_TEST_NOW_MS, no network, no keychain), and must not weaken a comparison to make a case pass.
+        Upstream is pinned in parity/upstream/package.json; bumping it is a deliberate change that needs the
+        corpus re-run.
+    - path: ".github/workflows/**"
+      instructions: >-
+        Actions must be pinned to full commit SHAs with a version comment, permissions least-privilege
+        (workflow default contents: read), and no secrets or tokens in the repository.
+  pre_merge_checks:
+    docstrings:
+      mode: "off"

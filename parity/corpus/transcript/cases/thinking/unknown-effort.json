@@ -1,0 +1,42 @@
+{
+  "name": "transcript/thinking/unknown-effort",
+  "tags": [
+    "transcript",
+    "thinking-effort"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:55:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"<local-command-stdout>Set effort level to Turbo-9 now</local-command-stdout>\"}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "310",
+          "type": "thinking-effort"
+        },
+        {
+          "id": "311",
+          "type": "thinking-effort",
+          "rawValue": true
+        }
+      ]
+    ]
+  }
+}

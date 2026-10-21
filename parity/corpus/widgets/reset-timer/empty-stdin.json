@@ -1,0 +1,23 @@
+{
+  "name": "widgets/reset-timer/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "reset-timer"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "reset-timer"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

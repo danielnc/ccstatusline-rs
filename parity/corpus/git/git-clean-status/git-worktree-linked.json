@@ -1,0 +1,37 @@
+{
+  "name": "git/git-clean-status/git-worktree-linked",
+  "tags": [
+    "git-clean-status",
+    "git-group"
+  ],
+  "fixtures": [
+    "git-worktree"
+  ],
+  "cwd": "git-worktree/linked",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-clean-status",
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-worktree/linked",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-worktree/linked",
+      "project_dir": "${CASE_DIR}/git-worktree/linked"
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "name": "git/git-review/cache/glab",
+  "tags": [
+    "git-ci-status",
+    "git-group",
+    "git-pr",
+    "git-review",
+    "separator"
+  ],
+  "fixtures": [
+    "git-review"
+  ],
+  "cwd": "git-review",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-review",
+          "id": "1"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-review",
+          "rawValue": true,
+          "id": "3"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-review",
+          "metadata": {
+            "hide": "status"
+          },
+          "id": "5"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-review",
+          "metadata": {
+            "hide": "title"
+          },
+          "id": "7"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-pr",
+          "id": "9"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-ci-status",
+          "id": "11"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-ci-status",
+          "rawValue": true,
+          "id": "13"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-review",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-review",
+      "project_dir": "${CASE_DIR}/git-review"
+    }
+  },
+  "files": {
+    "${CASE_DIR}/git-review.review.json": "{\"version\": 1, \"data\": {\"number\": 7, \"url\": \"https://gitlab.com/g/p/-/merge_requests/7\", \"title\": \"Add the thing\", \"state\": \"OPEN\", \"reviewDecision\": \"\", \"provider\": \"glab\"}, \"checksQueried\": true}"
+  }
+}

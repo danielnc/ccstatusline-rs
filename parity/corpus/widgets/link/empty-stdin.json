@@ -1,0 +1,23 @@
+{
+  "name": "widgets/link/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "link"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "link"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

@@ -1,0 +1,23 @@
+{
+  "name": "widgets/weekly-reset-timer/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "weekly-reset-timer"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "weekly-reset-timer"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

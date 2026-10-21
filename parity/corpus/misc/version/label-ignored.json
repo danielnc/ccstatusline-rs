@@ -1,0 +1,50 @@
+{
+  "name": "misc/version/label-ignored",
+  "tags": [
+    "version",
+    "misc"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "version",
+          "metadata": {
+            "label": "CC "
+          }
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}/no-git",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    },
+    "version": "2.0.37",
+    "output_style": {
+      "name": "Explanatory"
+    },
+    "cost": {
+      "total_cost_usd": 1.2345,
+      "total_duration_ms": 3723000,
+      "total_api_duration_ms": 1234567,
+      "total_lines_added": 156,
+      "total_lines_removed": 23
+    }
+  }
+}

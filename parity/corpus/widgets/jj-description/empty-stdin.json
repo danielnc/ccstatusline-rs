@@ -1,0 +1,23 @@
+{
+  "name": "widgets/jj-description/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "jj-description"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "jj-description"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

@@ -1,0 +1,48 @@
+{
+  "name": "usage/context-bar/over-100-formats",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "context-bar",
+    "usage-group"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "context-bar",
+          "numberFormat": {
+            "style": "compact",
+            "decimals": 2
+          }
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}/no-git",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    },
+    "version": "2.0.37",
+    "context_window": {
+      "context_window_size": 100000,
+      "current_usage": {
+        "input_tokens": 150000,
+        "output_tokens": 0
+      }
+    }
+  }
+}

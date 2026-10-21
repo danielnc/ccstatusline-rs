@@ -1,0 +1,93 @@
+{
+  "name": "git/worktree-widgets/absent-minimalist",
+  "tags": [
+    "git-group",
+    "separator",
+    "worktree-branch",
+    "worktree-mode",
+    "worktree-name",
+    "worktree-original-branch"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "worktree-mode",
+          "id": "1"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "worktree-mode",
+          "rawValue": true,
+          "id": "3"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "worktree-mode",
+          "character": "",
+          "id": "5"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "worktree-mode",
+          "character": "WT",
+          "id": "7"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "worktree-name",
+          "id": "9"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "worktree-branch",
+          "id": "11"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "worktree-original-branch",
+          "id": "13"
+        }
+      ]
+    ],
+    "minimalistMode": true
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/no-git",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    }
+  }
+}

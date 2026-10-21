@@ -1,0 +1,23 @@
+{
+  "name": "widgets/session-name/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "session-name"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "session-name"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

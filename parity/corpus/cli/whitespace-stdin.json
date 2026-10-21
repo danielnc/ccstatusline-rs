@@ -1,0 +1,9 @@
+{
+  "name": "cli/whitespace-stdin",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdinRaw": "  \n\t\n"
+}

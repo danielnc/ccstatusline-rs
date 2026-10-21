@@ -1,0 +1,96 @@
+{
+  "name": "transcript/speed/no-data",
+  "tags": [
+    "transcript",
+    "input-speed",
+    "output-speed",
+    "total-speed"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:59:50.000Z\",\"message\":{\"role\":\"user\",\"content\":\"q\"}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "213",
+          "type": "input-speed"
+        },
+        {
+          "id": "214",
+          "type": "output-speed"
+        },
+        {
+          "id": "215",
+          "type": "total-speed"
+        }
+      ],
+      [
+        {
+          "id": "216",
+          "type": "input-speed",
+          "metadata": {
+            "hide": "no-data"
+          }
+        },
+        {
+          "id": "217",
+          "type": "output-speed",
+          "metadata": {
+            "hide": "no-data"
+          }
+        },
+        {
+          "id": "218",
+          "type": "total-speed",
+          "metadata": {
+            "hide": "no-data"
+          }
+        }
+      ],
+      [
+        {
+          "id": "219",
+          "type": "input-speed",
+          "metadata": {
+            "windowSeconds": "30",
+            "hide": "no-data"
+          }
+        },
+        {
+          "id": "220",
+          "type": "output-speed",
+          "metadata": {
+            "windowSeconds": "30",
+            "hide": "no-data"
+          }
+        },
+        {
+          "id": "221",
+          "type": "total-speed",
+          "metadata": {
+            "windowSeconds": "30",
+            "hide": "no-data"
+          }
+        }
+      ]
+    ]
+  }
+}

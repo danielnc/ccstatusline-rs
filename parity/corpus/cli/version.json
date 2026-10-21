@@ -1,0 +1,10 @@
+{
+  "name": "cli/version",
+  "tags": [
+    "cli"
+  ],
+  "noConfig": true,
+  "args": [
+    "--version"
+  ]
+}

@@ -1,0 +1,594 @@
+{
+  "name": "widgets/all-non-git/default",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "multi"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "model"
+        },
+        {
+          "id": "2",
+          "type": "separator"
+        },
+        {
+          "id": "3",
+          "type": "output-style"
+        },
+        {
+          "id": "4",
+          "type": "separator"
+        },
+        {
+          "id": "5",
+          "type": "jj-bookmarks"
+        },
+        {
+          "id": "6",
+          "type": "separator"
+        },
+        {
+          "id": "7",
+          "type": "jj-workspace"
+        },
+        {
+          "id": "8",
+          "type": "separator"
+        },
+        {
+          "id": "9",
+          "type": "jj-root-dir"
+        },
+        {
+          "id": "10",
+          "type": "separator"
+        },
+        {
+          "id": "11",
+          "type": "jj-changes"
+        },
+        {
+          "id": "12",
+          "type": "separator"
+        },
+        {
+          "id": "13",
+          "type": "jj-insertions"
+        },
+        {
+          "id": "14",
+          "type": "separator"
+        },
+        {
+          "id": "15",
+          "type": "jj-deletions"
+        },
+        {
+          "id": "16",
+          "type": "separator"
+        },
+        {
+          "id": "17",
+          "type": "jj-description"
+        },
+        {
+          "id": "18",
+          "type": "separator"
+        },
+        {
+          "id": "19",
+          "type": "jj-revision"
+        },
+        {
+          "id": "20",
+          "type": "separator"
+        },
+        {
+          "id": "21",
+          "type": "current-working-dir"
+        },
+        {
+          "id": "22",
+          "type": "separator"
+        },
+        {
+          "id": "23",
+          "type": "tokens-input"
+        },
+        {
+          "id": "24",
+          "type": "separator"
+        },
+        {
+          "id": "25",
+          "type": "tokens-output"
+        },
+        {
+          "id": "26",
+          "type": "separator"
+        },
+        {
+          "id": "27",
+          "type": "tokens-cached"
+        },
+        {
+          "id": "28",
+          "type": "separator"
+        },
+        {
+          "id": "29",
+          "type": "tokens-total"
+        },
+        {
+          "id": "30",
+          "type": "separator"
+        },
+        {
+          "id": "31",
+          "type": "cache-hit-rate"
+        },
+        {
+          "id": "32",
+          "type": "separator"
+        },
+        {
+          "id": "33",
+          "type": "cache-read"
+        },
+        {
+          "id": "34",
+          "type": "separator"
+        },
+        {
+          "id": "35",
+          "type": "cache-write"
+        },
+        {
+          "id": "36",
+          "type": "separator"
+        },
+        {
+          "id": "37",
+          "type": "input-speed"
+        },
+        {
+          "id": "38",
+          "type": "separator"
+        },
+        {
+          "id": "39",
+          "type": "output-speed"
+        },
+        {
+          "id": "40",
+          "type": "separator"
+        },
+        {
+          "id": "41",
+          "type": "total-speed"
+        },
+        {
+          "id": "42",
+          "type": "separator"
+        },
+        {
+          "id": "43",
+          "type": "context-length"
+        },
+        {
+          "id": "44",
+          "type": "separator"
+        },
+        {
+          "id": "45",
+          "type": "context-window"
+        },
+        {
+          "id": "46",
+          "type": "separator"
+        },
+        {
+          "id": "47",
+          "type": "context-percentage"
+        },
+        {
+          "id": "48",
+          "type": "separator"
+        },
+        {
+          "id": "49",
+          "type": "context-percentage-usable"
+        },
+        {
+          "id": "50",
+          "type": "separator"
+        },
+        {
+          "id": "51",
+          "type": "session-clock"
+        },
+        {
+          "id": "52",
+          "type": "separator"
+        },
+        {
+          "id": "53",
+          "type": "session-cost"
+        },
+        {
+          "id": "54",
+          "type": "separator"
+        },
+        {
+          "id": "55",
+          "type": "session-cost-rate"
+        },
+        {
+          "id": "56",
+          "type": "separator"
+        },
+        {
+          "id": "57",
+          "type": "block-timer"
+        },
+        {
+          "id": "58",
+          "type": "separator"
+        },
+        {
+          "id": "59",
+          "type": "terminal-width"
+        },
+        {
+          "id": "60",
+          "type": "separator"
+        },
+        {
+          "id": "61",
+          "type": "version"
+        },
+        {
+          "id": "62",
+          "type": "separator"
+        },
+        {
+          "id": "63",
+          "type": "custom-text"
+        },
+        {
+          "id": "64",
+          "type": "separator"
+        },
+        {
+          "id": "65",
+          "type": "custom-symbol"
+        },
+        {
+          "id": "66",
+          "type": "separator"
+        },
+        {
+          "id": "67",
+          "type": "custom-command"
+        },
+        {
+          "id": "68",
+          "type": "separator"
+        },
+        {
+          "id": "69",
+          "type": "link"
+        },
+        {
+          "id": "70",
+          "type": "separator"
+        },
+        {
+          "id": "71",
+          "type": "claude-session-id"
+        },
+        {
+          "id": "72",
+          "type": "separator"
+        },
+        {
+          "id": "73",
+          "type": "claude-account-email"
+        },
+        {
+          "id": "74",
+          "type": "separator"
+        },
+        {
+          "id": "75",
+          "type": "claude-status"
+        },
+        {
+          "id": "76",
+          "type": "separator"
+        },
+        {
+          "id": "77",
+          "type": "sandbox-status"
+        },
+        {
+          "id": "78",
+          "type": "separator"
+        },
+        {
+          "id": "79",
+          "type": "session-name"
+        },
+        {
+          "id": "80",
+          "type": "separator"
+        },
+        {
+          "id": "81",
+          "type": "free-memory"
+        },
+        {
+          "id": "82",
+          "type": "separator"
+        },
+        {
+          "id": "83",
+          "type": "session-usage"
+        },
+        {
+          "id": "84",
+          "type": "separator"
+        },
+        {
+          "id": "85",
+          "type": "weekly-usage"
+        },
+        {
+          "id": "86",
+          "type": "separator"
+        },
+        {
+          "id": "87",
+          "type": "extra-usage-utilization"
+        },
+        {
+          "id": "88",
+          "type": "separator"
+        },
+        {
+          "id": "89",
+          "type": "extra-usage-remaining"
+        },
+        {
+          "id": "90",
+          "type": "separator"
+        },
+        {
+          "id": "91",
+          "type": "extra-usage-used"
+        },
+        {
+          "id": "92",
+          "type": "separator"
+        },
+        {
+          "id": "93",
+          "type": "extra-usage-daily-budget"
+        },
+        {
+          "id": "94",
+          "type": "separator"
+        },
+        {
+          "id": "95",
+          "type": "weekly-sonnet-usage"
+        },
+        {
+          "id": "96",
+          "type": "separator"
+        },
+        {
+          "id": "97",
+          "type": "weekly-opus-usage"
+        },
+        {
+          "id": "98",
+          "type": "separator"
+        },
+        {
+          "id": "99",
+          "type": "fable-weekly-usage"
+        },
+        {
+          "id": "100",
+          "type": "separator"
+        },
+        {
+          "id": "101",
+          "type": "reset-timer"
+        },
+        {
+          "id": "102",
+          "type": "separator"
+        },
+        {
+          "id": "103",
+          "type": "weekly-reset-timer"
+        },
+        {
+          "id": "104",
+          "type": "separator"
+        },
+        {
+          "id": "105",
+          "type": "context-bar"
+        },
+        {
+          "id": "106",
+          "type": "separator"
+        },
+        {
+          "id": "107",
+          "type": "skills"
+        },
+        {
+          "id": "108",
+          "type": "separator"
+        },
+        {
+          "id": "109",
+          "type": "thinking-effort"
+        },
+        {
+          "id": "110",
+          "type": "separator"
+        },
+        {
+          "id": "111",
+          "type": "vim-mode"
+        },
+        {
+          "id": "112",
+          "type": "separator"
+        },
+        {
+          "id": "113",
+          "type": "voice-status"
+        },
+        {
+          "id": "114",
+          "type": "separator"
+        },
+        {
+          "id": "115",
+          "type": "remote-control-status"
+        },
+        {
+          "id": "116",
+          "type": "separator"
+        },
+        {
+          "id": "117",
+          "type": "worktree-mode"
+        },
+        {
+          "id": "118",
+          "type": "separator"
+        },
+        {
+          "id": "119",
+          "type": "worktree-name"
+        },
+        {
+          "id": "120",
+          "type": "separator"
+        },
+        {
+          "id": "121",
+          "type": "worktree-branch"
+        },
+        {
+          "id": "122",
+          "type": "separator"
+        },
+        {
+          "id": "123",
+          "type": "worktree-original-branch"
+        },
+        {
+          "id": "124",
+          "type": "separator"
+        },
+        {
+          "id": "125",
+          "type": "compaction-counter"
+        },
+        {
+          "id": "126",
+          "type": "separator"
+        },
+        {
+          "id": "127",
+          "type": "cache-timer"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}/no-git",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    },
+    "version": "2.0.37",
+    "output_style": {
+      "name": "Explanatory"
+    },
+    "effort": {
+      "level": "high"
+    },
+    "cost": {
+      "total_cost_usd": 1.2345,
+      "total_duration_ms": 3723000,
+      "total_api_duration_ms": 1234567,
+      "total_lines_added": 156,
+      "total_lines_removed": 23
+    },
+    "context_window": {
+      "context_window_size": 200000,
+      "total_input_tokens": 45678,
+      "total_output_tokens": 12345,
+      "current_usage": {
+        "input_tokens": 1234,
+        "output_tokens": 567,
+        "cache_creation_input_tokens": 8910,
+        "cache_read_input_tokens": 34567
+      },
+      "used_percentage": 22,
+      "remaining_percentage": 78
+    },
+    "rate_limits": {
+      "five_hour": {
+        "used_percentage": 42.5,
+        "resets_at": 1792591987
+      },
+      "seven_day": {
+        "used_percentage": 17,
+        "resets_at": 1792863000
+      },
+      "seven_day_sonnet": {
+        "used_percentage": 8,
+        "resets_at": 1792863000
+      },
+      "seven_day_opus": {
+        "used_percentage": 61.25,
+        "resets_at": 1792863000
+      }
+    },
+    "vim": {
+      "mode": "INSERT"
+    },
+    "worktree": {
+      "name": "feature-x",
+      "path": "${CASE_DIR}/wt/feature-x",
+      "branch": "wt/feature-x",
+      "original_cwd": "${CASE_DIR}/no-git",
+      "original_branch": "main"
+    }
+  }
+}

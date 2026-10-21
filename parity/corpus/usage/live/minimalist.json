@@ -1,0 +1,154 @@
+{
+  "name": "usage/live/minimalist",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "block-timer",
+    "claude-status",
+    "context-bar",
+    "extra-usage-daily-budget",
+    "extra-usage-remaining",
+    "extra-usage-used",
+    "extra-usage-utilization",
+    "fable-weekly-usage",
+    "reset-timer",
+    "session-usage",
+    "usage-group",
+    "weekly-opus-usage",
+    "weekly-reset-timer",
+    "weekly-sonnet-usage",
+    "weekly-usage"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "session-usage"
+        },
+        {
+          "id": "2",
+          "type": "weekly-usage"
+        },
+        {
+          "id": "3",
+          "type": "weekly-sonnet-usage"
+        },
+        {
+          "id": "4",
+          "type": "weekly-opus-usage"
+        },
+        {
+          "id": "5",
+          "type": "fable-weekly-usage"
+        },
+        {
+          "id": "6",
+          "type": "reset-timer"
+        },
+        {
+          "id": "7",
+          "type": "weekly-reset-timer"
+        },
+        {
+          "id": "8",
+          "type": "block-timer"
+        },
+        {
+          "id": "9",
+          "type": "extra-usage-utilization"
+        },
+        {
+          "id": "10",
+          "type": "extra-usage-remaining"
+        },
+        {
+          "id": "11",
+          "type": "extra-usage-used"
+        },
+        {
+          "id": "12",
+          "type": "extra-usage-daily-budget"
+        },
+        {
+          "id": "13",
+          "type": "context-bar"
+        },
+        {
+          "id": "14",
+          "type": "claude-status"
+        }
+      ]
+    ],
+    "minimalistMode": true
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}/no-git",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    },
+    "version": "2.0.37",
+    "context_window": {
+      "context_window_size": 200000,
+      "total_input_tokens": 45678,
+      "total_output_tokens": 12345,
+      "current_usage": {
+        "input_tokens": 1234,
+        "output_tokens": 567,
+        "cache_creation_input_tokens": 8910,
+        "cache_read_input_tokens": 34567
+      },
+      "used_percentage": 22,
+      "remaining_percentage": 78
+    },
+    "rate_limits": {
+      "five_hour": {
+        "used_percentage": 42.5,
+        "resets_at": 1792591987
+      },
+      "seven_day": {
+        "used_percentage": 17,
+        "resets_at": 1792863000
+      },
+      "seven_day_sonnet": {
+        "used_percentage": 8,
+        "resets_at": 1792863000
+      },
+      "seven_day_opus": {
+        "used_percentage": 61.25,
+        "resets_at": 1792863000
+      }
+    }
+  },
+  "files": {
+    ".cache/ccstatusline/usage.json": {
+      "json": {
+        "sessionUsage": 33.3,
+        "sessionResetAt": "2026-10-21T14:10:00.000Z",
+        "weeklyUsage": 71,
+        "weeklyResetAt": "2026-10-24T08:00:00+00:00",
+        "weeklySonnetUsage": 4,
+        "weeklyOpusUsage": 9.5,
+        "weeklyOpusResetAt": "2026-10-25T08:00:00Z",
+        "fableUsage": 2,
+        "fableResetAt": "2026-10-26T08:00:00Z",
+        "extraUsageEnabled": true,
+        "extraUsageLimit": 500000,
+        "extraUsageUsed": 106050,
+        "extraUsageUtilization": 21.21,
+        "extraUsageCurrency": "USD"
+      }
+    }
+  }
+}

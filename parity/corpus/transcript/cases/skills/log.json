@@ -1,0 +1,113 @@
+{
+  "name": "transcript/skills/log",
+  "tags": [
+    "transcript",
+    "skills"
+  ],
+  "files": {
+    ".cache/ccstatusline/skills/skills-parity-session-0001.jsonl": "﻿{\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"session_id\":\"parity-session-0001\",\"skill\":\"commit\",\"source\":\"PreToolUse\"}\ngarbage\n{\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"session_id\":\"parity-session-0001\",\"skill\":\"review-pr\",\"source\":\"PreToolUse\"}\n\n{\"skill\":\"no-session\"}\n{\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"session_id\":\"parity-session-0001\",\"skill\":\"\",\"source\":\"PreToolUse\"}\n   \n{\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"session_id\":\"parity-session-0001\",\"skill\":\"commit\",\"source\":\"PreToolUse\"}\r\n{\"timestamp\":\"x\",\"session_id\":7,\"skill\":\"bad-session\"}\n{\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"session_id\":\"parity-session-0001\",\"skill\":\"deploy\",\"source\":\"PreToolUse\"}\n[1]\nnull\n\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "396",
+          "type": "skills",
+          "metadata": {}
+        },
+        {
+          "id": "397",
+          "type": "skills",
+          "metadata": {
+            "mode": "count"
+          }
+        },
+        {
+          "id": "398",
+          "type": "skills",
+          "metadata": {
+            "mode": "list"
+          }
+        },
+        {
+          "id": "399",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "list",
+            "listLimit": "2"
+          }
+        },
+        {
+          "id": "400",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "bogus"
+          }
+        }
+      ],
+      [
+        {
+          "id": "401",
+          "type": "skills",
+          "metadata": {
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "402",
+          "type": "skills",
+          "metadata": {
+            "mode": "count",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "403",
+          "type": "skills",
+          "metadata": {
+            "mode": "list",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "404",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "list",
+            "listLimit": "2",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "405",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "bogus",
+            "hide": "empty"
+          }
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "cli/hook-prompt-slash-command",
+  "tags": [
+    "cli",
+    "hook",
+    "skills"
+  ],
+  "noConfig": true,
+  "args": [
+    "--hook"
+  ],
+  "stdin": {
+    "session_id": "parity-session-0001",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/review-prs now please"
+  },
+  "files": {
+    ".cache/ccstatusline/skills/skills-parity-session-0001.jsonl": "{\"timestamp\":\"2026-10-21T11:00:00.000Z\",\"session_id\":\"parity-session-0001\",\"skill\":\"pdf\",\"source\":\"PreToolUse\"}\n"
+  },
+  "compareFilesAfter": [
+    ".cache/ccstatusline/skills/skills-parity-session-0001.jsonl"
+  ]
+}

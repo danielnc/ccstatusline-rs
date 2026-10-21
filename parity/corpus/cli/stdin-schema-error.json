@@ -1,0 +1,11 @@
+{
+  "name": "cli/stdin-schema-error",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdin": {
+    "model": 42
+  }
+}

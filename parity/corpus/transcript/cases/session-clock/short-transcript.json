@@ -1,0 +1,44 @@
+{
+  "name": "transcript/session-clock/short-transcript",
+  "tags": [
+    "transcript",
+    "session-clock"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:55:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"a\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:55:30.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":1,\"output_tokens\":1,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"system\"}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "245",
+          "type": "session-clock"
+        },
+        {
+          "id": "246",
+          "type": "session-clock",
+          "metadata": {
+            "hide": "zero"
+          }
+        }
+      ]
+    ]
+  }
+}

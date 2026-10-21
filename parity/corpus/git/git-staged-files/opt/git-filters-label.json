@@ -1,0 +1,40 @@
+{
+  "name": "git/git-staged-files/opt/git-filters-label",
+  "tags": [
+    "git-group",
+    "git-staged-files"
+  ],
+  "fixtures": [
+    "git-filters"
+  ],
+  "cwd": "git-filters",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-staged-files",
+          "metadata": {
+            "label": "Files: "
+          },
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-filters",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-filters",
+      "project_dir": "${CASE_DIR}/git-filters"
+    }
+  }
+}

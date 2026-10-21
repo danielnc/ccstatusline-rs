@@ -1,0 +1,67 @@
+{
+  "name": "transcript/speed/missing-transcript",
+  "tags": [
+    "transcript",
+    "input-speed",
+    "output-speed",
+    "total-speed"
+  ],
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "222",
+          "type": "input-speed"
+        },
+        {
+          "id": "223",
+          "type": "output-speed"
+        },
+        {
+          "id": "224",
+          "type": "total-speed"
+        }
+      ],
+      [
+        {
+          "id": "225",
+          "type": "input-speed",
+          "metadata": {
+            "windowSeconds": "5"
+          }
+        },
+        {
+          "id": "226",
+          "type": "output-speed",
+          "metadata": {
+            "windowSeconds": "5"
+          }
+        },
+        {
+          "id": "227",
+          "type": "total-speed",
+          "metadata": {
+            "windowSeconds": "5"
+          }
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "git/git-root-dir/opt/link-ide-beats-legacy",
+  "tags": [
+    "git-group",
+    "git-root-dir",
+    "link"
+  ],
+  "fixtures": [
+    "git-dirty"
+  ],
+  "cwd": "git-dirty",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-root-dir",
+          "metadata": {
+            "linkToIDE": "vscode",
+            "linkToCursor": "true"
+          },
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-dirty",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-dirty",
+      "project_dir": "${CASE_DIR}/git-dirty"
+    }
+  }
+}

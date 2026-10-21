@@ -1,0 +1,16 @@
+{
+  "name": "config/schema-error-badge-empty-render",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "config",
+    "invalid"
+  ],
+  "stdin": {},
+  "config": {
+    "version": 4,
+    "colorLevel": 9
+  }
+}

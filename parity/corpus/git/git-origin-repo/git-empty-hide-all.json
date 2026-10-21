@@ -1,0 +1,51 @@
+{
+  "name": "git/git-origin-repo/git-empty-hide-all",
+  "tags": [
+    "git-group",
+    "git-origin-repo",
+    "hide",
+    "model",
+    "separator"
+  ],
+  "fixtures": [
+    "git-empty"
+  ],
+  "cwd": "git-empty",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "m",
+          "type": "model"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-repo",
+          "metadata": {
+            "hide": "no-git,no-remote,no-upstream,not-fork,zero,no-data,status,title"
+          },
+          "id": "3"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-empty",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-empty",
+      "project_dir": "${CASE_DIR}/git-empty"
+    }
+  }
+}

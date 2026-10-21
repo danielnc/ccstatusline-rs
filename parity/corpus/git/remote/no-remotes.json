@@ -1,0 +1,202 @@
+{
+  "name": "git/remote/no-remotes",
+  "tags": [
+    "git-branch",
+    "git-group",
+    "git-is-fork",
+    "git-origin-owner",
+    "git-origin-owner-repo",
+    "git-origin-repo",
+    "git-review",
+    "git-upstream-owner",
+    "git-upstream-owner-repo",
+    "git-upstream-repo",
+    "link",
+    "separator"
+  ],
+  "fixtures": [
+    "git-clean"
+  ],
+  "cwd": "git-clean",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-origin-owner",
+          "id": "1"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-owner",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "3"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-repo",
+          "id": "5"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-repo",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "7"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-owner-repo",
+          "id": "9"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-owner-repo",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "11"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-owner",
+          "id": "13"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-owner",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "15"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-repo",
+          "id": "17"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-repo",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "19"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-owner-repo",
+          "id": "21"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-owner-repo",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "23"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-is-fork",
+          "id": "25"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-is-fork",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "27"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-owner-repo",
+          "metadata": {
+            "ownerOnlyWhenFork": "true"
+          },
+          "id": "29"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-branch",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "31"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-review",
+          "id": "33"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-clean",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-clean",
+      "project_dir": "${CASE_DIR}/git-clean"
+    }
+  }
+}

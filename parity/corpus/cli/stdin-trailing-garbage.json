@@ -1,0 +1,9 @@
+{
+  "name": "cli/stdin-trailing-garbage",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdinRaw": "{} x"
+}

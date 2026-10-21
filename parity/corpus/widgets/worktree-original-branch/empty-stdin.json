@@ -1,0 +1,23 @@
+{
+  "name": "widgets/worktree-original-branch/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "worktree-original-branch"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "worktree-original-branch"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

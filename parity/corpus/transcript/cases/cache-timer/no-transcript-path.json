@@ -1,0 +1,60 @@
+{
+  "name": "transcript/cache-timer/no-transcript-path",
+  "tags": [
+    "transcript",
+    "cache-timer"
+  ],
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "392",
+          "type": "cache-timer"
+        },
+        {
+          "id": "393",
+          "type": "cache-timer",
+          "metadata": {
+            "ttlSeconds": "3600"
+          }
+        },
+        {
+          "id": "394",
+          "type": "cache-timer",
+          "rawValue": true,
+          "metadata": {
+            "symbolFresh": "",
+            "symbolDraining": "D",
+            "symbolUrgent": "U",
+            "symbolCold": "C",
+            "symbolHot": "H"
+          }
+        },
+        {
+          "id": "395",
+          "type": "cache-timer",
+          "metadata": {
+            "ttlSeconds": "4",
+            "hide": "empty"
+          }
+        }
+      ]
+    ]
+  }
+}

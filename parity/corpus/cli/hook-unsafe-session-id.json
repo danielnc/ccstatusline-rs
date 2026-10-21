@@ -1,0 +1,22 @@
+{
+  "name": "cli/hook-unsafe-session-id",
+  "tags": [
+    "cli",
+    "hook"
+  ],
+  "noConfig": true,
+  "args": [
+    "--hook"
+  ],
+  "stdin": {
+    "session_id": "../escape",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Skill",
+    "tool_input": {
+      "skill": "pdf"
+    }
+  },
+  "compareFilesAfter": [
+    ".cache/ccstatusline/skills/skills-../escape.jsonl"
+  ]
+}

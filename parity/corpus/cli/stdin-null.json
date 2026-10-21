@@ -1,0 +1,9 @@
+{
+  "name": "cli/stdin-null",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdinRaw": "null"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "cli/stdin-number",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdinRaw": "42"
+}

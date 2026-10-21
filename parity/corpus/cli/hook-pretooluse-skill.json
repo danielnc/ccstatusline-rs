@@ -1,0 +1,24 @@
+{
+  "name": "cli/hook-pretooluse-skill",
+  "tags": [
+    "cli",
+    "hook",
+    "skills"
+  ],
+  "noConfig": true,
+  "args": [
+    "--hook"
+  ],
+  "stdin": {
+    "session_id": "parity-session-0001",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Skill",
+    "tool_input": {
+      "skill": "pdf"
+    }
+  },
+  "compareFilesAfter": [
+    ".cache/ccstatusline/skills/skills-parity-session-0001.jsonl",
+    ".config/ccstatusline/settings.json"
+  ]
+}

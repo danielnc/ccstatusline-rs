@@ -1,0 +1,52 @@
+{
+  "name": "transcript/odd/bom-not-first-line",
+  "tags": [
+    "transcript",
+    "tokens-input",
+    "tokens-output",
+    "tokens-cached",
+    "tokens-total"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T10:55:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"start the work\"}}\n﻿{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:55:04.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":50,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":2000},\"stop_reason\":null,\"content\":[{\"type\":\"text\",\"text\":\"thinking\"}]}}\n\n\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:55:05.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":120,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":2000},\"stop_reason\":\"tool_use\"}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "91",
+          "type": "tokens-input"
+        },
+        {
+          "id": "92",
+          "type": "tokens-output"
+        },
+        {
+          "id": "93",
+          "type": "tokens-cached"
+        },
+        {
+          "id": "94",
+          "type": "tokens-total"
+        }
+      ]
+    ]
+  }
+}

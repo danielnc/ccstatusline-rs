@@ -1,0 +1,44 @@
+{
+  "name": "misc/session-cost-rate/active",
+  "tags": [
+    "session-cost-rate",
+    "misc"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "session-cost-rate"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}/no-git",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    },
+    "version": "2.0.37",
+    "output_style": {
+      "name": "Explanatory"
+    },
+    "cost": {
+      "total_cost_usd": 1.5,
+      "total_api_duration_ms": 1800000
+    }
+  }
+}

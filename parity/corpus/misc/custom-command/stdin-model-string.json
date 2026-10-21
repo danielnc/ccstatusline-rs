@@ -1,0 +1,33 @@
+{
+  "name": "misc/custom-command/stdin-model-string",
+  "tags": [
+    "custom-command",
+    "misc",
+    "process"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "custom-command",
+          "commandPath": "cat"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "model": "opus",
+    "session_id": "q"
+  },
+  "files": {},
+  "env": {
+    "CCSTATUSLINE_WIDTH": "5000"
+  }
+}

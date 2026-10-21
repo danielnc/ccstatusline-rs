@@ -1,0 +1,82 @@
+{
+  "name": "transcript/cache/session-scope-empty",
+  "tags": [
+    "transcript",
+    "cache-hit-rate",
+    "cache-read",
+    "cache-write"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"x\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:59:10.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":5,\"output_tokens\":5,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "159",
+          "type": "cache-hit-rate",
+          "metadata": {
+            "cacheScopeSession": "true"
+          }
+        },
+        {
+          "id": "160",
+          "type": "cache-read",
+          "metadata": {
+            "cacheScopeSession": "true"
+          }
+        },
+        {
+          "id": "161",
+          "type": "cache-write",
+          "metadata": {
+            "cacheScopeSession": "true"
+          }
+        }
+      ],
+      [
+        {
+          "id": "162",
+          "type": "cache-hit-rate",
+          "metadata": {
+            "cacheScopeSession": "true",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "163",
+          "type": "cache-read",
+          "metadata": {
+            "cacheScopeSession": "true",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "164",
+          "type": "cache-write",
+          "metadata": {
+            "cacheScopeSession": "true",
+            "hide": "empty"
+          }
+        }
+      ]
+    ]
+  }
+}

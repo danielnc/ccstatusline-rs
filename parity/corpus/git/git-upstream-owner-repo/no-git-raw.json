@@ -1,0 +1,39 @@
+{
+  "name": "git/git-upstream-owner-repo/no-git-raw",
+  "tags": [
+    "git-group",
+    "git-upstream-owner-repo",
+    "rawValue"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-upstream-owner-repo",
+          "rawValue": true,
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/no-git",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "name": "git/jj/fake-odd-stat-no-git",
+  "tags": [
+    "git-group",
+    "jj-bookmarks",
+    "jj-changes",
+    "jj-deletions",
+    "jj-description",
+    "jj-insertions",
+    "jj-revision",
+    "jj-root-dir",
+    "jj-workspace",
+    "separator"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "jj-bookmarks",
+          "id": "1"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-bookmarks",
+          "rawValue": true,
+          "id": "3"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-workspace",
+          "id": "5"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-workspace",
+          "rawValue": true,
+          "id": "7"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-root-dir",
+          "id": "9"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-root-dir",
+          "rawValue": true,
+          "id": "11"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-changes",
+          "id": "13"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-changes",
+          "rawValue": true,
+          "id": "15"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-insertions",
+          "id": "17"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-insertions",
+          "rawValue": true,
+          "id": "19"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-deletions",
+          "id": "21"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-deletions",
+          "rawValue": true,
+          "id": "23"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-description",
+          "id": "25"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-description",
+          "rawValue": true,
+          "id": "27"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-revision",
+          "id": "29"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-revision",
+          "rawValue": true,
+          "id": "31"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-bookmarks",
+          "character": "",
+          "id": "33"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-revision",
+          "character": "@",
+          "id": "35"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-changes",
+          "metadata": {
+            "symbolInsertions": "i",
+            "symbolDeletions": "d"
+          },
+          "id": "37"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "jj-bookmarks",
+          "metadata": {
+            "label": "BM "
+          },
+          "id": "39"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/no-git",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    }
+  },
+  "files": {
+    "${CASE_DIR}/fakebin/jj": {
+      "executable": "#!/bin/sh\ncase \"$1\" in\nroot) echo \"C:\\\\repos\\\\win\";;\nlog) case \"$*\" in *bookmarks*) printf '  \\t  \\n';; *description*) printf 'multi\\nline\\n';; *) printf '  xy  \\n';; esac;;\nworkspace) printf 'w1\\r\\nw2\\r\\n';;\ndiff) printf '1 file changed, 12 insertions(+)\\nsummary 5 insertion, 6 deletions\\n';;\nesac\n"
+    },
+    "${CASE_DIR}/no-git/.jj/repo/store/type": "git"
+  },
+  "pathPrepend": [
+    "fakebin"
+  ]
+}

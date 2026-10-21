@@ -1,0 +1,9 @@
+{
+  "name": "cli/invalid-json-stdin",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdinRaw": "{\"model\": "
+}

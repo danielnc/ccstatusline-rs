@@ -1,0 +1,69 @@
+{
+  "name": "transcript/odd/records",
+  "tags": [
+    "transcript",
+    "tokens-input",
+    "tokens-output",
+    "tokens-cached",
+    "tokens-total",
+    "session-name",
+    "context-length",
+    "session-clock"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "null\n[]\n[{\"agentId\":\"a1\"}]\n42\n\"just a string\"\n{\"type\":\"assistant\",\"message\":\"not an object\",\"timestamp\":\"2026-10-21T11:00:00.000Z\"}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:01.000Z\",\"message\":{\"usage\":\"string usage\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:02.000Z\",\"message\":{\"usage\":{\"input_tokens\":-5,\"output_tokens\":\"7\",\"cache_read_input_tokens\":1e400,\"cache_creation_input_tokens\":2.5}}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:03.000Z\",\"message\":{\"usage\":{\"input_tokens\":1,\"output_tokens\":1}},\"message\":{\"usage\":{\"input_tokens\":1000,\"output_tokens\":3}}}\n{\"type\":\"assistant\",\"timestamp\":\"not a date\",\"message\":{\"usage\":{\"input_tokens\":5,\"output_tokens\":5}}}\n{\"type\":\"assistant\",\"timestamp\":1792583000000,\"message\":{\"usage\":{\"input_tokens\":5,\"output_tokens\":5}}}\n{\"type\":\"custom-title\",\"customTitle\":\"surrogate \\ud83d\\ude00 and lone \\ud800 end\"}\n{\"type\":\"custom-title\",\"customTitle\":\"\"}\n{\"type\":\"custom-title\",\"customTitle\":42}\n   \n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:04.000Z\",\"message\":{\"usage\":{\"input_tokens\":11,\"output_tokens\":11}}} trailing\n {\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:05.000Z\",\"message\":{\"usage\":{\"input_tokens\":13,\"output_tokens\":13}}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:06.000Z\",\"message\":{\"usage\":{\"input_tokens\":17,\"output_tokens\":17},\"stop_reason\":null},\"isSidechain\":\"true\"}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "77",
+          "type": "tokens-input"
+        },
+        {
+          "id": "78",
+          "type": "tokens-output"
+        },
+        {
+          "id": "79",
+          "type": "tokens-cached"
+        },
+        {
+          "id": "80",
+          "type": "tokens-total"
+        },
+        {
+          "id": "81",
+          "type": "context-length"
+        }
+      ],
+      [
+        {
+          "id": "82",
+          "type": "session-name"
+        },
+        {
+          "id": "83",
+          "type": "session-clock"
+        }
+      ]
+    ]
+  }
+}

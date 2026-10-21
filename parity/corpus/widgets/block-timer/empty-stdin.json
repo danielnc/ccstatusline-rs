@@ -1,0 +1,23 @@
+{
+  "name": "widgets/block-timer/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "block-timer"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "block-timer"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

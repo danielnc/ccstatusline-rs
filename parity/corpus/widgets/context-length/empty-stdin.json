@@ -1,0 +1,23 @@
+{
+  "name": "widgets/context-length/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "context-length"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "context-length"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

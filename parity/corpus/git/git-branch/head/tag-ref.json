@@ -1,0 +1,71 @@
+{
+  "name": "git/git-branch/head/tag-ref",
+  "tags": [
+    "git-branch",
+    "git-group",
+    "git-sha",
+    "link",
+    "separator"
+  ],
+  "fixtures": [
+    "git-ahead-behind"
+  ],
+  "cwd": "git-ahead-behind",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-branch",
+          "id": "1"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-branch",
+          "rawValue": true,
+          "id": "3"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-branch",
+          "metadata": {
+            "linkToRepo": "true"
+          },
+          "id": "5"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-sha",
+          "id": "7"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-ahead-behind",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-ahead-behind",
+      "project_dir": "${CASE_DIR}/git-ahead-behind"
+    }
+  },
+  "files": {
+    "${CASE_DIR}/git-ahead-behind/.git/HEAD": "ref: refs/tags/v1\n"
+  }
+}

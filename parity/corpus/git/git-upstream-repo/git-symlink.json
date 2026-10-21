@@ -1,0 +1,37 @@
+{
+  "name": "git/git-upstream-repo/git-symlink",
+  "tags": [
+    "git-group",
+    "git-upstream-repo"
+  ],
+  "fixtures": [
+    "git-symlink"
+  ],
+  "cwd": "git-symlink/link",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-upstream-repo",
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-symlink/link",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-symlink/link",
+      "project_dir": "${CASE_DIR}/git-symlink/link"
+    }
+  }
+}

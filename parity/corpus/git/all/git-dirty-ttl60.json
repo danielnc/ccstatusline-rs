@@ -1,0 +1,264 @@
+{
+  "name": "git/all/git-dirty-ttl60",
+  "tags": [
+    "git-ahead-behind",
+    "git-branch",
+    "git-changes",
+    "git-ci-status",
+    "git-clean-status",
+    "git-conflicts",
+    "git-deletions",
+    "git-group",
+    "git-insertions",
+    "git-is-fork",
+    "git-origin-owner",
+    "git-origin-owner-repo",
+    "git-origin-repo",
+    "git-review",
+    "git-root-dir",
+    "git-sha",
+    "git-staged",
+    "git-staged-files",
+    "git-status",
+    "git-unstaged",
+    "git-unstaged-files",
+    "git-untracked",
+    "git-untracked-files",
+    "git-upstream-owner",
+    "git-upstream-owner-repo",
+    "git-upstream-repo",
+    "git-worktree",
+    "separator"
+  ],
+  "fixtures": [
+    "git-dirty"
+  ],
+  "cwd": "git-dirty",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-branch",
+          "id": "1"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-changes",
+          "id": "3"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-insertions",
+          "id": "5"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-deletions",
+          "id": "7"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-staged-files",
+          "id": "9"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-unstaged-files",
+          "id": "11"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-untracked-files",
+          "id": "13"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-clean-status",
+          "id": "15"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-root-dir",
+          "id": "17"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-worktree",
+          "id": "19"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-status",
+          "id": "21"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-staged",
+          "id": "23"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-unstaged",
+          "id": "25"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-untracked",
+          "id": "27"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-ahead-behind",
+          "id": "29"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-conflicts",
+          "id": "31"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-sha",
+          "id": "33"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-owner",
+          "id": "35"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-repo",
+          "id": "37"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-origin-owner-repo",
+          "id": "39"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-owner",
+          "id": "41"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-repo",
+          "id": "43"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-upstream-owner-repo",
+          "id": "45"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-is-fork",
+          "id": "47"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-review",
+          "id": "49"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-ci-status",
+          "id": "51"
+        }
+      ]
+    ],
+    "gitCacheTtlSeconds": 60
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-dirty",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-dirty",
+      "project_dir": "${CASE_DIR}/git-dirty"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "widgets/claude-session-id/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "claude-session-id"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "claude-session-id"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

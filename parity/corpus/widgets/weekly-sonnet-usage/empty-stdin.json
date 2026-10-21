@@ -1,0 +1,23 @@
+{
+  "name": "widgets/weekly-sonnet-usage/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "weekly-sonnet-usage"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "weekly-sonnet-usage"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

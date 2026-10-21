@@ -1,0 +1,39 @@
+{
+  "name": "git/git-origin-repo/git-ahead-behind-raw",
+  "tags": [
+    "git-group",
+    "git-origin-repo",
+    "rawValue"
+  ],
+  "fixtures": [
+    "git-ahead-behind"
+  ],
+  "cwd": "git-ahead-behind",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-origin-repo",
+          "rawValue": true,
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-ahead-behind",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-ahead-behind",
+      "project_dir": "${CASE_DIR}/git-ahead-behind"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "transcript/speed/no-transcript-path",
+  "tags": [
+    "transcript",
+    "input-speed",
+    "output-speed",
+    "total-speed"
+  ],
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "228",
+          "type": "input-speed"
+        },
+        {
+          "id": "229",
+          "type": "output-speed"
+        },
+        {
+          "id": "230",
+          "type": "total-speed"
+        }
+      ]
+    ]
+  }
+}

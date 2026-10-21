@@ -1,0 +1,23 @@
+{
+  "name": "widgets/extra-usage-remaining/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "extra-usage-remaining"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "extra-usage-remaining"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

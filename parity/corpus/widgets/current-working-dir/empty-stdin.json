@@ -1,0 +1,23 @@
+{
+  "name": "widgets/current-working-dir/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "current-working-dir"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "current-working-dir"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

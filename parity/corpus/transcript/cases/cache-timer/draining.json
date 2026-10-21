@@ -1,0 +1,64 @@
+{
+  "name": "transcript/cache-timer/draining",
+  "tags": [
+    "transcript",
+    "cache-timer"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:55:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"q\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:57:00.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":1,\"output_tokens\":1,\"cache_read_input_tokens\":50,\"cache_creation_input_tokens\":0}}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "316",
+          "type": "cache-timer"
+        },
+        {
+          "id": "317",
+          "type": "cache-timer",
+          "metadata": {
+            "ttlSeconds": "3600"
+          }
+        },
+        {
+          "id": "318",
+          "type": "cache-timer",
+          "rawValue": true,
+          "metadata": {
+            "symbolFresh": "",
+            "symbolDraining": "D",
+            "symbolUrgent": "U",
+            "symbolCold": "C",
+            "symbolHot": "H"
+          }
+        },
+        {
+          "id": "319",
+          "type": "cache-timer",
+          "metadata": {
+            "ttlSeconds": "4",
+            "hide": "empty"
+          }
+        }
+      ]
+    ]
+  }
+}

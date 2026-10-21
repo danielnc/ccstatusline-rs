@@ -1,0 +1,71 @@
+{
+  "name": "transcript/context/missing-transcript",
+  "tags": [
+    "transcript",
+    "context-length",
+    "context-percentage",
+    "context-percentage-usable",
+    "context-window"
+  ],
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "140",
+          "type": "context-length"
+        },
+        {
+          "id": "141",
+          "type": "context-percentage"
+        },
+        {
+          "id": "142",
+          "type": "context-percentage",
+          "metadata": {
+            "inverse": "true"
+          }
+        },
+        {
+          "id": "143",
+          "type": "context-percentage",
+          "metadata": {
+            "display": "slider"
+          }
+        },
+        {
+          "id": "144",
+          "type": "context-percentage-usable"
+        },
+        {
+          "id": "145",
+          "type": "context-percentage-usable",
+          "metadata": {
+            "display": "slider-only",
+            "inverse": "true"
+          }
+        },
+        {
+          "id": "146",
+          "type": "context-window"
+        }
+      ]
+    ]
+  }
+}

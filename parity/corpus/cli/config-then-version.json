@@ -1,0 +1,11 @@
+{
+  "name": "cli/config-then-version",
+  "tags": [
+    "cli"
+  ],
+  "noConfig": true,
+  "args": [
+    "--config",
+    "--version"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "widgets/terminal-width/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "terminal-width"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "terminal-width"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

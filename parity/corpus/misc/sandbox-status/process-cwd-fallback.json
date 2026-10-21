@@ -1,0 +1,51 @@
+{
+  "name": "misc/sandbox-status/process-cwd-fallback",
+  "tags": [
+    "sandbox-status",
+    "misc"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "sandbox-status"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "output_style": {
+      "name": "Explanatory"
+    },
+    "cost": {
+      "total_cost_usd": 1.2345,
+      "total_duration_ms": 3723000,
+      "total_api_duration_ms": 1234567,
+      "total_lines_added": 156,
+      "total_lines_removed": 23
+    }
+  },
+  "files": {
+    "${CASE_DIR}/no-git/.claude/settings.json": {
+      "json": {
+        "sandbox": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}

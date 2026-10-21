@@ -1,0 +1,52 @@
+{
+  "name": "transcript/odd/unterminated-garbage",
+  "tags": [
+    "transcript",
+    "tokens-input",
+    "tokens-output",
+    "tokens-cached",
+    "tokens-total"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T10:55:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"start the work\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:55:04.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":50,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":2000},\"stop_reason\":null,\"content\":[{\"type\":\"text\",\"text\":\"thinking\"}]}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:55:05.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":120,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":2000},\"stop_reason\":\"tool_use\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:55:10.000Z\",\"message\":{\"usage\":{\"input_tokens\":99\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:56:00.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":5000,\"output_tokens\":5000,\"cache_read_input_tokens\":1,\"cache_creation_input_tokens\":1},\"stop_reason\":\"end_turn\"},\"isSidechain\":true,\"agentId\":\"a1\"}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:57:00.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":777,\"output_tokens\":777,\"cache_read_input_tokens\":777,\"cache_creation_input_tokens\":777},\"stop_reason\":\"end_turn\"},\"isApiErrorMessage\":true}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T10:58:00.000Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"content\":\"done\"}]},\"toolUseResult\":{\"agentId\":\"a1\",\"status\":\"completed\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T10:58:03.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":4,\"output_tokens\":300,\"cache_read_input_tokens\":2000,\"cache_creation_input_tokens\":150},\"stop_reason\":\"end_turn\"}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T10:59:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"<local-command-stdout>Set effort level to medium</local-command-stdout>\"}}\n{\"type\":\"custom-title\",\"customTitle\":\"My Session\",\"sessionId\":\"x\"}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:00:00.000Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_use\",\"input\":{\"nested\":[{\"agentId\":\"a2\"}]}}]}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:00:07.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":6,\"output_tokens\":80,\"cache_read_input_tokens\":2150,\"cache_creation_input_tokens\":10},\"stop_reason\":\"end_turn\"}}\n{\"type\":\"system\",\"subtype\":\"compact_boundary\",\"timestamp\":\"2026-10-21T11:20:00.000Z\",\"compactMetadata\":{\"trigger\":\"auto\",\"preTokens\":150000,\"postTokens\":30000}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:21:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"after compaction\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:21:09.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":3,\"output_tokens\":40,\"cache_read_input_tokens\":30000,\"cache_creation_input_tokens\":500},\"stop_reason\":\"end_turn\"}}\n{\"type\":\"system\",\"subtype\":\"compact_boundary\",\"timestamp\":\"2026-10-21T11:40:00.000Z\",\"compactMetadata\":{\"preTokens\":80000}}\n{\"type\":\"system\",\"subtype\":\"compact_boundary\",\"isSidechain\":true,\"compactMetadata\":{\"trigger\":\"manual\",\"preTokens\":5,\"postTokens\":1}}\n{\"type\":\"system\",\"subtype\":\"compact_boundary\",\"timestamp\":\"2026-10-21T11:41:00.000Z\",\"compactMetadata\":{\"trigger\":\"manual\",\"preTokens\":60000,\"postTokens\":12000}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:57:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"last question\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:57:20.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":2,\"output_tokens\":64,\"cache_read_input_tokens\":12000,\"cache_creation_input_tokens\":300},\"stop_reason\":null}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:57:25.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":2,\"output_tokens\":128,\"cache_read_input_tokens\":12000,\"cache_creation_input_tokens\":300},\"stop_reason\":\"end_turn\"}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:57:30.000Z\",\"message\":{\"role\":\"user\",\"content\":\"\\u001b[1m<local-command-stdout>Set model to Opus 4.1 with xhigh effort</local-command-stdout>\\u001b[22m\"}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:58:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"one more\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:58:30.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":1,\"output_tokens\":32,\"cache_read_input_tokens\":12300,\"cache_creation_input_tokens\":64},\"stop_reason\":\"end_turn\"}}\n{\"type\":\"assistant\",\"message\":{\"usage\":{\"input_tokens\":5"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "101",
+          "type": "tokens-input"
+        },
+        {
+          "id": "102",
+          "type": "tokens-output"
+        },
+        {
+          "id": "103",
+          "type": "tokens-cached"
+        },
+        {
+          "id": "104",
+          "type": "tokens-total"
+        }
+      ]
+    ]
+  }
+}

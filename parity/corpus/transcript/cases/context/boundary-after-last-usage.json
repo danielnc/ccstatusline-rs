@@ -1,0 +1,74 @@
+{
+  "name": "transcript/context/boundary-after-last-usage",
+  "tags": [
+    "transcript",
+    "context-length",
+    "context-percentage",
+    "context-percentage-usable",
+    "context-window"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:50:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"a\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:01.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":20,\"cache_read_input_tokens\":90000,\"cache_creation_input_tokens\":5000},\"stop_reason\":\"end_turn\"}}\n{\"type\":\"system\",\"subtype\":\"compact_boundary\",\"compactMetadata\":{\"trigger\":\"auto\",\"preTokens\":95000,\"postTokens\":18000}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "126",
+          "type": "context-length"
+        },
+        {
+          "id": "127",
+          "type": "context-percentage"
+        },
+        {
+          "id": "128",
+          "type": "context-percentage",
+          "metadata": {
+            "inverse": "true"
+          }
+        },
+        {
+          "id": "129",
+          "type": "context-percentage",
+          "metadata": {
+            "display": "slider"
+          }
+        },
+        {
+          "id": "130",
+          "type": "context-percentage-usable"
+        },
+        {
+          "id": "131",
+          "type": "context-percentage-usable",
+          "metadata": {
+            "display": "slider-only",
+            "inverse": "true"
+          }
+        },
+        {
+          "id": "132",
+          "type": "context-window"
+        }
+      ]
+    ]
+  }
+}

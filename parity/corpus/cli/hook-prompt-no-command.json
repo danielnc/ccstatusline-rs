@@ -1,0 +1,19 @@
+{
+  "name": "cli/hook-prompt-no-command",
+  "tags": [
+    "cli",
+    "hook"
+  ],
+  "noConfig": true,
+  "args": [
+    "--hook"
+  ],
+  "stdin": {
+    "session_id": "parity-session-0001",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "hello /notacommand"
+  },
+  "compareFilesAfter": [
+    ".cache/ccstatusline/skills/skills-parity-session-0001.jsonl"
+  ]
+}

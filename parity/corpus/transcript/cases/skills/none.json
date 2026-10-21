@@ -1,0 +1,110 @@
+{
+  "name": "transcript/skills/none",
+  "tags": [
+    "transcript",
+    "skills"
+  ],
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "416",
+          "type": "skills",
+          "metadata": {}
+        },
+        {
+          "id": "417",
+          "type": "skills",
+          "metadata": {
+            "mode": "count"
+          }
+        },
+        {
+          "id": "418",
+          "type": "skills",
+          "metadata": {
+            "mode": "list"
+          }
+        },
+        {
+          "id": "419",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "list",
+            "listLimit": "2"
+          }
+        },
+        {
+          "id": "420",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "bogus"
+          }
+        }
+      ],
+      [
+        {
+          "id": "421",
+          "type": "skills",
+          "metadata": {
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "422",
+          "type": "skills",
+          "metadata": {
+            "mode": "count",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "423",
+          "type": "skills",
+          "metadata": {
+            "mode": "list",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "424",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "list",
+            "listLimit": "2",
+            "hide": "empty"
+          }
+        },
+        {
+          "id": "425",
+          "type": "skills",
+          "rawValue": true,
+          "metadata": {
+            "mode": "bogus",
+            "hide": "empty"
+          }
+        }
+      ]
+    ]
+  }
+}

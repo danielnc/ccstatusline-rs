@@ -1,0 +1,12 @@
+{
+  "name": "core/stdin-empty-object-no-config",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "core"
+  ],
+  "noConfig": true,
+  "stdin": {}
+}

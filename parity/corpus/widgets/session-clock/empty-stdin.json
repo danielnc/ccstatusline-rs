@@ -1,0 +1,23 @@
+{
+  "name": "widgets/session-clock/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "session-clock"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "session-clock"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

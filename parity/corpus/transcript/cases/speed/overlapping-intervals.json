@@ -1,0 +1,94 @@
+{
+  "name": "transcript/speed/overlapping-intervals",
+  "tags": [
+    "transcript",
+    "input-speed",
+    "output-speed",
+    "total-speed"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:58:20.000Z\",\"message\":{\"role\":\"user\",\"content\":\"q1\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:58:40.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":1000,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:58:50.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":1000,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:58:30.000Z\",\"message\":{\"role\":\"user\",\"content\":\"out of order\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:58:35.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":10,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:59:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"q2\"},\"isSidechain\":true}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:59:20.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":1000,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}},\"isApiErrorMessage\":1}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:59:30.000Z\",\"message\":{\"role\":\"user\",\"content\":\"q3\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:59:30.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":100,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:59:50.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":2000,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"system\",\"timestamp\":\"2026-10-21T11:59:58.000Z\"}\n{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:59:55.000Z\",\"message\":{\"role\":\"user\",\"content\":[{\"type\":\"tool_result\",\"agentId\":\"a1\"}]}}\n",
+    ".claude/projects/-tmp-proj/subagents/agent-a1.jsonl": "{\"type\":\"user\",\"isSidechain\":true,\"timestamp\":\"2026-10-21T11:58:25.000Z\"}\n{\"type\":\"assistant\",\"isSidechain\":true,\"timestamp\":\"2026-10-21T11:58:45.000Z\",\"message\":{\"usage\":{\"input_tokens\":1,\"output_tokens\":500,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n{\"type\":\"assistant\",\"isSidechain\":true,\"timestamp\":\"2026-10-21T11:59:59.000Z\",\"message\":{\"usage\":{\"input_tokens\":1,\"output_tokens\":500,\"cache_read_input_tokens\":0,\"cache_creation_input_tokens\":0}}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "231",
+          "type": "input-speed"
+        },
+        {
+          "id": "232",
+          "type": "output-speed"
+        },
+        {
+          "id": "233",
+          "type": "total-speed"
+        }
+      ],
+      [
+        {
+          "id": "234",
+          "type": "input-speed",
+          "metadata": {
+            "windowSeconds": "20"
+          }
+        },
+        {
+          "id": "235",
+          "type": "output-speed",
+          "metadata": {
+            "windowSeconds": "20"
+          }
+        },
+        {
+          "id": "236",
+          "type": "total-speed",
+          "metadata": {
+            "windowSeconds": "20"
+          }
+        }
+      ],
+      [
+        {
+          "id": "237",
+          "type": "input-speed",
+          "metadata": {
+            "windowSeconds": "90"
+          }
+        },
+        {
+          "id": "238",
+          "type": "output-speed",
+          "metadata": {
+            "windowSeconds": "90"
+          }
+        },
+        {
+          "id": "239",
+          "type": "total-speed",
+          "metadata": {
+            "windowSeconds": "90"
+          }
+        }
+      ]
+    ]
+  }
+}

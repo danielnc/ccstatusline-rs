@@ -1,0 +1,37 @@
+{
+  "name": "git/git-origin-owner/git-clean",
+  "tags": [
+    "git-group",
+    "git-origin-owner"
+  ],
+  "fixtures": [
+    "git-clean"
+  ],
+  "cwd": "git-clean",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "type": "git-origin-owner",
+          "id": "1"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-clean",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-clean",
+      "project_dir": "${CASE_DIR}/git-clean"
+    }
+  }
+}

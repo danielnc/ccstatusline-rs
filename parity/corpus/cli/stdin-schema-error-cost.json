@@ -1,0 +1,13 @@
+{
+  "name": "cli/stdin-schema-error-cost",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "noConfig": true,
+  "stdin": {
+    "cost": {
+      "total_cost_usd": "abc"
+    }
+  }
+}

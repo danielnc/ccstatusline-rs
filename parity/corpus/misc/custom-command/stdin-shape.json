@@ -1,0 +1,74 @@
+{
+  "name": "misc/custom-command/stdin-shape",
+  "tags": [
+    "custom-command",
+    "misc",
+    "process"
+  ],
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "custom-command",
+          "commandPath": "cat"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "zzz": 1.5,
+    "cost": {
+      "extra": 1,
+      "total_lines_removed": "7",
+      "total_cost_usd": " 1.5 "
+    },
+    "model": {
+      "display_name": "X",
+      "id": "y",
+      "foo": 2
+    },
+    "session_id": "s",
+    "aaa": {
+      "n": [
+        1.0,
+        2000.0,
+        "x",
+        null,
+        true
+      ]
+    },
+    "workspace": null,
+    "vim": {
+      "mode": "NORMAL",
+      "x": 1
+    },
+    "rate_limits": {
+      "seven_day": {
+        "resets_at": "5"
+      },
+      "five_hour": {}
+    },
+    "context_window": {
+      "current_usage": "12"
+    },
+    "terminal_width": "mine",
+    "effort": {
+      "level": null
+    },
+    "big": 12345678901234567890,
+    "neg": -0.0,
+    "exp": 1e-07,
+    "unicode": "é😀 "
+  },
+  "files": {},
+  "env": {
+    "CCSTATUSLINE_WIDTH": "5000"
+  }
+}

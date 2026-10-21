@@ -1,0 +1,408 @@
+{
+  "name": "widgets/all-non-git/raw",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "multi",
+    "rawValue"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "model",
+          "rawValue": true
+        },
+        {
+          "id": "2",
+          "type": "output-style",
+          "rawValue": true
+        },
+        {
+          "id": "3",
+          "type": "jj-bookmarks",
+          "rawValue": true
+        },
+        {
+          "id": "4",
+          "type": "jj-workspace",
+          "rawValue": true
+        },
+        {
+          "id": "5",
+          "type": "jj-root-dir",
+          "rawValue": true
+        },
+        {
+          "id": "6",
+          "type": "jj-changes",
+          "rawValue": true
+        },
+        {
+          "id": "7",
+          "type": "jj-insertions",
+          "rawValue": true
+        },
+        {
+          "id": "8",
+          "type": "jj-deletions",
+          "rawValue": true
+        },
+        {
+          "id": "9",
+          "type": "jj-description",
+          "rawValue": true
+        },
+        {
+          "id": "10",
+          "type": "jj-revision",
+          "rawValue": true
+        },
+        {
+          "id": "11",
+          "type": "current-working-dir",
+          "rawValue": true
+        },
+        {
+          "id": "12",
+          "type": "tokens-input",
+          "rawValue": true
+        },
+        {
+          "id": "13",
+          "type": "tokens-output",
+          "rawValue": true
+        },
+        {
+          "id": "14",
+          "type": "tokens-cached",
+          "rawValue": true
+        },
+        {
+          "id": "15",
+          "type": "tokens-total",
+          "rawValue": true
+        },
+        {
+          "id": "16",
+          "type": "cache-hit-rate",
+          "rawValue": true
+        },
+        {
+          "id": "17",
+          "type": "cache-read",
+          "rawValue": true
+        },
+        {
+          "id": "18",
+          "type": "cache-write",
+          "rawValue": true
+        },
+        {
+          "id": "19",
+          "type": "input-speed",
+          "rawValue": true
+        },
+        {
+          "id": "20",
+          "type": "output-speed",
+          "rawValue": true
+        },
+        {
+          "id": "21",
+          "type": "total-speed",
+          "rawValue": true
+        },
+        {
+          "id": "22",
+          "type": "context-length",
+          "rawValue": true
+        },
+        {
+          "id": "23",
+          "type": "context-window",
+          "rawValue": true
+        },
+        {
+          "id": "24",
+          "type": "context-percentage",
+          "rawValue": true
+        },
+        {
+          "id": "25",
+          "type": "context-percentage-usable",
+          "rawValue": true
+        },
+        {
+          "id": "26",
+          "type": "session-clock",
+          "rawValue": true
+        },
+        {
+          "id": "27",
+          "type": "session-cost",
+          "rawValue": true
+        },
+        {
+          "id": "28",
+          "type": "session-cost-rate",
+          "rawValue": true
+        },
+        {
+          "id": "29",
+          "type": "block-timer",
+          "rawValue": true
+        },
+        {
+          "id": "30",
+          "type": "terminal-width",
+          "rawValue": true
+        },
+        {
+          "id": "31",
+          "type": "version",
+          "rawValue": true
+        },
+        {
+          "id": "32",
+          "type": "custom-text",
+          "rawValue": true
+        },
+        {
+          "id": "33",
+          "type": "custom-symbol",
+          "rawValue": true
+        },
+        {
+          "id": "34",
+          "type": "custom-command",
+          "rawValue": true
+        },
+        {
+          "id": "35",
+          "type": "link",
+          "rawValue": true
+        },
+        {
+          "id": "36",
+          "type": "claude-session-id",
+          "rawValue": true
+        },
+        {
+          "id": "37",
+          "type": "claude-account-email",
+          "rawValue": true
+        },
+        {
+          "id": "38",
+          "type": "claude-status",
+          "rawValue": true
+        },
+        {
+          "id": "39",
+          "type": "sandbox-status",
+          "rawValue": true
+        },
+        {
+          "id": "40",
+          "type": "session-name",
+          "rawValue": true
+        },
+        {
+          "id": "41",
+          "type": "free-memory",
+          "rawValue": true
+        },
+        {
+          "id": "42",
+          "type": "session-usage",
+          "rawValue": true
+        },
+        {
+          "id": "43",
+          "type": "weekly-usage",
+          "rawValue": true
+        },
+        {
+          "id": "44",
+          "type": "extra-usage-utilization",
+          "rawValue": true
+        },
+        {
+          "id": "45",
+          "type": "extra-usage-remaining",
+          "rawValue": true
+        },
+        {
+          "id": "46",
+          "type": "extra-usage-used",
+          "rawValue": true
+        },
+        {
+          "id": "47",
+          "type": "extra-usage-daily-budget",
+          "rawValue": true
+        },
+        {
+          "id": "48",
+          "type": "weekly-sonnet-usage",
+          "rawValue": true
+        },
+        {
+          "id": "49",
+          "type": "weekly-opus-usage",
+          "rawValue": true
+        },
+        {
+          "id": "50",
+          "type": "fable-weekly-usage",
+          "rawValue": true
+        },
+        {
+          "id": "51",
+          "type": "reset-timer",
+          "rawValue": true
+        },
+        {
+          "id": "52",
+          "type": "weekly-reset-timer",
+          "rawValue": true
+        },
+        {
+          "id": "53",
+          "type": "context-bar",
+          "rawValue": true
+        },
+        {
+          "id": "54",
+          "type": "skills",
+          "rawValue": true
+        },
+        {
+          "id": "55",
+          "type": "thinking-effort",
+          "rawValue": true
+        },
+        {
+          "id": "56",
+          "type": "vim-mode",
+          "rawValue": true
+        },
+        {
+          "id": "57",
+          "type": "voice-status",
+          "rawValue": true
+        },
+        {
+          "id": "58",
+          "type": "remote-control-status",
+          "rawValue": true
+        },
+        {
+          "id": "59",
+          "type": "worktree-mode",
+          "rawValue": true
+        },
+        {
+          "id": "60",
+          "type": "worktree-name",
+          "rawValue": true
+        },
+        {
+          "id": "61",
+          "type": "worktree-branch",
+          "rawValue": true
+        },
+        {
+          "id": "62",
+          "type": "worktree-original-branch",
+          "rawValue": true
+        },
+        {
+          "id": "63",
+          "type": "compaction-counter",
+          "rawValue": true
+        },
+        {
+          "id": "64",
+          "type": "cache-timer",
+          "rawValue": true
+        }
+      ]
+    ],
+    "defaultSeparator": " · "
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "cwd": "${CASE_DIR}/no-git",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}/no-git",
+      "project_dir": "${CASE_DIR}/no-git"
+    },
+    "version": "2.0.37",
+    "output_style": {
+      "name": "Explanatory"
+    },
+    "effort": {
+      "level": "high"
+    },
+    "cost": {
+      "total_cost_usd": 1.2345,
+      "total_duration_ms": 3723000,
+      "total_api_duration_ms": 1234567,
+      "total_lines_added": 156,
+      "total_lines_removed": 23
+    },
+    "context_window": {
+      "context_window_size": 200000,
+      "total_input_tokens": 45678,
+      "total_output_tokens": 12345,
+      "current_usage": {
+        "input_tokens": 1234,
+        "output_tokens": 567,
+        "cache_creation_input_tokens": 8910,
+        "cache_read_input_tokens": 34567
+      },
+      "used_percentage": 22,
+      "remaining_percentage": 78
+    },
+    "rate_limits": {
+      "five_hour": {
+        "used_percentage": 42.5,
+        "resets_at": 1792591987
+      },
+      "seven_day": {
+        "used_percentage": 17,
+        "resets_at": 1792863000
+      },
+      "seven_day_sonnet": {
+        "used_percentage": 8,
+        "resets_at": 1792863000
+      },
+      "seven_day_opus": {
+        "used_percentage": 61.25,
+        "resets_at": 1792863000
+      }
+    },
+    "vim": {
+      "mode": "INSERT"
+    },
+    "worktree": {
+      "name": "feature-x",
+      "path": "${CASE_DIR}/wt/feature-x",
+      "branch": "wt/feature-x",
+      "original_cwd": "${CASE_DIR}/no-git",
+      "original_branch": "main"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "git/git-conflicts/opt/git-conflict-hide-zero",
+  "tags": [
+    "git-conflicts",
+    "git-group",
+    "hide",
+    "model",
+    "separator"
+  ],
+  "fixtures": [
+    "git-conflict"
+  ],
+  "cwd": "git-conflict",
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "m",
+          "type": "model"
+        },
+        {
+          "id": "s",
+          "type": "separator"
+        },
+        {
+          "type": "git-conflicts",
+          "metadata": {
+            "hide": "zero",
+            "zeroDisplay": "clean"
+          },
+          "id": "3"
+        }
+      ]
+    ]
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-git-0001",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "version": "2.0.37",
+    "cwd": "${CASE_DIR}/git-conflict",
+    "workspace": {
+      "current_dir": "${CASE_DIR}/git-conflict",
+      "project_dir": "${CASE_DIR}/git-conflict"
+    }
+  }
+}

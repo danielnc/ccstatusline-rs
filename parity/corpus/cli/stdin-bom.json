@@ -1,0 +1,15 @@
+{
+  "name": "cli/stdin-bom",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "cli",
+    "core"
+  ],
+  "config": {
+    "version": 4
+  },
+  "stdinRaw": "﻿{}"
+}

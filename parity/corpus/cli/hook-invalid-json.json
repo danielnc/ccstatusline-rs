@@ -1,0 +1,12 @@
+{
+  "name": "cli/hook-invalid-json",
+  "tags": [
+    "cli",
+    "hook"
+  ],
+  "noConfig": true,
+  "args": [
+    "--hook"
+  ],
+  "stdinRaw": "not json"
+}

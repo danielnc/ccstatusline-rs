@@ -1,0 +1,23 @@
+{
+  "name": "widgets/model/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "model"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "model"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

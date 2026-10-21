@@ -1,0 +1,23 @@
+{
+  "name": "widgets/context-window/empty-stdin",
+  "fixtures": [
+    "no-git"
+  ],
+  "cwd": "no-git",
+  "tags": [
+    "context-window"
+  ],
+  "config": {
+    "version": 4,
+    "colorLevel": 2,
+    "lines": [
+      [
+        {
+          "id": "1",
+          "type": "context-window"
+        }
+      ]
+    ]
+  },
+  "stdin": {}
+}

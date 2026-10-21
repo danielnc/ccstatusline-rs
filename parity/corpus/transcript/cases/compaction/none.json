@@ -1,0 +1,114 @@
+{
+  "name": "transcript/compaction/none",
+  "tags": [
+    "transcript",
+    "compaction-counter"
+  ],
+  "files": {
+    ".claude/projects/-tmp-proj/session-1.jsonl": "{\"type\":\"user\",\"timestamp\":\"2026-10-21T11:50:00.000Z\",\"message\":{\"role\":\"user\",\"content\":\"a\"}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:01.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":1,\"output_tokens\":2,\"cache_read_input_tokens\":3,\"cache_creation_input_tokens\":4}}}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:02.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":10,\"output_tokens\":20,\"cache_read_input_tokens\":30,\"cache_creation_input_tokens\":40}},\"isSidechain\":true}\n{\"type\":\"assistant\",\"timestamp\":\"2026-10-21T11:50:03.000Z\",\"message\":{\"role\":\"assistant\",\"usage\":{\"input_tokens\":100,\"output_tokens\":200,\"cache_read_input_tokens\":300,\"cache_creation_input_tokens\":400}}}\n"
+  },
+  "stdin": {
+    "hook_event_name": "Status",
+    "session_id": "parity-session-0001",
+    "transcript_path": "${HOME}/.claude/projects/-tmp-proj/session-1.jsonl",
+    "cwd": "${CASE_DIR}",
+    "model": {
+      "id": "claude-opus-4-1-20250805",
+      "display_name": "Opus 4.1"
+    },
+    "workspace": {
+      "current_dir": "${CASE_DIR}",
+      "project_dir": "${CASE_DIR}"
+    },
+    "version": "2.0.37"
+  },
+  "config": {
+    "version": 4,
+    "colorLevel": 0,
+    "lines": [
+      [
+        {
+          "id": "265",
+          "type": "compaction-counter"
+        },
+        {
+          "id": "266",
+          "type": "compaction-counter",
+          "metadata": {
+            "format": "text-and-number"
+          }
+        },
+        {
+          "id": "267",
+          "type": "compaction-counter",
+          "metadata": {
+            "format": "number",
+            "nerdFont": "true"
+          }
+        },
+        {
+          "id": "268",
+          "type": "compaction-counter",
+          "metadata": {
+            "nerdFont": "true",
+            "showTriggers": "true",
+            "showReclaimed": "true"
+          }
+        },
+        {
+          "id": "269",
+          "type": "compaction-counter",
+          "metadata": {
+            "showReclaimed": "true",
+            "symbolReclaimed": ""
+          }
+        },
+        {
+          "id": "270",
+          "type": "compaction-counter",
+          "metadata": {
+            "metric": "auto"
+          }
+        },
+        {
+          "id": "271",
+          "type": "compaction-counter",
+          "metadata": {
+            "metric": "manual"
+          }
+        },
+        {
+          "id": "272",
+          "type": "compaction-counter",
+          "metadata": {
+            "metric": "unknown",
+            "hide": "zero"
+          }
+        },
+        {
+          "id": "273",
+          "type": "compaction-counter",
+          "metadata": {
+            "metric": "reclaimed"
+          },
+          "numberFormat": {
+            "style": "compact"
+          }
+        }
+      ],
+      [
+        {
+          "id": "274",
+          "type": "compaction-counter",
+          "metadata": {
+            "hide": "zero"
+          }
+        },
+        {
+          "id": "275",
+          "type": "context-window"
+        }
+      ]
+    ]
+  }
+}
