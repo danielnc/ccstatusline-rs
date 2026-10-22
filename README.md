@@ -37,6 +37,10 @@ ccstatusline-rs keeps upstream's behaviour and output and changes how the work i
 
 ### Measured
 
+**In short: about 100x less memory and about 300x less time per render than upstream 2.2.32** (281 MB and 0.88 s
+against 2.6 MB and about 3 ms), and about 400x less memory than the roughly 1 GB renders of 2.2.17. Sixty sessions
+refreshing at once take 157 MB in total, where 60 upstream renders at 281 MB each would need about 17 GB.
+
 On one Apple Silicon MacBook Pro, 21 October 2026, with about 60 other agent sessions running (so timings are noisy):
 the author's three-line powerline config (model, context and token widgets; usage and reset timers; git branch,
 root and changes), a realistic stdin payload, and a 466 MB real session transcript. Peak RSS and wall time are the
@@ -53,7 +57,8 @@ median of 5 runs, from `/usr/bin/time -l`; `tools/bench.sh` reproduces them.
 The first render indexes as much of a new transcript as fits in its 150 ms budget and saves its place; the next
 renders finish the job (a few renders for a file this size), after which each render parses only appended lines. Under
 2.2.17, which read the whole transcript into memory several times per render, the author saw renders of about 1 GB
-each while dozens of sessions refreshed at once, which is what prompted this port.
+each while dozens of sessions refreshed at once: 29 renders started in the same second used about 25 GB between them,
+and the machine reached 37 GB of swap and a load average of 57. That is what prompted this port.
 
 ## Parity
 
