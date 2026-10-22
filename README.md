@@ -80,6 +80,9 @@ Known gaps:
 - Where avoiding a stall or a wrong account is the point, output differs on purpose and never under the harness:
   with an expired usage cache a render shows the stale value at once instead of blocking up to 5 s on the fetch,
   and one account's rate-limit lock no longer shows `[Rate limited]` on another account's sessions.
+- A `rate_limits.resets_at` too large to be a date (above about 8.64e12 seconds) makes upstream exit 1 with
+  `RangeError: Invalid time value` and print no status line. ccstatusline-rs deliberately keeps rendering, treating
+  that reset time as unknown.
 
 ## Install
 
