@@ -1,0 +1,4 @@
+title = "ccstatusline-rs gitleaks config"
+
+[extend]
+useDefault = true
