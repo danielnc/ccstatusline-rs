@@ -22,6 +22,9 @@ impl Widget for ModelWidget {
     fn category(&self) -> &'static str {
         "Core"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Model: ".into())
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         if ctx.is_preview {
             return Some(raw_or_labeled(item, "Model: ", "Claude"));

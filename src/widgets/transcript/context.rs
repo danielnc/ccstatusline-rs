@@ -35,6 +35,12 @@ impl Widget for Length {
     fn category(&self) -> &'static str {
         "Context"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Ctx: ".into())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         const LABEL: &str = "Ctx: ";
         let format = resolve_number_format("token", item, ctx.settings);

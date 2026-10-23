@@ -4,9 +4,14 @@
 //! Widgets are grouped by data source; each group module exposes
 //! `lookup(kind)` and the registry chains them.
 
+pub mod catalog;
 pub mod core;
+pub mod editor;
+#[cfg(test)]
+mod editor_meta_tests;
 pub mod extra;
 pub mod git;
+mod git_editor;
 pub mod misc;
 pub mod shared;
 pub mod transcript;
@@ -14,6 +19,41 @@ pub mod usage;
 
 use crate::context::RenderContext;
 use crate::settings::WidgetItem;
+
+/// `getEditorDisplay`'s result.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct EditorDisplay {
+    pub text: String,
+    pub modifier: Option<String>,
+}
+
+impl EditorDisplay {
+    pub fn plain(text: impl Into<String>) -> Self {
+        EditorDisplay { text: text.into(), modifier: None }
+    }
+}
+
+/// A condition under which a widget can hide (`HideableState`).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct HideableState {
+    pub key: &'static str,
+    pub label: &'static str,
+    pub default_enabled: bool,
+}
+
+/// An editor key binding (`CustomKeybind`).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Keybind {
+    pub key: String,
+    pub label: String,
+    pub action: String,
+}
+
+impl Keybind {
+    pub fn new(key: &str, label: &str, action: &str) -> Self {
+        Keybind { key: key.into(), label: label.into(), action: action.into() }
+    }
+}
 
 pub trait Widget: Sync {
     fn default_color(&self) -> &'static str;
@@ -34,6 +74,34 @@ pub trait Widget: Sync {
     /// Claude Code hooks this widget needs: (event, matcher).
     fn hooks(&self) -> &'static [(&'static str, Option<&'static str>)] {
         &[]
+    }
+
+    // --- The config editor (upstream's optional Widget methods) --------------------------------------------
+
+    /// `getEditorDisplay(item)`.
+    fn editor_display(&self, _item: &WidgetItem) -> EditorDisplay {
+        EditorDisplay::plain(self.display_name())
+    }
+    /// `supportsNumberFormat()`.
+    fn supports_number_format(&self) -> bool {
+        false
+    }
+    /// `getHideableStates()`.
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[]
+    }
+    /// `getLabelPrefix(item)`, for widgets that declare one.
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        None
+    }
+    /// `getCustomKeybinds(item)`.
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        Vec::new()
+    }
+    /// `handleEditorAction(action, item)` on the item's JSON object (edited with `crate::jsobj`, so key order
+    /// matches upstream's); None is upstream's `null` (or a widget without the method).
+    fn handle_editor_action(&self, _action: &str, _item: &serde_json::Value) -> Option<serde_json::Value> {
+        None
     }
 }
 
