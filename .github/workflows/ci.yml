@@ -143,6 +143,9 @@ jobs:
       - name: Run the differential harness
         run: node parity/run.mjs -q --json parity-report.json
 
+      - name: --tmp-root removes only the harness's own scratch
+        run: sh parity/tmp-root-check.sh
+
       - name: Keep the report
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -151,6 +154,30 @@ jobs:
           path: parity-report.json
           retention-days: 14
           if-no-files-found: ignore
+
+  scripts:
+    name: scripts (${{ matrix.os }})
+    # tools/bench.sh against stub renderers, on BSD time (macOS) and GNU time (Linux).
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: GNU time
+        if: runner.os == 'Linux'
+        run: test -x /usr/bin/time || { sudo apt-get update -q && sudo apt-get install -y -q time; }
+
+      - name: tools/bench.sh
+        run: sh tools/bench-check.sh
 
   gitleaks:
     name: gitleaks
@@ -178,7 +205,7 @@ jobs:
   ci:
     name: ci
     if: always()
-    needs: [test, msrv, coverage, lint, parity, gitleaks]
+    needs: [test, msrv, coverage, lint, parity, scripts, gitleaks]
     runs-on: ubuntu-latest
     steps:
       - name: Every job passed
