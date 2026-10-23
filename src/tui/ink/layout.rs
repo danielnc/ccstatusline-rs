@@ -240,7 +240,7 @@ fn layout(ctx: &Ctx, el: &El, avail: f32, mode: Mode, owner_width: f32) -> Layou
                     }
                     content_h = y - pt;
                     content_w = max_w;
-                    let final_w = if mode == Mode::Exactly { width } else { (content_w + pl + pr).min(width) };
+                    let final_w = if mode == Mode::Exactly { width } else { content_w + pl + pr };
                     // Stretch: auto-width children of a column measured "at most" take the final inner width.
                     if mode != Mode::Exactly {
                         let final_inner = (final_w - pl - pr).max(0.0);
@@ -278,7 +278,16 @@ fn layout(ctx: &Ctx, el: &El, avail: f32, mode: Mode, owner_width: f32) -> Layou
                     for c in children {
                         let b = match fixed_width(c, inner) {
                             Some(w) => w,
-                            None => layout(ctx, c, inner, Mode::AtMost, inner).width,
+                            None => {
+                                layout(
+                                    ctx,
+                                    c,
+                                    (inner - margins(c).left - margins(c).right).max(0.0),
+                                    Mode::AtMost,
+                                    inner,
+                                )
+                                .width
+                            }
                         };
                         basis.push(b);
                     }
@@ -286,14 +295,43 @@ fn layout(ctx: &Ctx, el: &El, avail: f32, mode: Mode, owner_width: f32) -> Layou
                     let consumed: f32 =
                         children.iter().zip(&basis).map(|(c, b)| b + margins(c).left + margins(c).right).sum::<f32>()
                             + gaps;
-                    let free = inner - consumed;
+                    // Measured "at most", with flexGrow 0 throughout, yoga takes the consumed size as the available
+                    // size: nothing shrinks, and the box is as wide as its content (the parent shrinks it later).
+                    let free = if mode == Mode::Exactly { inner - consumed } else { 0.0 };
+                    // yoga's minimum for a flex item: its padding and border.
+                    let min_of = |c: &El| match c {
+                        El::Box(cs, _) => {
+                            let (a, b, _, _) = box_padding_border(cs);
+                            a + b
+                        }
+                        _ => 0.0,
+                    };
                     let mut sizes = basis.clone();
                     if free < 0.0 {
-                        // Ink's default flexShrink is 1 for both Box and Text, so the scaled factor is the basis.
-                        let total: f32 = basis.iter().sum();
-                        if total > 0.0 {
-                            for (s, b) in sizes.iter_mut().zip(&basis) {
-                                *s = b + free / total * b;
+                        // Ink's default flexShrink is 1 for Box and Text, so each scaled factor is -basis.
+                        // distributeFreeSpaceFirstPass: items whose share would cross their minimum are frozen there,
+                        // and their factor leaves the total.
+                        let mut total: f32 = -basis.iter().sum::<f32>();
+                        let mut remaining = free;
+                        let mut delta = 0.0;
+                        for (c, b) in children.iter().zip(&basis) {
+                            let factor = -b;
+                            if factor != 0.0 && total != 0.0 {
+                                let base = b + remaining / total * factor;
+                                let bound = base.max(min_of(c));
+                                if base != bound {
+                                    delta += bound - b;
+                                    total -= factor;
+                                }
+                            }
+                        }
+                        remaining -= delta;
+                        // distributeFreeSpaceSecondPass.
+                        for ((c, b), s) in children.iter().zip(&basis).zip(sizes.iter_mut()) {
+                            let factor = -b;
+                            if factor != 0.0 {
+                                let size = if total == 0.0 { b + factor } else { b + remaining / total * factor };
+                                *s = size.max(min_of(c));
                             }
                         }
                     }
@@ -301,14 +339,7 @@ fn layout(ctx: &Ctx, el: &El, avail: f32, mode: Mode, owner_width: f32) -> Layou
                     let mut max_h: f32 = 0.0;
                     for (i, (c, size)) in children.iter().zip(&sizes).enumerate() {
                         let m = margins(c);
-                        let child_pb = match c {
-                            El::Box(cs, _) => {
-                                let (a, b, _, _) = box_padding_border(cs);
-                                a + b
-                            }
-                            _ => 0.0,
-                        };
-                        let size = size.max(child_pb);
+                        let size = size.max(min_of(c));
                         let mut l = layout(ctx, c, size, Mode::Exactly, inner);
                         if i > 0 {
                             x += st.gap;
@@ -327,7 +358,7 @@ fn layout(ctx: &Ctx, el: &El, avail: f32, mode: Mode, owner_width: f32) -> Layou
                         let m = margins(c);
                         l.height = (content_h - m.top - m.bottom).max(l.height.min(content_h));
                     }
-                    let final_w = if mode == Mode::Exactly { width } else { (content_w + pl + pr).min(width) };
+                    let final_w = if mode == Mode::Exactly { width } else { content_w + pl + pr };
                     Layout { width: final_w, height: content_h + pt + pb, children: kids, ..Default::default() }
                 }
             }

@@ -206,8 +206,10 @@ function prepareHome(caseDef, dir) {
 }
 
 function caseEnv(caseDef, home, binDir, vars) {
+    // pathPrepend: directories (relative to HOME, or absolute) searched before the harness's bin dir, for fakes.
+    const prepend = substitute(caseDef.pathPrepend ?? [], vars).map(d => path.resolve(home, d));
     const env = {
-        PATH: [binDir, ...SYSTEM_PATH].join(path.delimiter),
+        PATH: [...prepend, binDir, ...SYSTEM_PATH].join(path.delimiter),
         HOME: home,
         TZ: 'UTC',
         LANG: 'en_US.UTF-8',
