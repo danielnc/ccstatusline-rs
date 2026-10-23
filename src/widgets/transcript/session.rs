@@ -4,14 +4,21 @@
 
 use crate::context::RenderContext;
 use crate::jsnum::{parse_int, to_js_string};
+use crate::jsobj;
 use crate::settings::WidgetItem;
 use crate::transcript::state::{format_duration_ms, normalize_effort, Compaction, Effort};
+use crate::widgets::editor::{self, FormatOptions};
 use crate::widgets::shared::{
     format_tokens, get_format, is_flag, is_hidden, nerd_font_enabled, raw_or_labeled, resolve_number_format,
 };
-use crate::widgets::Widget;
+use crate::widgets::{EditorDisplay, HideableState, Keybind, Widget};
+use serde_json::Value;
+
+const SESSION_LABEL: &str = "Session: ";
 
 // ------------------------------------------------------------ session clock
+
+const CLOCK_ZERO: HideableState = HideableState { key: "zero", label: "when under 1 minute", default_enabled: false };
 
 pub struct Clock;
 
@@ -28,12 +35,18 @@ impl Widget for Clock {
     fn category(&self) -> &'static str {
         "Session"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(SESSION_LABEL.into())
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[CLOCK_ZERO]
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        const LABEL: &str = "Session: ";
+        const LABEL: &str = SESSION_LABEL;
         if ctx.is_preview {
             return Some(raw_or_labeled(item, LABEL, "2hr 15m"));
         }
-        let hide_zero = is_hidden(item, "zero", false);
+        let hide_zero = is_hidden(item, CLOCK_ZERO.key, false);
         let stdin = ctx.data.cost.as_ref().and_then(|c| c.total_duration_ms).filter(|d| d.is_finite() && *d >= 0.0);
         if let Some(ms) = stdin {
             if ms < 60000.0 && hide_zero {
@@ -66,8 +79,11 @@ impl Widget for Name {
     fn category(&self) -> &'static str {
         "Session"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(SESSION_LABEL.into())
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        const LABEL: &str = "Session: ";
+        const LABEL: &str = SESSION_LABEL;
         if ctx.is_preview {
             return Some(raw_or_labeled(item, LABEL, "my-session"));
         }
@@ -79,7 +95,36 @@ impl Widget for Name {
 // ------------------------------------------------------- compaction counter
 
 const COMPACTION_FORMATS: [&str; 3] = ["icon-space-number", "text-and-number", "number"];
+const COMPACTION_DEFAULT_FORMAT: &str = "icon-space-number";
 const METRICS: [&str; 5] = ["count", "auto", "manual", "unknown", "reclaimed"];
+const CYCLE_METRIC_ACTION: &str = "cycle-metric";
+const TOGGLE_TRIGGERS_ACTION: &str = "toggle-triggers";
+const TOGGLE_RECLAIMED_ACTION: &str = "toggle-reclaimed";
+const COMPACTION_ZERO: HideableState =
+    HideableState { key: "zero", label: "when count is zero", default_enabled: false };
+
+/// Only the icon format draws a glyph; the other two are text.
+fn compaction_can_use_nerd_font(item: &Value) -> bool {
+    editor::get_format(item, &COMPACTION_FORMAT_OPTIONS) == COMPACTION_DEFAULT_FORMAT
+}
+
+const COMPACTION_FORMAT_OPTIONS: FormatOptions = FormatOptions {
+    formats: &COMPACTION_FORMATS,
+    default_format: COMPACTION_DEFAULT_FORMAT,
+    can_use_nerd_font: compaction_can_use_nerd_font,
+};
+
+fn compaction_metric(metric: Option<&str>) -> &'static str {
+    metric.and_then(|m| METRICS.iter().find(|x| **x == m)).copied().unwrap_or("count")
+}
+
+/// `setMetric`: the default metric is stored as no key.
+fn set_compaction_metric(item: &Value, metric: &str) -> Value {
+    if metric == "count" {
+        return jsobj::remove_metadata_keys(item, &["metric"]);
+    }
+    jsobj::set_metadata(item, "metric", metric)
+}
 
 pub struct CompactionCounter;
 
@@ -99,6 +144,62 @@ impl Widget for CompactionCounter {
     fn supports_raw_value(&self) -> bool {
         false
     }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[COMPACTION_ZERO]
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        let metric = compaction_metric(item.meta("metric"));
+        let mut modifiers = Vec::new();
+        if metric != "count" {
+            modifiers.push(format!("{metric} value"));
+        } else {
+            let format = get_format(item, &COMPACTION_FORMATS, COMPACTION_DEFAULT_FORMAT);
+            modifiers.push(format.to_string());
+            if nerd_font_enabled(item, format == COMPACTION_DEFAULT_FORMAT) {
+                modifiers.push("nerd font".into());
+            }
+            if is_flag(item, "showTriggers") {
+                modifiers.push("trigger split".into());
+            }
+            if is_flag(item, "showReclaimed") {
+                modifiers.push("reclaimed".into());
+            }
+        }
+        EditorDisplay { text: "Compaction Counter".into(), modifier: Some(format!("({})", modifiers.join(", "))) }
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        if action == CYCLE_METRIC_ACTION {
+            let current = compaction_metric(jsobj::metadata_str(item, "metric"));
+            let index = METRICS.iter().position(|m| *m == current).unwrap_or(0);
+            return Some(set_compaction_metric(item, METRICS[(index + 1) % METRICS.len()]));
+        }
+        if let Some(result) = editor::handle_format_action(action, item, &COMPACTION_FORMAT_OPTIONS) {
+            return Some(result);
+        }
+        match action {
+            TOGGLE_TRIGGERS_ACTION => Some(jsobj::toggle_metadata_flag(item, "showTriggers")),
+            TOGGLE_RECLAIMED_ACTION => Some(jsobj::toggle_metadata_flag(item, "showReclaimed")),
+            _ => None,
+        }
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        let mut keybinds = vec![Keybind::new("v", "(v)alue", CYCLE_METRIC_ACTION)];
+        // The format, glyph and trigger toggles only shape the composite count display
+        if compaction_metric(item.meta("metric")) != "count" {
+            return keybinds;
+        }
+        let format = get_format(item, &COMPACTION_FORMATS, COMPACTION_DEFAULT_FORMAT);
+        keybinds.extend(editor::format_keybinds(format == COMPACTION_DEFAULT_FORMAT));
+        keybinds.extend([
+            Keybind::new("s", "(s)plit by trigger", TOGGLE_TRIGGERS_ACTION),
+            Keybind::new("t", "(t)okens reclaimed", TOGGLE_RECLAIMED_ACTION),
+            editor::symbol_keybind(),
+        ]);
+        keybinds
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = resolve_number_format("token", item, ctx.settings);
         let data = if ctx.is_preview {
@@ -106,8 +207,8 @@ impl Widget for CompactionCounter {
         } else {
             crate::transcript::compaction(ctx).unwrap_or_default()
         };
-        let metric = item.meta("metric").filter(|m| METRICS.contains(m)).unwrap_or("count");
-        let hide_zero = is_hidden(item, "zero", false) && !ctx.is_preview;
+        let metric = compaction_metric(item.meta("metric"));
+        let hide_zero = is_hidden(item, COMPACTION_ZERO.key, false) && !ctx.is_preview;
         if metric != "count" {
             let value = match metric {
                 "auto" => data.auto,
@@ -123,8 +224,8 @@ impl Widget for CompactionCounter {
         if data.count == 0.0 && hide_zero {
             return None;
         }
-        let fmt = get_format(item, &COMPACTION_FORMATS, "icon-space-number");
-        let icon = if nerd_font_enabled(item, fmt == "icon-space-number") { "\u{F021}" } else { "↻" };
+        let fmt = get_format(item, &COMPACTION_FORMATS, COMPACTION_DEFAULT_FORMAT);
+        let icon = if nerd_font_enabled(item, fmt == COMPACTION_DEFAULT_FORMAT) { "\u{F021}" } else { "↻" };
         let count = to_js_string(data.count);
         let mut out = match fmt {
             "icon-space-number" => format!("{icon} {count}"),
@@ -151,6 +252,8 @@ impl Widget for CompactionCounter {
 }
 
 // ---------------------------------------------------------- thinking effort
+
+const THINKING_LABEL: &str = "Thinking: ";
 
 pub struct Thinking;
 
@@ -183,8 +286,11 @@ impl Widget for Thinking {
     fn category(&self) -> &'static str {
         "Core"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(THINKING_LABEL.into())
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        const LABEL: &str = "Thinking: ";
+        const LABEL: &str = THINKING_LABEL;
         if ctx.is_preview {
             return Some(raw_or_labeled(item, LABEL, "high"));
         }
@@ -201,11 +307,26 @@ impl Widget for Thinking {
 
 pub struct Skills;
 
-fn list_limit(item: &WidgetItem) -> usize {
+const SKILLS_MODES: [&str; 3] = ["current", "count", "list"];
+const SKILLS_EMPTY: HideableState =
+    HideableState { key: "empty", label: "when no skills have been used", default_enabled: false };
+const CYCLE_MODE_ACTION: &str = "cycle-mode";
+
+/// `getMode`
+fn skills_mode(mode: Option<&str>) -> &'static str {
+    mode.and_then(|m| SKILLS_MODES.iter().find(|x| **x == m)).copied().unwrap_or("current")
+}
+
+/// `parseListLimit`
+fn list_limit_value(item: &WidgetItem) -> f64 {
     match parse_int(item.meta("listLimit").unwrap_or("0")) {
-        Some(p) if p >= 0.0 => p.min(usize::MAX as f64) as usize,
-        _ => 0,
+        Some(p) if p >= 0.0 => p,
+        _ => 0.0,
     }
+}
+
+fn list_limit(item: &WidgetItem) -> usize {
+    list_limit_value(item).min(usize::MAX as f64) as usize
 }
 
 fn skills_metrics(ctx: &RenderContext) -> &'static crate::transcript::skills::SkillsMetrics {
@@ -233,10 +354,46 @@ impl Widget for Skills {
     fn hooks(&self) -> &'static [(&'static str, Option<&'static str>)] {
         &[("PreToolUse", Some("Skill")), ("UserPromptSubmit", None)]
     }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        let mut keybinds = vec![Keybind::new("v", "(v)iew: last/count/list", CYCLE_MODE_ACTION)];
+        if skills_mode(item.meta("mode")) == "list" {
+            keybinds.push(Keybind::new("l", "(l)imit", "edit-list-limit"));
+        }
+        keybinds
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[SKILLS_EMPTY]
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        let mode = skills_mode(item.meta("mode"));
+        let label = match mode {
+            "current" => "last used",
+            "count" => "total count",
+            _ => "unique list",
+        };
+        let mut modifiers = vec![label.to_string()];
+        if mode == "list" {
+            let limit = list_limit_value(item);
+            if limit > 0.0 {
+                modifiers.push(format!("limit: {}", to_js_string(limit)));
+            }
+        }
+        EditorDisplay { text: "Skills".into(), modifier: editor::make_modifier_text(&modifiers) }
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        if action != CYCLE_MODE_ACTION {
+            return None;
+        }
+        let current = skills_mode(jsobj::metadata_str(item, "mode"));
+        let index = SKILLS_MODES.iter().position(|m| *m == current).unwrap_or(0);
+        let next = SKILLS_MODES[(index + 1) % SKILLS_MODES.len()];
+        let next_item = if next == "list" { item.clone() } else { jsobj::remove_metadata_keys(item, &["listLimit"]) };
+        Some(jsobj::set_metadata(&next_item, "mode", next))
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        let mode = item.meta("mode").filter(|m| matches!(*m, "current" | "count" | "list")).unwrap_or("current");
+        let mode = skills_mode(item.meta("mode"));
         let raw = item.raw();
-        let hide = is_hidden(item, "empty", false);
+        let hide = is_hidden(item, SKILLS_EMPTY.key, false);
         let pick = |r: &str, l: String| if raw { r.to_string() } else { l };
         if ctx.is_preview {
             return Some(match mode {
