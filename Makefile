@@ -1,4 +1,4 @@
-.PHONY: check fmt parity check-secrets
+.PHONY: check fmt parity parity-tui check-secrets
 
 # rustfmt, clippy and the offline test suite; what CI's test and lint jobs run
 check:
@@ -12,6 +12,13 @@ parity:
 	cargo build --release --locked
 	npm ci --prefix parity/upstream --ignore-scripts
 	node parity/run.mjs -q
+
+# the editor's differential harness (needs node 24 and python3); also part of CI's parity job
+parity-tui:
+	cargo build --release --locked
+	npm ci --prefix parity/upstream --ignore-scripts
+	npm ci --prefix parity/tui --ignore-scripts
+	node parity/tui.mjs -q
 
 # gitleaks over the full history; what CI's gitleaks job runs
 check-secrets:

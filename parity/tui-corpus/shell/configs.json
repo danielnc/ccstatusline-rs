@@ -1,0 +1,827 @@
+[
+  {
+    "name": "invalid-json-warning",
+    "config": "{ not json",
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "invalid-json-ctrl-s-guard-yes",
+    "config": "{ not json",
+    "keys": [
+      "ctrl+s",
+      "enter"
+    ]
+  },
+  {
+    "name": "invalid-json-ctrl-s-guard-no",
+    "config": "{ not json",
+    "keys": [
+      "ctrl+s",
+      "down",
+      "enter"
+    ]
+  },
+  {
+    "name": "invalid-json-ctrl-s-guard-escape",
+    "config": "{ not json",
+    "keys": [
+      "ctrl+s",
+      "escape",
+      "ctrl+c"
+    ]
+  },
+  {
+    "name": "custom-config-path",
+    "args": [
+      "--config",
+      "${HOME}/custom/statusline.json"
+    ],
+    "keys": [
+      "down",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "v1-config-migrated",
+    "config": {
+      "items": [
+        {
+          "id": "1",
+          "type": "model",
+          "color": "cyan"
+        },
+        {
+          "id": "2",
+          "type": "separator"
+        },
+        {
+          "id": "3",
+          "type": "git-branch"
+        }
+      ],
+      "colors": {}
+    },
+    "keys": [
+      "ctrl+c"
+    ]
+  },
+  {
+    "name": "updatemessage-removed-at-start",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      },
+      "updatemessage": {
+        "message": "hello",
+        "remaining": 3
+      }
+    },
+    "keys": [
+      "ctrl+c"
+    ]
+  },
+  {
+    "name": "three-lines",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [
+          {
+            "id": "1",
+            "type": "session-clock",
+            "color": "white"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "tokens-total"
+          }
+        ],
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "third line",
+            "color": "red",
+            "bold": true
+          }
+        ]
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "powerline-theme",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [
+          ""
+        ],
+        "endCaps": [
+          ""
+        ],
+        "theme": "nord",
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "color-level-0",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 0,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "color-level-1",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 1,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "color-level-3",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 3,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "full-minus-40-truncation-warning",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 0",
+            "color": "green"
+          },
+          {
+            "id": "2",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 1",
+            "color": "green"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 2",
+            "color": "green"
+          },
+          {
+            "id": "4",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 3",
+            "color": "green"
+          }
+        ]
+      ],
+      "flexMode": "full-minus-40",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "full-truncated-no-warning",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 0",
+            "color": "green"
+          },
+          {
+            "id": "2",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 1",
+            "color": "green"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 2",
+            "color": "green"
+          },
+          {
+            "id": "4",
+            "type": "custom-text",
+            "customText": "a fairly long piece of custom text 3",
+            "color": "green"
+          }
+        ]
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "size": [
+      80,
+      40
+    ],
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "empty-lines",
+    "config": {
+      "version": 4,
+      "lines": [
+        [],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "installed-npx",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down"
+    ]
+  },
+  {
+    "name": "installed-global-manage",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "ccstatusline",
+            "padding": 0
+          }
+        }
+      }
+    },
+    "keys": [
+      "up",
+      "up",
+      "up"
+    ]
+  },
+  {
+    "name": "installed-padding-1-not-installed",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 1
+          }
+        }
+      }
+    },
+    "keys": [
+      "up",
+      "up",
+      "up"
+    ]
+  },
+  {
+    "name": "other-statusline",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "my-statusline.sh"
+          }
+        }
+      }
+    },
+    "keys": [
+      "up",
+      "up",
+      "up"
+    ]
+  },
+  {
+    "name": "claude-config-dir-env",
+    "env": {
+      "CLAUDE_CONFIG_DIR": "${HOME}/alt-claude"
+    },
+    "files": {
+      "alt-claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest"
+          }
+        }
+      }
+    },
+    "keys": [
+      "up",
+      "up",
+      "up"
+    ]
+  },
+  {
+    "name": "term-xterm-16-colors",
+    "env": {
+      "TERM": "xterm"
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "term-truecolor",
+    "env": {
+      "COLORTERM": "truecolor"
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "term-dumb-no-color",
+    "env": {
+      "TERM": "dumb"
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "force-color-0",
+    "env": {
+      "FORCE_COLOR": "0"
+    },
+    "keys": [
+      "down"
+    ]
+  },
+  {
+    "name": "wrap-every-item-20-cols",
+    "size": [
+      20,
+      80
+    ],
+    "keys": [
+      "down",
+      "down"
+    ]
+  }
+]

@@ -1,2 +1,5 @@
 upstream/node_modules/
 last-report.json
+tui/node_modules/
+last-tui-report.json
+__pycache__/

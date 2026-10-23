@@ -13,7 +13,7 @@ use crate::jsnum::to_js_string;
 use crate::settings::WidgetItem;
 
 #[derive(Clone, Copy, PartialEq)]
-enum K {
+pub(crate) enum K {
     Branch,
     Changes,
     Insertions,
@@ -81,6 +81,21 @@ impl Widget for GitWidget {
     }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         render(self.kind, item, ctx)
+    }
+    fn editor_display(&self, item: &WidgetItem) -> super::EditorDisplay {
+        super::git_editor::display(self.kind, item, self.name)
+    }
+    fn hideable_states(&self) -> &'static [super::HideableState] {
+        super::git_editor::hideable_states(self.kind)
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        super::git_editor::label_prefix(self.kind)
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<super::Keybind> {
+        super::git_editor::keybinds(self.kind, item)
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        super::git_editor::handle_action(self.kind, action, item)
     }
 }
 
@@ -278,7 +293,7 @@ pub fn branch_link_enabled(item: &WidgetItem) -> bool {
     is_flag(item, "linkToRepo") || (item.meta("linkToRepo").is_none() && is_flag(item, "linkToGitHub"))
 }
 
-fn ide_link_mode(item: &WidgetItem) -> Option<&'static str> {
+pub(crate) fn ide_link_mode(item: &WidgetItem) -> Option<&'static str> {
     match item.meta("linkToIDE") {
         Some("vscode") => return Some("vscode"),
         Some("cursor") => return Some("cursor"),

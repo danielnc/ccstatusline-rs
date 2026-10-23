@@ -1,0 +1,1269 @@
+[
+  {
+    "name": "custom-colors-level0-xterm-256color",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 0,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm-256color"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level0-xterm",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 0,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level0-truecolor",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 0,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "COLORTERM": "truecolor"
+    },
+    "keys": []
+  },
+  {
+    "name": "powerline-level0",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 0,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [
+          ""
+        ],
+        "theme": "tokyo-night",
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level1-xterm-256color",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 1,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm-256color"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level1-xterm",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 1,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level1-truecolor",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 1,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "COLORTERM": "truecolor"
+    },
+    "keys": []
+  },
+  {
+    "name": "powerline-level1",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 1,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [
+          ""
+        ],
+        "theme": "tokyo-night",
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level2-xterm-256color",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm-256color"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level2-xterm",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level2-truecolor",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "COLORTERM": "truecolor"
+    },
+    "keys": []
+  },
+  {
+    "name": "powerline-level2",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [
+          ""
+        ],
+        "theme": "tokyo-night",
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level3-xterm-256color",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 3,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm-256color"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level3-xterm",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 3,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "TERM": "xterm"
+    },
+    "keys": []
+  },
+  {
+    "name": "custom-colors-level3-truecolor",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 3,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "env": {
+      "COLORTERM": "truecolor"
+    },
+    "keys": []
+  },
+  {
+    "name": "powerline-level3",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 3,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [
+          ""
+        ],
+        "theme": "tokyo-night",
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  },
+  {
+    "name": "force-color-3",
+    "env": {
+      "FORCE_COLOR": "3"
+    },
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  },
+  {
+    "name": "force-color-1-dumb",
+    "env": {
+      "FORCE_COLOR": "1",
+      "TERM": "dumb"
+    },
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "hex",
+            "color": "hex:ff8800",
+            "backgroundColor": "bgBlue"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "a256",
+            "color": "ansi256:202",
+            "bold": true
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "bg",
+            "color": "white",
+            "backgroundColor": "bgBrightMagenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  },
+  {
+    "name": "gradient-color",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "custom-text",
+            "customText": "gradient text here",
+            "color": "gradient:retro"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": []
+  }
+]

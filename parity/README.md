@@ -162,3 +162,50 @@ fixture works from a worktree's `fixtures/` dir too; the git widget group's fixt
   "no credentials" (no keychain, no `.credentials.json`, no network).
 - The scratch path appears in outputs (cwd widgets, stderr), so reports from two
   harness runs differ in those paths; within one run both sides share them.
+
+## The editor (TUI) harness
+
+`tui.mjs` checks the interactive config editor. Each case in `tui-corpus/` runs upstream
+and the Rust binary on a pseudo-terminal of the same size (`tui/pty-run.py`, Python's
+stdlib `pty`), sends the same keys, and reads both terminals through
+[`@xterm/headless`](https://www.npmjs.com/package/@xterm/headless) (pinned in
+`tui/package.json`). After the start and after every key it compares the whole screen
+cell by cell: character, foreground and background color, bold, dim, italic,
+underline, inverse and strikethrough. After exit it compares the exit codes and every
+file under HOME (`.cache/` excluded), byte for byte.
+
+```sh
+npm ci --prefix parity/tui --ignore-scripts      # once
+node parity/tui.mjs                              # all cases vs target/release/ccstatusline-rs
+node parity/tui.mjs --filter shell/configs --show-diff
+node parity/tui.mjs --filter star --upstream-only   # print upstream's screens
+```
+
+The two sides run one after the other in the same HOME path, since paths can show on
+screen. A step ends once upstream has written nothing for 700 ms (1.5 s at start); the
+Rust side then gets up to 3 s to reach upstream's screen for that step, so a stall on a
+loaded machine is not a failure. A case that leaves the editor running ends with
+Ctrl+C, a clean exit. The world is the one described above, plus
+`TERM=xterm-256color`, `CCSTATUSLINE_RS_TUI=1` (the editor is opt-in until every screen
+is ported), and stubs for `open`, `xdg-open` and `gio` that succeed without opening
+anything.
+
+A case:
+
+```jsonc
+{
+  "name": "invalid-json-ctrl-s-guard-yes",
+  "size": [100, 40],                 // columns, rows (default 100x40)
+  "config": "{ not json",            // ~/.config/ccstatusline/settings.json: JSON value or raw string
+  "files": { ".claude/settings.json": { "json": { "statusLine": { "command": "ccstatusline" } } } },
+  "env": { "TERM": "xterm" },        // added to (or, with null, removed from) the environment
+  "args": ["--config", "${HOME}/custom.json"],
+  "pathPrepend": ["bin"],            // dirs under HOME (or absolute) put first on PATH, for fakes made with
+                                     // "files": {"bin/claude": {"executable": "#!/bin/sh\necho 2.1.97"}}
+  "keys": ["ctrl+s", "enter", { "text": "abc" }]
+}
+```
+
+Key names: `up`, `down`, `left`, `right`, `enter`, `escape`, `tab`, `backspace`,
+`delete`, `space`, `ctrl+c`, `ctrl+s`; `{"text": "..."}` sends literal input in one
+chunk. The report goes to `parity/last-tui-report.json` (gitignored).
