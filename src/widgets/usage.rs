@@ -12,7 +12,8 @@
 use super::shared::{
     format_percent, format_tokens, is_flag, is_hidden, raw_or_labeled, resolve_number_format, timer_progress_bar,
 };
-use super::Widget;
+use super::usage_editor as ed;
+use super::{EditorDisplay, HideableState, Keybind, Widget};
 use crate::context::RenderContext;
 use crate::settings::{NumberFormat, WidgetItem};
 use crate::usage::currency::format_usage_currency;
@@ -238,6 +239,24 @@ impl Widget for UsagePercentWidget {
     fn category(&self) -> &'static str {
         "Usage"
     }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        ed::percent_display(item, self.display_name())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        ed::USAGE_STATES
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        ed::percent_label(self.0)
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        ed::percent_keybinds_for(item)
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        ed::percent_action(action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let data = if ctx.is_preview { None } else { crate::usage::usage_data(ctx) };
         render_percent(self.0, item, ctx, data, true)
@@ -438,6 +457,24 @@ impl Widget for TimerWidget {
     fn category(&self) -> &'static str {
         "Usage"
     }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        ed::timer_display(self.0, item, self.display_name())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        ed::timer_states(self.0)
+    }
+    fn label_prefix(&self, item: &WidgetItem) -> Option<String> {
+        Some(self.0.label(item).into())
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        ed::timer_keybinds_for(self.0, item)
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        ed::timer_action(self.0, action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let data = if ctx.is_preview { None } else { crate::usage::usage_data(ctx) };
         render_timer(self.0, item, ctx, data, true, NoWindow::Upstream)
@@ -471,6 +508,15 @@ enum AmountKind {
     Remaining,
 }
 
+impl AmountKind {
+    fn label(self) -> &'static str {
+        match self {
+            AmountKind::Used => "Overage Used: ",
+            AmountKind::Remaining => "Overage Left: ",
+        }
+    }
+}
+
 pub struct ExtraUsageAmountWidget(AmountKind);
 
 impl Widget for ExtraUsageAmountWidget {
@@ -496,11 +542,17 @@ impl Widget for ExtraUsageAmountWidget {
     fn category(&self) -> &'static str {
         "Usage"
     }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        ed::EXTRA_USAGE_STATES
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(self.0.label().into())
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        let label = match self.0 {
-            AmountKind::Used => "Overage Used: ",
-            AmountKind::Remaining => "Overage Left: ",
-        };
+        let label = self.0.label();
         let f = resolve_number_format("cost", item, ctx.settings);
         if ctx.is_preview {
             let dollars = if self.0 == AmountKind::Used { 106.0 } else { 3894.0 };
@@ -536,6 +588,24 @@ impl Widget for ExtraUsageUtilizationWidget {
     }
     fn category(&self) -> &'static str {
         "Usage"
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        ed::utilization_display(item, self.display_name())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        ed::EXTRA_USAGE_STATES
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Overage: ".into())
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        ed::utilization_keybinds(item)
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        ed::utilization_action(action, item)
     }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         const LABEL: &str = "Overage: ";
@@ -603,6 +673,24 @@ impl Widget for ExtraUsageDailyBudgetWidget {
     fn category(&self) -> &'static str {
         "Usage"
     }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        ed::daily_budget_display(item, self.display_name())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        ed::EXTRA_USAGE_STATES
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Daily Budget: ".into())
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        ed::daily_budget_keybinds(item)
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        ed::daily_budget_action(action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         const LABEL: &str = "Daily Budget: ";
         let f = resolve_number_format("cost", item, ctx.settings);
@@ -637,6 +725,21 @@ impl Widget for ContextBarWidget {
     }
     fn category(&self) -> &'static str {
         "Context"
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        ed::context_bar_display(item, self.display_name())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Context: ".into())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        ed::context_bar_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        ed::context_bar_action(action, item)
     }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         const LABEL: &str = "Context: ";
@@ -756,6 +859,18 @@ impl Widget for ClaudeStatusWidget {
     fn supports_colors(&self, item: &WidgetItem) -> bool {
         !service_status::history_enabled(item)
     }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        ed::claude_status_display(item, self.display_name())
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Claude: ".into())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        ed::claude_status_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        ed::claude_status_action(action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         const LABEL: &str = "Claude: ";
         const BAR: &str = "▮";
@@ -819,6 +934,9 @@ impl Widget for ClaudeAccountEmailWidget {
     }
     fn category(&self) -> &'static str {
         "Session"
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Account: ".into())
     }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         const LABEL: &str = "Account: ";
