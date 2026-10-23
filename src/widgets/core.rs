@@ -7,6 +7,9 @@ use crate::context::RenderContext;
 use crate::settings::WidgetItem;
 use crate::status::Model;
 
+/// The types whose editor methods are ported (checked by `editor_meta_tests`).
+pub(crate) const EDITOR_PORTED: &[&str] = &["model"];
+
 pub struct ModelWidget;
 
 impl Widget for ModelWidget {

@@ -7,9 +7,19 @@ use serde_json::Value;
 
 const FIXTURE: &str = include_str!("testdata/editor-meta.json");
 
-/// Widget types whose editor methods are ported; the per-item checks run for these. Add a type here once its
-/// `editor_display`, `label_prefix`, `custom_keybinds` and `handle_editor_action` follow upstream's.
-const PORTED: &[&str] = &["model", "context-length", "git-branch", "git-changes"];
+/// Widget types whose editor methods are ported, per group; the per-item checks run for these. A type joins its
+/// group's `EDITOR_PORTED` once its `editor_display`, `label_prefix`, `custom_keybinds` and
+/// `handle_editor_action` follow upstream's.
+fn ported() -> Vec<&'static str> {
+    [
+        super::core::EDITOR_PORTED,
+        super::git_editor::EDITOR_PORTED,
+        super::transcript::editor::EDITOR_PORTED,
+        super::usage_editor::EDITOR_PORTED,
+        super::misc::editor::EDITOR_PORTED,
+    ]
+    .concat()
+}
 
 fn fixture() -> Value {
     serde_json::from_str(FIXTURE).unwrap()
@@ -80,9 +90,10 @@ fn ported_widgets_match_upstream() {
     let f = fixture();
     let mut failures = Vec::new();
     let mut checked = 0;
+    let ported = ported();
     for w in f["widgets"].as_array().unwrap() {
         let kind = w["type"].as_str().unwrap();
-        if !PORTED.contains(&kind) {
+        if !ported.contains(&kind) {
             continue;
         }
         let widget = get_widget(kind).unwrap();

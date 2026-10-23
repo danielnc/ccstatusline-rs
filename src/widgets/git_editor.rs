@@ -8,6 +8,9 @@ use crate::jsobj;
 use crate::settings::WidgetItem;
 use serde_json::{Map, Value};
 
+/// The types whose editor methods are ported (checked by `editor_meta_tests`).
+pub(crate) const EDITOR_PORTED: &[&str] = &["git-branch", "git-changes"];
+
 const LINK_KEY: &str = "linkToRepo";
 const LEGACY_LINK_KEY: &str = "linkToGitHub";
 const TOGGLE_LINK_ACTION: &str = "toggle-link";

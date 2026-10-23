@@ -16,6 +16,7 @@ pub mod misc;
 pub mod shared;
 pub mod transcript;
 pub mod usage;
+mod usage_editor;
 
 use crate::context::RenderContext;
 use crate::settings::WidgetItem;
