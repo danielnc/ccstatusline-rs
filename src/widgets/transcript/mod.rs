@@ -4,6 +4,7 @@
 
 mod cache;
 mod context;
+pub(crate) mod editor;
 mod session;
 mod speed;
 mod tokens;

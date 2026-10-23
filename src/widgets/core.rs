@@ -7,6 +7,9 @@ use crate::context::RenderContext;
 use crate::settings::WidgetItem;
 use crate::status::Model;
 
+/// The types whose editor methods are ported (checked by `editor_meta_tests`).
+pub(crate) const EDITOR_PORTED: &[&str] = &["model"];
+
 pub struct ModelWidget;
 
 impl Widget for ModelWidget {
@@ -21,6 +24,9 @@ impl Widget for ModelWidget {
     }
     fn category(&self) -> &'static str {
         "Core"
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Model: ".into())
     }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         if ctx.is_preview {

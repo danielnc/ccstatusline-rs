@@ -12,6 +12,7 @@ mod gradient;
 mod hooks;
 mod jsjson;
 mod jsnum;
+mod jsobj;
 mod migrations;
 mod misc;
 mod render;
