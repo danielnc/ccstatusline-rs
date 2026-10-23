@@ -77,7 +77,8 @@ Known gaps:
 
 - **The interactive config editor (TUI) is not ported yet.** Run without piped input, ccstatusline-rs only prints a
   note. Keep editing with `npx ccstatusline@latest`: the config file is shared, so both read and write the same
-  `~/.config/ccstatusline/settings.json`.
+  `~/.config/ccstatusline/settings.json`. The port is under way, screen by screen, behind `CCSTATUSLINE_RS_TUI=1`,
+  with its own differential harness (`parity/tui.mjs`) that compares both editors' screens cell by cell.
 - Reset times shown in a time zone other than UTC are always formatted with en-US conventions, whatever locale is
   configured; UTC output is exact for every locale.
 - Only ISO-8601 timestamps are parsed in transcripts (upstream's `Date.parse` also accepts other forms, which

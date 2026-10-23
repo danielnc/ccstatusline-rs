@@ -22,6 +22,7 @@ mod status;
 mod terminal;
 mod timefmt;
 mod transcript;
+mod tui;
 mod unicode_tables;
 mod usage;
 mod widgets;
@@ -137,6 +138,10 @@ fn main() {
             let mut st = st.clone();
             st.updatemessage = None;
             store.save(&st);
+        }
+        if tui::enabled() {
+            tui::run(store);
+            return;
         }
         eprintln!(
             "ccstatusline-rs: the interactive editor is not built yet; edit {} with `npx ccstatusline@latest` (same file).",

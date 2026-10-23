@@ -14,6 +14,7 @@ the upstream release pinned in `parity/upstream/package.json`.
 make fmt            # cargo fmt
 make check          # rustfmt, clippy -D warnings and the offline test suite; what CI's test and lint jobs run
 make parity         # the differential harness against pinned upstream (needs node 24); what CI's parity job runs
+make parity-tui     # the editor's harness: both programs on a pty, screens compared cell by cell (needs python3)
 make check-secrets  # gitleaks over the full history
 node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 ```
@@ -22,7 +23,8 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 
 - **Parity first.** Port upstream's TypeScript line by line and keep JavaScript semantics: `??` vs `||`, truthiness
   of `""` and `0`, UTF-16 lengths, `Math.round`, `toFixed`, `parseInt`. Use `src/jsnum.rs` for number formatting and
-  `crate::clock::now_ms()` for time. A change to an upstream widget type needs a case under `parity/corpus/`.
+  `crate::clock::now_ms()` for time. A change to an upstream widget type needs a case under `parity/corpus/`, and
+  a change to an editor screen one under `parity/tui-corpus/`.
 - **Widgets' editor behaviour is checked against upstream's registry.** `tools/gen-editor-meta.mjs` records, from
   pinned upstream, every widget's catalog entry, editor display, hideable states, label prefix, key bindings and
   the result of each editor action (key order included) into `src/widgets/testdata/editor-meta.json`;
@@ -59,4 +61,5 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 | `src/usage/` | usage data: stdin rate limits, cache, background refresher, clauth feed |
 | `src/git/` | git and jj data with caching |
 | `src/misc/` | custom commands, links, herdr, memory |
-| `parity/` | the differential harness, its preload, fixtures and corpus |
+| `src/tui/` | the config editor: `ink/` ports the slice of Ink it renders through (layout, output grid, chalk, keys); `components/` the screens |
+| `parity/` | the differential harnesses (`run.mjs` for renders, `tui.mjs` for the editor), the preload, fixtures and corpora |

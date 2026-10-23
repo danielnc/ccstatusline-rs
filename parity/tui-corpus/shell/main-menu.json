@@ -1,0 +1,12 @@
+[
+  { "name": "default-100x40", "keys": ["down", "down", "up", "up", "up"] },
+  { "name": "default-80x24-tall", "size": [80, 24], "keys": ["down", "up"] },
+  { "name": "default-50x60-narrow", "size": [50, 60], "keys": ["down"] },
+  { "name": "default-30x60-very-narrow", "size": [30, 60], "keys": ["down"] },
+  { "name": "exit-from-menu", "keys": ["down", "down", "down", "down", "down", "down", "down", "down", "enter"] },
+  { "name": "ctrl-c", "keys": ["down", "ctrl+c"] },
+  { "name": "star-github-yes", "keys": ["up", "enter", "enter"] },
+  { "name": "star-github-no", "keys": ["up", "enter", "down", "enter"] },
+  { "name": "star-github-escape", "keys": ["up", "enter", "escape"] },
+  { "name": "ctrl-s-saves-unchanged", "keys": ["ctrl+s", "ctrl+c"] }
+]
