@@ -4,7 +4,7 @@
 use crate::context::RenderContext;
 use crate::settings::WidgetItem;
 use crate::widgets::shared::{context_window_metrics, format_tokens, is_hidden, raw_or_labeled, resolve_number_format};
-use crate::widgets::Widget;
+use crate::widgets::{HideableState, Widget};
 
 pub struct TokenCount {
     label: &'static str,
@@ -28,13 +28,22 @@ impl Widget for TokenCount {
     fn category(&self) -> &'static str {
         "Tokens"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(self.label.into())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[super::editor::TOKEN_ZERO]
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = resolve_number_format("token", item, ctx.settings);
         if ctx.is_preview {
             return Some(raw_or_labeled(item, self.label, &format_tokens(self.preview, &format, 1)));
         }
         let tokens = (self.count)(ctx)?;
-        if tokens == 0.0 && is_hidden(item, "zero", false) {
+        if tokens == 0.0 && is_hidden(item, super::editor::TOKEN_ZERO.key, false) {
             return None;
         }
         Some(raw_or_labeled(item, self.label, &format_tokens(tokens, &format, 1)))
