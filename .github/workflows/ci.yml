@@ -91,7 +91,7 @@ jobs:
           node parity/run.mjs -q --rust-bin "${CARGO_TARGET_DIR:-target}/debug/ccstatusline-rs" \
             || echo "::warning::parity cases failed against the instrumented build"
           cargo llvm-cov report --summary-only
-          cargo llvm-cov report --lcov --output-path lcov.info --fail-under-lines 40
+          cargo llvm-cov report --lcov --output-path lcov.info --fail-under-lines 84
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
