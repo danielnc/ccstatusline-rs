@@ -19,6 +19,7 @@ use super::components::main_menu::{self, MainMenuOption};
 use super::components::preview;
 use super::ink::keys::Input;
 use super::ink::layout::*;
+use super::screens::{self, Action};
 use crate::settings::{ConfigStore, Settings};
 
 const GITHUB_REPO_URL: &str = "https://github.com/sirmalloc/ccstatusline";
@@ -29,6 +30,14 @@ pub enum Screen {
     Lines,
     Items,
     ColorLines,
+    Colors,
+    TerminalConfig,
+    TerminalWidth,
+    GlobalOverrides,
+    Powerline,
+    RefreshInterval,
+    ExportConfig,
+    ImportConfig,
     Confirm,
     /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
     Pending,
@@ -85,6 +94,8 @@ pub struct App {
     selected_line: usize,
     line_selector: LineSelector,
     items_editor: ItemsEditor,
+    /// The screen hosted through `screens::Screen` (colors, terminal, overrides, powerline, ...).
+    hosted: Option<Box<dyn screens::Screen>>,
     pub exit: Exit,
     messages: Vec<String>,
 }
@@ -123,6 +134,7 @@ impl App {
             selected_line: 0,
             line_selector: LineSelector::new(),
             items_editor: ItemsEditor::new(),
+            hosted: None,
             exit: Exit::No,
             messages,
         }
@@ -228,12 +240,14 @@ impl App {
             Screen::Main => self.handle_main(ev),
             Screen::Lines | Screen::ColorLines => self.handle_lines(ev),
             Screen::Items => self.handle_items(ev),
+            s if is_hosted(s) => self.handle_hosted(ev),
             Screen::Confirm => self.handle_confirm(ev),
             Screen::Pending => {
                 if ev.key.escape {
                     self.screen = Screen::Main;
                 }
             }
+            _ => self.handle_hosted(ev),
         }
         // The App's own handler: Ctrl+S saves from any screen but the confirm dialog.
         if ev.key.ctrl && ev.input == "s" && screen_before != Screen::Confirm && self.exit == Exit::No {
@@ -271,18 +285,107 @@ impl App {
             MainMenuOption::Exit => self.exit = Exit::Now,
             MainMenuOption::Lines => self.go(Screen::Lines),
             MainMenuOption::Colors => self.go(Screen::ColorLines),
+            MainMenuOption::TerminalConfig => self.go(Screen::TerminalConfig),
+            MainMenuOption::GlobalOverrides => self.go(Screen::GlobalOverrides),
+            MainMenuOption::Powerline => self.go(Screen::Powerline),
+            MainMenuOption::ConfigureStatusLine => self.go(Screen::RefreshInterval),
+            MainMenuOption::ExportConfig => self.go(Screen::ExportConfig),
+            MainMenuOption::ImportConfig => self.go(Screen::ImportConfig),
             _ => self.screen = Screen::Pending,
         }
     }
 
     /// Switching screens mounts the new screen's components afresh.
     fn go(&mut self, screen: Screen) {
+        self.hosted = None;
         match screen {
             Screen::Lines | Screen::ColorLines => self.line_selector = LineSelector::new(),
             Screen::Items => self.items_editor = ItemsEditor::new(),
+            s if is_hosted(s) => {
+                let typed = self.typed();
+                let ctx = self.ctx(&typed);
+                let hosted: Box<dyn screens::Screen> = match s {
+                    Screen::Colors => Box::new(super::components::color_menu::ColorMenu::new(&ctx)),
+                    Screen::TerminalConfig => {
+                        Box::new(super::components::terminal_options::TerminalOptionsMenu::new(&ctx))
+                    }
+                    Screen::TerminalWidth => Box::new(super::components::terminal_width::TerminalWidthMenu::new(&ctx)),
+                    Screen::GlobalOverrides => {
+                        Box::new(super::components::global_overrides::GlobalOverridesMenu::new(&ctx))
+                    }
+                    Screen::Powerline => Box::new(super::components::powerline_setup::PowerlineSetup::new(&ctx)),
+                    Screen::RefreshInterval => {
+                        Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(&ctx))
+                    }
+                    Screen::ExportConfig => Box::new(super::components::export_config::ExportConfigDialog::new(&ctx)),
+                    _ => Box::new(super::components::import_config::ImportConfigDialog::new(&ctx)),
+                };
+                self.hosted = Some(hosted);
+            }
             _ => {}
         }
         self.screen = screen;
+    }
+
+    fn ctx<'a>(&'a self, typed: &'a Settings) -> screens::Ctx<'a> {
+        screens::Ctx {
+            settings: &self.settings,
+            typed,
+            terminal_width: self.terminal_width,
+            selected_line: self.selected_line,
+        }
+    }
+
+    fn handle_hosted(&mut self, ev: &Input) {
+        let typed = self.typed();
+        let actions = match self.hosted.as_mut() {
+            Some(h) => {
+                let ctx = screens::Ctx {
+                    settings: &self.settings,
+                    typed: &typed,
+                    terminal_width: self.terminal_width,
+                    selected_line: self.selected_line,
+                };
+                h.handle(ev, &ctx)
+            }
+            None => Vec::new(),
+        };
+        for action in actions {
+            self.apply(action);
+        }
+    }
+
+    /// Where each hosted screen's `onBack` leads, with the main menu selection the App records on the way.
+    fn back_from_hosted(&mut self) {
+        match self.screen {
+            Screen::Colors => self.go(Screen::ColorLines),
+            Screen::TerminalWidth => self.go(Screen::TerminalConfig),
+            Screen::TerminalConfig => {
+                self.menu_selections.insert("main", 3);
+                self.go(Screen::Main);
+            }
+            Screen::GlobalOverrides => {
+                self.menu_selections.insert("main", 4);
+                self.go(Screen::Main);
+            }
+            _ => self.go(Screen::Main),
+        }
+    }
+
+    fn apply(&mut self, action: Action) {
+        match action {
+            Action::SetSettings(v) => self.set_settings(v),
+            Action::SetLineWidgets(widgets) => {
+                let mut lines = self.lines();
+                if self.selected_line < lines.len() {
+                    lines[self.selected_line] = Value::Array(widgets);
+                    self.set_lines(lines);
+                }
+            }
+            Action::Back => self.back_from_hosted(),
+            Action::OpenTerminalWidth => self.go(Screen::TerminalWidth),
+            Action::Flash(text, color) => self.set_flash(text, color),
+        }
     }
 
     fn lines(&self) -> Vec<Value> {
@@ -317,7 +420,7 @@ impl App {
             line_selector::Outcome::Select(line) => {
                 self.menu_selections.insert("lines", line);
                 self.selected_line = line;
-                let next = if self.screen == Screen::ColorLines { Screen::Pending } else { Screen::Items };
+                let next = if self.screen == Screen::ColorLines { Screen::Colors } else { Screen::Items };
                 self.go(next);
             }
             line_selector::Outcome::Back => {
@@ -444,9 +547,33 @@ impl App {
                     self.lines().get(self.selected_line).and_then(Value::as_array).cloned().unwrap_or_default();
                 Some(self.items_editor.view(&widgets, self.selected_line + 1, &typed))
             }
+            s if is_hosted(s) => {
+                let ctx = screens::Ctx {
+                    settings: &self.settings,
+                    typed: &typed,
+                    terminal_width: self.terminal_width,
+                    selected_line: self.selected_line,
+                };
+                self.hosted.as_mut().map(|h| h.view(&ctx))
+            }
             Screen::Pending => None,
+            _ => None,
         };
         children.push(boxed(BoxStyle::default().margin_top(1.0), screen.into_iter().collect()));
         col(children)
     }
+}
+
+fn is_hosted(s: Screen) -> bool {
+    matches!(
+        s,
+        Screen::Colors
+            | Screen::TerminalConfig
+            | Screen::TerminalWidth
+            | Screen::GlobalOverrides
+            | Screen::Powerline
+            | Screen::RefreshInterval
+            | Screen::ExportConfig
+            | Screen::ImportConfig
+    )
 }

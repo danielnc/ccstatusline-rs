@@ -170,9 +170,9 @@ node parity/tui.mjs --filter star --upstream-only   # print upstream's screens
 ```
 
 The two sides run one after the other in the same HOME path, since paths can show on
-screen. A step ends once the program has written nothing for 500 ms (1.5 s at start);
-the Rust side then gets up to 3 s to reach upstream's screen for that step, so a stall
-on a loaded machine is not a failure. A case that leaves the editor running ends with
+screen. A step ends once upstream has written nothing for 700 ms (1.5 s at start); the
+Rust side then gets up to 3 s to reach upstream's screen for that step, so a stall on a
+loaded machine is not a failure. A case that leaves the editor running ends with
 Ctrl+C, a clean exit. The world is the one described above, plus
 `TERM=xterm-256color`, `CCSTATUSLINE_RS_TUI=1` (the editor is opt-in until every screen
 is ported), and stubs for `open`, `xdg-open` and `gio` that succeed without opening

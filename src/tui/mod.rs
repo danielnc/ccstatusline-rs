@@ -8,6 +8,7 @@ mod components;
 mod ink;
 mod open_url;
 mod random;
+pub mod screens;
 mod text_cursor;
 
 /// JavaScript truthiness of a JSON value (`undefined` properties are falsy).
