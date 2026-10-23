@@ -1,0 +1,127 @@
+[
+  {
+    "name": "export-default-path",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "export-edit-path",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "backspace",
+      "backspace",
+      "backspace",
+      "backspace",
+      "backspace",
+      {
+        "text": "-2.json"
+      },
+      "enter",
+      "ctrl+c"
+    ]
+  },
+  {
+    "name": "export-escape",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "x"
+      },
+      "escape",
+      "down"
+    ]
+  },
+  {
+    "name": "export-is-directory",
+    "files": {
+      "ccstatusline-config.json/keep": "x"
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "export-parent-is-file",
+    "files": {
+      "ccstatusline-config.json": "{}"
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "/sub/x.json"
+      },
+      "enter",
+      "escape"
+    ]
+  },
+  {
+    "name": "export-parent-exists-as-file",
+    "files": {
+      "ccstatusline-config.json": "{}"
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "/x.json"
+      },
+      "enter"
+    ]
+  },
+  {
+    "name": "export-after-edit-narrow-60",
+    "size": [
+      60,
+      50
+    ],
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "r"
+      },
+      "escape",
+      "escape",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter"
+    ]
+  }
+]

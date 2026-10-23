@@ -12,6 +12,7 @@ use serde_json::Value;
 
 use super::claude;
 use super::components::confirm::{Answer, Confirm};
+use super::components::flow_notice::FlowNotice;
 use super::components::items_editor::{self, ItemsEditor};
 use super::components::line_selector::{self, LineSelector};
 use super::components::list::{Event, List};
@@ -39,6 +40,7 @@ pub enum Screen {
     ExportConfig,
     ImportConfig,
     Confirm,
+    FlowNotice,
     /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
     Pending,
 }
@@ -88,6 +90,11 @@ pub struct App {
     confirm_ui: Confirm,
     installed: bool,
     existing_status_line: Option<String>,
+    /// `currentRefreshInterval`: Claude's `statusLine.refreshInterval`, read at mount.
+    refresh_interval: Option<Value>,
+    /// `supportsRefreshInterval`: `claude --version` is at least 2.1.97, checked once at mount.
+    supports_refresh_interval: bool,
+    flow_notice: Option<FlowNotice>,
     pub terminal_width: usize,
     flash: Option<Flash>,
     main_list: List,
@@ -116,6 +123,8 @@ impl App {
         let original = json(&settings);
         let installed = claude::is_installed();
         let existing_status_line = claude::existing_status_line();
+        let refresh_interval = claude::refresh_interval();
+        let supports_refresh_interval = claude::is_claude_code_version_at_least("2.1.97");
         App {
             store,
             settings,
@@ -128,6 +137,9 @@ impl App {
             confirm_ui: Confirm::default(),
             installed,
             existing_status_line,
+            refresh_interval,
+            supports_refresh_interval,
+            flow_notice: None,
             terminal_width,
             flash: None,
             main_list: List::new(0),
@@ -242,6 +254,12 @@ impl App {
             Screen::Items => self.handle_items(ev),
             s if is_hosted(s) => self.handle_hosted(ev),
             Screen::Confirm => self.handle_confirm(ev),
+            Screen::FlowNotice => {
+                if self.flow_notice.as_mut().is_some_and(|n| n.handle(ev)) {
+                    self.flow_notice = None;
+                    self.go(Screen::Main);
+                }
+            }
             Screen::Pending => {
                 if ev.key.escape {
                     self.screen = Screen::Main;
@@ -314,9 +332,11 @@ impl App {
                         Box::new(super::components::global_overrides::GlobalOverridesMenu::new(&ctx))
                     }
                     Screen::Powerline => Box::new(super::components::powerline_setup::PowerlineSetup::new(&ctx)),
-                    Screen::RefreshInterval => {
-                        Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(&ctx))
-                    }
+                    Screen::RefreshInterval => Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(
+                        &ctx,
+                        self.refresh_interval.clone(),
+                        self.supports_refresh_interval,
+                    )),
                     Screen::ExportConfig => Box::new(super::components::export_config::ExportConfigDialog::new(&ctx)),
                     _ => Box::new(super::components::import_config::ImportConfigDialog::new(&ctx)),
                 };
@@ -385,6 +405,21 @@ impl App {
             Action::Back => self.back_from_hosted(),
             Action::OpenTerminalWidth => self.go(Screen::TerminalWidth),
             Action::Flash(text, color) => self.set_flash(text, color),
+            Action::SetRefreshInterval(interval) => {
+                let previous = self.refresh_interval.take();
+                self.refresh_interval = interval.map(crate::jsjson::num);
+                if claude::set_refresh_interval(interval).is_ok() {
+                    self.set_flash("✓ Refresh interval updated", "green");
+                } else {
+                    self.refresh_interval = previous;
+                    self.set_flash("✗ Failed to save refresh interval", "red");
+                }
+                self.go(Screen::Main);
+            }
+            Action::FlowNotice { title, message, color } => {
+                self.flow_notice = Some(FlowNotice::new(title, message, color));
+                self.go(Screen::FlowNotice);
+            }
         }
     }
 
@@ -556,6 +591,7 @@ impl App {
                 };
                 self.hosted.as_mut().map(|h| h.view(&ctx))
             }
+            Screen::FlowNotice => self.flow_notice.as_mut().map(|n| n.view()),
             Screen::Pending => None,
             _ => None,
         };
