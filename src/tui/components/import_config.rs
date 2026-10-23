@@ -367,7 +367,7 @@ fn diff_lines(current: &Value, imported: &Value) -> Vec<DiffEntry> {
                 continue;
             }
             let Some(cur_widget) = cur_widget else {
-                let added = imp_widget.and_then(|w| jsobj::get(w, "type")).map(|t| format_type(t));
+                let added = imp_widget.and_then(|w| jsobj::get(w, "type")).map(format_type);
                 entries.push(DiffEntry {
                     path: format!("line {} +{}", li + 1, added.unwrap_or_else(|| "unknown".into())),
                     current: None,
@@ -392,7 +392,11 @@ fn diff_lines(current: &Value, imported: &Value) -> Vec<DiffEntry> {
                 let a = prop(cur_widget, &key);
                 let b = prop(imp_widget, &key);
                 if !same(a, b) {
-                    entries.push(DiffEntry { path: format!("{label} {key}"), current: a.cloned(), imported: b.cloned() });
+                    entries.push(DiffEntry {
+                        path: format!("{label} {key}"),
+                        current: a.cloned(),
+                        imported: b.cloned(),
+                    });
                 }
             }
         }
@@ -422,11 +426,7 @@ fn entry_rows(key: &str, entries: &[DiffEntry]) -> El {
     for e in entries {
         children.push(boxed(
             BoxStyle::default().margin_left(4.0),
-            diff_row(
-                &format!("{}: ", escape_control_characters(&e.path)),
-                e.current.as_ref(),
-                e.imported.as_ref(),
-            ),
+            diff_row(&format!("{}: ", escape_control_characters(&e.path)), e.current.as_ref(), e.imported.as_ref()),
         ));
     }
     boxed(BoxStyle::column(), children)
@@ -465,7 +465,9 @@ fn preview_items() -> Vec<Item<ImportMode>> {
 
 fn confirm_items() -> Vec<Item<ConfirmChoice>> {
     vec![
-        Item::Entry(Entry::new("Cancel", ConfirmChoice::Cancel).description("Go back to the preview without importing")),
+        Item::Entry(
+            Entry::new("Cancel", ConfirmChoice::Cancel).description("Go back to the preview without importing"),
+        ),
         Item::Entry(
             Entry::new("Apply and run these commands", ConfirmChoice::Confirm)
                 .description("Import the settings, including the commands above"),
@@ -504,7 +506,11 @@ impl Preview {
         if let Some(level) = jsobj::get(&next, "colorLevel").and_then(Value::as_u64) {
             crate::colors::set_chalk_level(level as u8);
         }
-        vec![Action::SetSettings(next), Action::Flash("Config imported — review and save".into(), "green"), Action::Back]
+        vec![
+            Action::SetSettings(next),
+            Action::Flash("Config imported — review and save".into(), "green"),
+            Action::Back,
+        ]
     }
 
     fn handle(&mut self, ev: &Input, ctx: &Ctx) -> Vec<Action> {
@@ -563,7 +569,9 @@ impl Preview {
                     text(TextStyle::bold(), vec![s("Import Preview")]),
                     text(
                         TextStyle::color("yellow"),
-                        vec![s(format!("Apply this import? It adds {what} that will run on every status line render:"))],
+                        vec![s(format!(
+                            "Apply this import? It adds {what} that will run on every status line render:"
+                        ))],
                     ),
                     commands_box(&commands),
                     self.confirm_list.view(&p),
@@ -654,11 +662,9 @@ impl Screen for ImportConfigDialog {
     fn view(&mut self, ctx: &Ctx) -> El {
         match self.preview.as_mut() {
             Some(preview) => preview.view(ctx),
-            None => path_input_view(
-                "Import Config",
-                "Enter the file path to import configuration from:",
-                &self.input_value,
-            ),
+            None => {
+                path_input_view("Import Config", "Enter the file path to import configuration from:", &self.input_value)
+            }
         }
     }
 }
@@ -694,7 +700,8 @@ mod tests {
 
     #[test]
     fn merge_overlays_only_present_keys() {
-        let current = json!({"version": 4, "flexMode": "full", "globalBold": false, "installation": {"method": "pinned"}});
+        let current =
+            json!({"version": 4, "flexMode": "full", "globalBold": false, "installation": {"method": "pinned"}});
         let imported = json!({"version": 4, "flexMode": "full-minus-40", "globalBold": true});
         let merged = apply_import(&current, &imported, Mode::Merge, &["flexMode".into()]);
         assert_eq!(

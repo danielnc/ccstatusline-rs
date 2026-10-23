@@ -209,7 +209,9 @@ impl Screen for ExportConfigDialog {
     fn handle(&mut self, ev: &Input, ctx: &Ctx) -> Vec<Action> {
         match path_input_handle(&mut self.input_value, ev) {
             Some(true) => match export_config(ctx.settings, &self.input_value) {
-                Ok(()) => vec![Action::Flash(format!("Config exported to {}", self.input_value), "green"), Action::Back],
+                Ok(()) => {
+                    vec![Action::Flash(format!("Config exported to {}", self.input_value), "green"), Action::Back]
+                }
                 Err(message) => vec![Action::FlowNotice { title: "Export Failed".into(), message, color: "red" }],
             },
             Some(false) => vec![Action::Back],

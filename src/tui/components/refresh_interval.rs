@@ -10,11 +10,12 @@ use crate::tui::ink::layout::*;
 use crate::tui::screens::{Action, Ctx, Screen};
 use crate::tui::text_cursor::should_insert_input;
 
+/// Upstream's `TtlField`: `gitCacheTtl`, `customCommandCacheTtl`, `terminalWidthCacheTtl`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum TtlField {
-    GitCacheTtl,
-    CustomCommandCacheTtl,
-    TerminalWidthCacheTtl,
+    Git,
+    CustomCommand,
+    TerminalWidth,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -30,11 +31,9 @@ fn js_string(v: &Value) -> String {
         Value::Bool(b) => b.to_string(),
         Value::Number(n) => crate::jsjson::number(n),
         Value::String(s) => s.clone(),
-        Value::Array(a) => a
-            .iter()
-            .map(|e| if e.is_null() { String::new() } else { js_string(e) })
-            .collect::<Vec<_>>()
-            .join(","),
+        Value::Array(a) => {
+            a.iter().map(|e| if e.is_null() { String::new() } else { js_string(e) }).collect::<Vec<_>>().join(",")
+        }
         Value::Object(_) => "[object Object]".into(),
     }
 }
@@ -88,17 +87,17 @@ fn build_items(interval: Option<&Value>, supported: bool, ctx: &Ctx) -> Vec<Item
                 }),
         ),
         Item::Entry(
-            Entry::new("🧮 Git Cache TTL", ConfigureValue::Ttl(TtlField::GitCacheTtl))
+            Entry::new("🧮 Git Cache TTL", ConfigureValue::Ttl(TtlField::Git))
                 .sublabel(Some(git_cache_ttl_sublabel(t.git_cache_ttl_seconds)))
                 .description("How long git widget subprocess output can be reused while .git/HEAD and .git/index are unchanged. Enter 0-60 seconds;\n0 disables age-based expiry, so cached output is reused until those git metadata mtimes change."),
         ),
         Item::Entry(
-            Entry::new("🔧 Custom Command Cache TTL", ConfigureValue::Ttl(TtlField::CustomCommandCacheTtl))
+            Entry::new("🔧 Custom Command Cache TTL", ConfigureValue::Ttl(TtlField::CustomCommand))
                 .sublabel(Some(cache_ttl_sublabel(t.custom_command_cache_ttl_seconds)))
                 .description("How long custom command output is reused before the command runs again. Enter 0-60 seconds;\n0 disables caching, so every status line render spawns the command."),
         ),
         Item::Entry(
-            Entry::new("🖥️  Terminal Width Cache TTL", ConfigureValue::Ttl(TtlField::TerminalWidthCacheTtl))
+            Entry::new("🖥️  Terminal Width Cache TTL", ConfigureValue::Ttl(TtlField::TerminalWidth))
                 .sublabel(Some(cache_ttl_sublabel(t.terminal_width_cache_ttl_seconds)))
                 .description("How long a cached \"no TTY detected\" result is trusted before re-probing the terminal width. Enter 0-300 seconds;\n0 disables the cache (always re-probes). A detected width is never cached across renders, only this no-TTY result is."),
         ),
@@ -135,11 +134,7 @@ fn validate_ttl_input(value: &str, label: &str, maximum: f64) -> Option<String> 
         return Some(format!("Minimum {label} is 0s (you entered {}s)", to_js_string(parsed)));
     }
     if parsed > maximum {
-        return Some(format!(
-            "Maximum {label} is {}s (you entered {}s)",
-            to_js_string(maximum),
-            to_js_string(parsed)
-        ));
+        return Some(format!("Maximum {label} is {}s (you entered {}s)", to_js_string(maximum), to_js_string(parsed)));
     }
     None
 }
@@ -160,7 +155,7 @@ struct TtlFieldConfig {
 fn ttl_field(field: TtlField, ctx: &Ctx) -> TtlFieldConfig {
     let t = ctx.typed;
     match field {
-        TtlField::GitCacheTtl => TtlFieldConfig {
+        TtlField::Git => TtlFieldConfig {
             current_value: t.git_cache_ttl_seconds,
             max_input_length: 2,
             prompt: "Enter Git cache TTL in seconds (0-60):",
@@ -171,7 +166,7 @@ fn ttl_field(field: TtlField, ctx: &Ctx) -> TtlFieldConfig {
             settings_key: "gitCacheTtlSeconds",
             flash: "✓ Git cache TTL updated",
         },
-        TtlField::CustomCommandCacheTtl => TtlFieldConfig {
+        TtlField::CustomCommand => TtlFieldConfig {
             current_value: t.custom_command_cache_ttl_seconds,
             max_input_length: 2,
             prompt: "Enter custom command cache TTL in seconds (0-60):",
@@ -183,7 +178,7 @@ fn ttl_field(field: TtlField, ctx: &Ctx) -> TtlFieldConfig {
             settings_key: "customCommandCacheTtlSeconds",
             flash: "✓ Custom command cache TTL updated",
         },
-        TtlField::TerminalWidthCacheTtl => TtlFieldConfig {
+        TtlField::TerminalWidth => TtlFieldConfig {
             current_value: t.terminal_width_cache_ttl_seconds,
             max_input_length: 3,
             prompt: "Enter Terminal Width cache TTL in seconds (0-300):",

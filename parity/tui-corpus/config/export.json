@@ -9,6 +9,10 @@
       "down",
       "enter",
       "enter"
+    ],
+    "size": [
+      220,
+      40
     ]
   },
   {
@@ -30,6 +34,10 @@
       },
       "enter",
       "ctrl+c"
+    ],
+    "size": [
+      220,
+      40
     ]
   },
   {
@@ -46,6 +54,10 @@
       },
       "escape",
       "down"
+    ],
+    "size": [
+      220,
+      40
     ]
   },
   {
@@ -62,6 +74,10 @@
       "enter",
       "enter",
       "enter"
+    ],
+    "size": [
+      220,
+      40
     ]
   },
   {
@@ -81,6 +97,10 @@
       },
       "enter",
       "escape"
+    ],
+    "size": [
+      220,
+      40
     ]
   },
   {
@@ -99,13 +119,17 @@
         "text": "/x.json"
       },
       "enter"
+    ],
+    "size": [
+      220,
+      40
     ]
   },
   {
-    "name": "export-after-edit-narrow-60",
+    "name": "export-after-edit",
     "size": [
-      60,
-      50
+      220,
+      40
     ],
     "keys": [
       "enter",
@@ -121,7 +145,8 @@
       "down",
       "down",
       "enter",
-      "enter"
+      "enter",
+      "ctrl+s"
     ]
   }
 ]

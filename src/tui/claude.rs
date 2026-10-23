@@ -97,9 +97,7 @@ fn claude_code_version() -> Option<String> {
     let status = loop {
         match child.try_wait() {
             Ok(Some(status)) => break status,
-            Ok(None) if std::time::Instant::now() < deadline => {
-                std::thread::sleep(std::time::Duration::from_millis(5))
-            }
+            Ok(None) if std::time::Instant::now() < deadline => std::thread::sleep(std::time::Duration::from_millis(5)),
             _ => {
                 let _ = child.kill();
                 let _ = child.wait();
