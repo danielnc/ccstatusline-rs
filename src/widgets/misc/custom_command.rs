@@ -14,7 +14,7 @@ pub struct CustomCommand;
 pub static CUSTOM_COMMAND: CustomCommand = CustomCommand;
 
 /// `s.substring(0, n)` in UTF-16 units (a split pair becomes U+FFFD).
-fn utf16_prefix(s: &str, n: usize) -> String {
+pub(super) fn utf16_prefix(s: &str, n: usize) -> String {
     let mut units = 0;
     let mut out = String::new();
     for c in s.chars() {
@@ -89,6 +89,15 @@ impl Widget for CustomCommand {
     }
     fn preserves_rendered_colors(&self, item: &WidgetItem) -> bool {
         item.preserve_colors == Some(true)
+    }
+    fn editor_display(&self, item: &WidgetItem) -> crate::widgets::EditorDisplay {
+        super::editor::custom_command_display(item, self.display_name())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<crate::widgets::Keybind> {
+        super::editor::custom_command_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        super::editor::custom_command_action(action, item)
     }
     fn supports_raw_value(&self) -> bool {
         false
