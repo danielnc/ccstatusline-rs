@@ -57,8 +57,9 @@ jobs:
         run: cargo test --locked
 
   coverage:
-    name: coverage
-    runs-on: ubuntu-latest
+    name: coverage (macos)
+    # Coverage counts the unit tests and the parity harness, which needs macOS and Node 24 like the parity job.
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -71,10 +72,26 @@ jobs:
         with:
           tool: cargo-llvm-cov
 
-      # Coverage is gated here, and uploading it can never fail CI. Most behaviour is pinned by the parity
-      # harness (a separate job) rather than unit tests, so this gate guards against regressions, not completeness.
-      - name: cargo llvm-cov
-        run: cargo llvm-cov --locked --lcov --output-path lcov.info --fail-under-lines 40
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Install pinned upstream ccstatusline
+        run: npm ci --prefix parity/upstream --ignore-scripts
+
+      # One instrumented build runs the unit tests and every parity case, and one report merges both. The parity
+      # job is the parity gate (on the release build), so a parity failure here is only a warning; coverage is
+      # gated here, and uploading it can never fail CI.
+      - name: cargo llvm-cov (unit tests and parity harness)
+        run: |
+          eval "$(cargo llvm-cov show-env --export-prefix)" # not `source <(...)`: macOS ships bash 3.2
+          cargo llvm-cov clean --workspace
+          cargo test --locked
+          cargo build --locked
+          node parity/run.mjs -q --rust-bin "${CARGO_TARGET_DIR:-target}/debug/ccstatusline-rs" \
+            || echo "::warning::parity cases failed against the instrumented build"
+          cargo llvm-cov report --summary-only
+          cargo llvm-cov report --lcov --output-path lcov.info --fail-under-lines 40
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
