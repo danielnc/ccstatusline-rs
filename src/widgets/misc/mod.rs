@@ -11,10 +11,12 @@ mod herdr;
 mod link;
 mod toggles;
 
+use super::editor::MERGE_TARGET_HIDDEN;
 use super::shared::{format_cost, is_flag, is_hidden, raw_or_labeled, render_magnitude, resolve_number_format};
-use super::Widget;
+use super::{EditorDisplay, HideableState, Keybind, Widget};
 use crate::context::RenderContext;
 use crate::settings::{NumberFormat, WidgetItem};
+use serde_json::Value;
 
 /// The identity methods every widget repeats.
 macro_rules! widget_info {
@@ -41,6 +43,12 @@ pub struct OutputStyle;
 
 impl Widget for OutputStyle {
     widget_info!("cyan", "Output Style", "Shows the current Claude Code output style", "Core");
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Style: ".into())
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[editor::DEFAULT_VALUE_HIDEABLE]
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         if ctx.is_preview {
             return Some(raw_or_labeled(item, "Style: ", "default"));
@@ -59,6 +67,15 @@ pub struct SessionCost;
 
 impl Widget for SessionCost {
     widget_info!("green", "Session Cost", "Shows the total session cost in USD", "Session");
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Cost: ".into())
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[editor::ZERO_COST_HIDEABLE]
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = resolve_number_format("cost", item, ctx.settings);
         if ctx.is_preview {
@@ -88,6 +105,21 @@ impl Widget for SessionCostRate {
         "Shows the session cost per hour, over the time Claude spent working or the whole session",
         "Session"
     );
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Rate: ".into())
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        editor::cost_rate_display(item, self.display_name())
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        editor::cost_rate_keybinds(item)
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        editor::cost_rate_action(action, item)
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = resolve_number_format("cost", item, ctx.settings);
         if ctx.is_preview {
@@ -110,6 +142,9 @@ pub struct TerminalWidth;
 
 impl Widget for TerminalWidth {
     widget_info!("gray", "Terminal Width", "Shows current terminal width in columns", "Environment");
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Term: ".into())
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let width = ctx.terminal_width.or_else(crate::terminal::memoized_width);
         if ctx.is_preview {
@@ -142,6 +177,16 @@ pub struct CustomText;
 
 impl Widget for CustomText {
     widget_info!("white", "Custom Text", "Displays user-defined custom text", "Custom");
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        editor::custom_text_display(item, self.display_name())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        vec![Keybind::new("e", "(e)dit text", "edit-text")]
+    }
+    // the renderer does the hiding, from the merge target's rendered output
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[MERGE_TARGET_HIDDEN]
+    }
     fn render(&self, item: &WidgetItem, _ctx: &RenderContext) -> Option<String> {
         Some(item.custom_text.clone().unwrap_or_default())
     }
@@ -154,6 +199,15 @@ pub struct CustomSymbol;
 
 impl Widget for CustomSymbol {
     widget_info!("white", "Custom Symbol", "Displays a custom symbol or emoji (single character)", "Custom");
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        editor::custom_symbol_display(item, self.display_name())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        vec![Keybind::new("e", "(e)dit symbol", "edit-symbol")]
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[MERGE_TARGET_HIDDEN]
+    }
     fn render(&self, item: &WidgetItem, _ctx: &RenderContext) -> Option<String> {
         Some(item.custom_symbol.clone().unwrap_or_default())
     }
@@ -173,6 +227,9 @@ impl Widget for ClaudeSessionId {
         "Shows the current Claude Code session ID reported in status JSON",
         "Core"
     );
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Session ID: ".into())
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         if ctx.is_preview {
             return Some(raw_or_labeled(item, "Session ID: ", "preview-session-id"));
@@ -204,6 +261,12 @@ fn format_bytes(bytes: f64, f: &NumberFormat) -> String {
 
 impl Widget for FreeMemory {
     widget_info!("cyan", "Memory Usage", "Shows system memory usage (used/total)", "Environment");
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("Mem: ".into())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = resolve_number_format("memory", item, ctx.settings);
         if ctx.is_preview {
