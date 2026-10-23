@@ -159,14 +159,14 @@ fn file_name(p: &Path) -> Option<&str> {
 pub fn session_account(config_dir: Option<&str>, home: &Path) -> SessionAccount {
     let Some(dir) = config_dir.filter(|d| !d.is_empty()) else { return SessionAccount::Global };
     let p = Path::new(dir);
+    let is_profiles = |d: &Path| file_name(d) == Some("profiles") && d.parent().and_then(file_name) == Some(".clauth");
     if let (Some(name), Some(profile_dir)) = (file_name(p), p.parent()) {
-        if is_runtime_dir_name(name) && profile_dir.parent().and_then(file_name) == Some("profiles") {
+        if is_runtime_dir_name(name) && profile_dir.parent().is_some_and(is_profiles) {
             if let Some(profile) = file_name(profile_dir) {
                 return SessionAccount::Profile(profile.to_string());
             }
         }
-        let profiles = profile_dir;
-        if file_name(profiles) == Some("profiles") && profiles.parent().and_then(file_name) == Some(".clauth") {
+        if is_profiles(profile_dir) {
             return SessionAccount::Profile(name.to_string());
         }
     }
@@ -317,6 +317,9 @@ mod tests {
         assert_eq!(acct("/h/.clauth/profiles/p/runtime"), SessionAccount::Profile("p".into()));
         assert_eq!(acct("/h/.clauth/profiles/p"), SessionAccount::Profile("p".into()));
         assert_eq!(acct("/h/.clauth/profiles/p/runtime-x"), SessionAccount::Foreign);
+        assert_eq!(acct("/work/profiles/p/runtime"), SessionAccount::Foreign);
+        assert_eq!(acct("/work/profiles/p/runtime-4242-0"), SessionAccount::Foreign);
+        assert_eq!(acct("/work/profiles/p"), SessionAccount::Foreign);
         assert_eq!(acct("/h/.claude"), SessionAccount::Global);
         assert_eq!(acct("/elsewhere"), SessionAccount::Foreign);
         assert_eq!(session_account(None, home), SessionAccount::Global);

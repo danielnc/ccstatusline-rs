@@ -708,6 +708,39 @@ fn now_ms() -> f64 {
     crate::clock::now_ms()
 }
 
+/// Upstream `writeSettingsJson`: a unique temp file next to the target (a
+/// symlink's target), then a rename over it, keeping the target's permissions.
+pub(crate) fn write_json_atomic(path: &Path, v: &Value) -> std::io::Result<()> {
+    let dir = path.parent().map(Path::to_path_buf).unwrap_or_else(|| PathBuf::from("/"));
+    std::fs::create_dir_all(&dir)?;
+    let (target, temp_dir) = match std::fs::symlink_metadata(path) {
+        Ok(md) if md.file_type().is_symlink() => {
+            let t = std::fs::canonicalize(path)
+                .or_else(|_| std::fs::read_link(path).map(|l| path.parent().unwrap().join(l)))?;
+            let td = t.parent().map(Path::to_path_buf).unwrap_or_default();
+            (t, td)
+        }
+        Ok(_) => (path.to_path_buf(), dir.clone()),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => (path.to_path_buf(), dir.clone()),
+        Err(e) => return Err(e),
+    };
+    let base = target.file_name().map(|s| s.to_string_lossy().into_owned()).unwrap_or_default();
+    let tmp = temp_dir.join(format!("{base}.{}.{}.tmp", std::process::id(), now_ms() as u64));
+    use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
+    let mode = std::fs::metadata(&target).map(|m| m.permissions().mode() & 0o777).unwrap_or(0o666);
+    let res = (|| {
+        use std::io::Write;
+        let mut f = std::fs::OpenOptions::new().write(true).create(true).truncate(true).mode(mode).open(&tmp)?;
+        f.write_all(jsjson::stringify_pretty(v).as_bytes())?;
+        drop(f);
+        std::fs::rename(&tmp, &target)
+    })();
+    if res.is_err() {
+        let _ = std::fs::remove_file(&tmp);
+    }
+    res
+}
+
 impl ConfigStore {
     pub fn new(path: Option<&str>) -> Self {
         ConfigStore { path: path.map(path_resolve).unwrap_or_else(default_settings_path), load_error: None }
@@ -718,34 +751,7 @@ impl ConfigStore {
     }
 
     fn write_json(&self, v: &Value) -> std::io::Result<()> {
-        let dir = self.path.parent().map(Path::to_path_buf).unwrap_or_else(|| PathBuf::from("/"));
-        std::fs::create_dir_all(&dir)?;
-        let (target, temp_dir) = match std::fs::symlink_metadata(&self.path) {
-            Ok(md) if md.file_type().is_symlink() => {
-                let t = std::fs::canonicalize(&self.path)
-                    .or_else(|_| std::fs::read_link(&self.path).map(|l| self.path.parent().unwrap().join(l)))?;
-                let td = t.parent().map(Path::to_path_buf).unwrap_or_default();
-                (t, td)
-            }
-            Ok(_) => (self.path.clone(), dir.clone()),
-            Err(e) if e.kind() == std::io::ErrorKind::NotFound => (self.path.clone(), dir.clone()),
-            Err(e) => return Err(e),
-        };
-        let base = target.file_name().map(|s| s.to_string_lossy().into_owned()).unwrap_or_default();
-        let tmp = temp_dir.join(format!("{base}.{}.{}.tmp", std::process::id(), now_ms() as u64));
-        use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
-        let mode = std::fs::metadata(&target).map(|m| m.permissions().mode() & 0o777).unwrap_or(0o666);
-        let res = (|| {
-            use std::io::Write;
-            let mut f = std::fs::OpenOptions::new().write(true).create(true).truncate(true).mode(mode).open(&tmp)?;
-            f.write_all(jsjson::stringify_pretty(v).as_bytes())?;
-            drop(f);
-            std::fs::rename(&tmp, &target)
-        })();
-        if res.is_err() {
-            let _ = std::fs::remove_file(&tmp);
-        }
-        res
+        write_json_atomic(&self.path, v)
     }
 
     /// Upstream `loadSettings`.

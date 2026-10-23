@@ -163,7 +163,7 @@ fn is_line_terminator(c: char) -> bool {
 fn read_git_dir_file(git_file: &str) -> Option<String> {
     let content = read_text(git_file);
     let content = crate::jsnum::js_trim(&content);
-    if content.len() < 7 || !content[..7].eq_ignore_ascii_case("gitdir:") {
+    if !content.get(..7).is_some_and(|p| p.eq_ignore_ascii_case("gitdir:")) {
         return None;
     }
     let rest = content[7..].trim_start_matches(crate::gradient::is_js_space);
@@ -1066,6 +1066,20 @@ mod tests {
         assert_eq!(js_split_ws("2\t1"), vec!["2", "1"]);
         assert_eq!(js_split_ws(" a  b "), vec!["", "a", "b", ""]);
         assert_eq!(js_split_ws(""), vec![""]);
+    }
+
+    #[test]
+    fn git_file_with_multibyte_prefix() {
+        let dir = std::env::temp_dir().join(format!("ccsl-git-file-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let file = dir.join(".git");
+        let f = file.to_string_lossy().into_owned();
+        std::fs::write(&file, "gitdi\u{20ac} /elsewhere\n").unwrap();
+        assert_eq!(read_git_dir_file(&f), None);
+        std::fs::write(&file, "GitDir: ../real.git\n").unwrap();
+        assert_eq!(read_git_dir_file(&f), Some(resolve_from(&dir.to_string_lossy(), "../real.git")));
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]
