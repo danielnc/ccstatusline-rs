@@ -2,6 +2,7 @@
 //! `handleEditorAction` returns null. Shared editors live in `shared`; each widget group maps its types and actions
 //! to editors in its own module.
 
+pub mod git;
 pub mod shared;
 
 use crate::tui::components::hide_label::Done;
@@ -18,12 +19,5 @@ pub trait WidgetEditor {
 /// The editor `renderEditor({widget, action})` would show for this widget type, or None while the type's editors
 /// are not ported (the items editor then shows a blank screen that ESC leaves).
 pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEditor>> {
-    match kind {
-        "git-branch" => Some(if action == crate::widgets::editor::MAX_WIDTH_ACTION {
-            Box::new(shared::MaxWidthEditor::new(item))
-        } else {
-            shared::symbol_override(item, "⎇")
-        }),
-        _ => None,
-    }
+    git::open(kind, action, item)
 }
