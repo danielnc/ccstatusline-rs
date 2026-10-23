@@ -218,6 +218,10 @@ function caseEnv(caseDef, home, binDir, vars) {
         GIT_CONFIG_GLOBAL: '/dev/null',
         GIT_CONFIG_NOSYSTEM: '1'
     };
+    // An instrumented Rust build (CI's coverage job) writes its coverage profile here.
+    if (process.env.LLVM_PROFILE_FILE) {
+        env.LLVM_PROFILE_FILE = process.env.LLVM_PROFILE_FILE;
+    }
     for (const [key, value] of Object.entries(substitute(caseDef.env ?? {}, vars))) {
         if (value === null) {
             delete env[key];
