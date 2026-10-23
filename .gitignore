@@ -1,6 +1,7 @@
 /target/
 lcov.info
 parity-report.json
+tui-parity-report.json
 # vendored upstream sources for reading (the harness installs its own pinned copy)
 /upstream-src/
 # internal working notes

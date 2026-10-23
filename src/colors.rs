@@ -30,6 +30,22 @@ pub fn chalk_level() -> u8 {
     CHALK_LEVEL.load(std::sync::atomic::Ordering::Relaxed)
 }
 
+/// The chalk level `COLOR_MAP`'s entries were built at. The render path rebuilds the map after setting
+/// `chalk.level` (`updateColorMap()`), so it follows the chalk level; the editor never does, so its entries keep
+/// the level chalk detected for the terminal at import time.
+static COLOR_MAP_LEVEL: std::sync::atomic::AtomicU8 = std::sync::atomic::AtomicU8::new(u8::MAX);
+
+pub fn set_color_map_level(level: u8) {
+    COLOR_MAP_LEVEL.store(level, std::sync::atomic::Ordering::Relaxed);
+}
+
+fn color_map_level() -> u8 {
+    match COLOR_MAP_LEVEL.load(std::sync::atomic::Ordering::Relaxed) {
+        u8::MAX => chalk_level(),
+        l => l,
+    }
+}
+
 /// `chalk.<style>(text)` for a single open/close pair.
 pub fn chalk_wrap(open: &str, close: &str, text: &str) -> String {
     if chalk_level() == 0 || text.is_empty() {
@@ -225,12 +241,22 @@ pub fn color_ansi_code(name: Option<&str>, level: Level, background: bool) -> St
     // The entry's own kind decides fg vs bg (bgRed is a background even when
     // asked for as a foreground), exactly as chalk.bgRed('TEST') would.
     let bg = entry.bg;
+    let map_level = color_map_level();
+    let sixteen = |fg_code: u32| format!("\x1b[{}m", fg_code + if bg { 10 } else { 0 });
     match level {
         Level::Ansi16 => format!("\x1b[{}m", entry.ansi16),
-        Level::Ansi256 => format!("\x1b[{};5;{}m", if bg { 48 } else { 38 }, entry.ansi256),
+        // `chalk.ansi256(n)` / `chalk.hex(...)` as built at the map's level.
+        Level::Ansi256 if map_level >= 2 => format!("\x1b[{};5;{}m", if bg { 48 } else { 38 }, entry.ansi256),
+        Level::Ansi256 => sixteen(ansi256_to_ansi(entry.ansi256 as u32)),
         Level::Truecolor => {
             let (r, g, b) = entry.rgb;
-            format!("\x1b[{};2;{r};{g};{b}m", if bg { 48 } else { 38 })
+            match map_level {
+                3 => format!("\x1b[{};2;{r};{g};{b}m", if bg { 48 } else { 38 }),
+                2 => {
+                    format!("\x1b[{};5;{}m", if bg { 48 } else { 38 }, rgb_to_ansi256(crate::gradient::Rgb { r, g, b }))
+                }
+                _ => sixteen(ansi256_to_ansi(rgb_to_ansi256(crate::gradient::Rgb { r, g, b }))),
+            }
         }
     }
 }
@@ -462,6 +488,38 @@ pub static POWERLINE_THEMES: &[PowerlineTheme] = &[
 
 pub fn powerline_theme(name: &str) -> Option<&'static PowerlineTheme> {
     POWERLINE_THEMES.iter().find(|t| t.name == name)
+}
+
+/// ansi-styles `ansi256ToAnsi`: the 16-color foreground code nearest to an ansi256 code.
+pub fn ansi256_to_ansi(code: u32) -> u32 {
+    if code < 8 {
+        return 30 + code;
+    }
+    if code < 16 {
+        return 90 + (code - 8);
+    }
+    let (red, green, blue);
+    if code >= 232 {
+        red = (((code - 232) * 10 + 8) as f64) / 255.0;
+        green = red;
+        blue = red;
+    } else {
+        let c = code - 16;
+        let remainder = c % 36;
+        red = (c / 36) as f64 / 5.0;
+        green = (remainder / 6) as f64 / 5.0;
+        blue = (remainder % 6) as f64 / 5.0;
+    }
+    let value = red.max(green).max(blue) * 2.0;
+    if value == 0.0 {
+        return 30;
+    }
+    let round = |v: f64| crate::jsnum::js_round(v) as u32;
+    let mut result = 30 + ((round(blue) << 2) | (round(green) << 1) | round(red));
+    if value == 2.0 {
+        result += 60;
+    }
+    result
 }
 
 #[cfg(test)]

@@ -702,6 +702,9 @@ fn same_dir(d: &Path) -> bool {
 pub struct ConfigStore {
     pub path: PathBuf,
     pub load_error: Option<&'static str>,
+    /// When set, `load` collects its console messages here instead of printing them (the editor shows them
+    /// the way Ink's patched console does).
+    pub captured: Option<Vec<String>>,
 }
 
 fn now_ms() -> f64 {
@@ -710,11 +713,27 @@ fn now_ms() -> f64 {
 
 impl ConfigStore {
     pub fn new(path: Option<&str>) -> Self {
-        ConfigStore { path: path.map(path_resolve).unwrap_or_else(default_settings_path), load_error: None }
+        ConfigStore {
+            path: path.map(path_resolve).unwrap_or_else(default_settings_path),
+            load_error: None,
+            captured: None,
+        }
     }
 
     pub fn is_custom_path(&self) -> bool {
         self.path != default_settings_path()
+    }
+
+    fn report(&mut self, message: String) {
+        match &mut self.captured {
+            Some(v) => v.push(message),
+            None => eprintln!("{message}"),
+        }
+    }
+
+    /// `writeSettingsJson(value)`: the editor saves its own JSON object, keys in the order it built them.
+    pub fn write_settings_value(&self, v: &Value) -> std::io::Result<()> {
+        self.write_json(v)
     }
 
     fn write_json(&self, v: &Value) -> std::io::Result<()> {
@@ -754,15 +773,15 @@ impl ConfigStore {
         if !self.path.exists() {
             let d = Settings::default();
             match self.write_json(&settings_json(&d)) {
-                Ok(()) => eprintln!("Default settings written to {}", self.path.display()),
-                Err(e) => eprintln!("Failed to write default settings: {e}"),
+                Ok(()) => self.report(format!("Default settings written to {}", self.path.display())),
+                Err(e) => self.report(format!("Failed to write default settings: {e}")),
             }
             return d;
         }
         let content = match std::fs::read(&self.path) {
             Ok(c) => String::from_utf8_lossy(&c).into_owned(),
             Err(e) => {
-                eprintln!("Error loading settings, using defaults: {e}");
+                self.report(format!("Error loading settings, using defaults: {e}"));
                 self.load_error = Some("settings.json could not be read");
                 return Settings::default();
             }
@@ -770,7 +789,7 @@ impl ConfigStore {
         let mut raw: Value = match serde_json::from_str(&content) {
             Ok(v) => v,
             Err(_) => {
-                eprintln!("Failed to parse settings.json, using defaults (file left unchanged)");
+                self.report("Failed to parse settings.json, using defaults (file left unchanged)".to_string());
                 self.load_error = Some("settings.json is not valid JSON");
                 return Settings::default();
             }
@@ -779,7 +798,7 @@ impl ConfigStore {
         let mut migrated = false;
         if !has_version {
             if let Err(e) = validate_v1(&raw) {
-                eprintln!("Invalid v1 settings format, using defaults (file left unchanged): {e}");
+                self.report(format!("Invalid v1 settings format, using defaults (file left unchanged): {e}"));
                 self.load_error = Some("settings.json is not in a valid format");
                 return Settings::default();
             }
@@ -792,14 +811,14 @@ impl ConfigStore {
         let mut st = match parse_settings(&raw) {
             Ok(s) => s,
             Err(e) => {
-                eprintln!("Failed to parse settings, using defaults (file left unchanged): {e}");
+                self.report(format!("Failed to parse settings, using defaults (file left unchanged): {e}"));
                 self.load_error = Some("settings.json is not in a valid format");
                 return Settings::default();
             }
         };
         if migrated {
             if let Err(e) = self.write_json(&raw) {
-                eprintln!("Error loading settings, using defaults: {e}");
+                self.report(format!("Error loading settings, using defaults: {e}"));
                 self.load_error = Some("settings.json could not be read");
                 return Settings::default();
             }
