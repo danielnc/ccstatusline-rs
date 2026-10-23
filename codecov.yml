@@ -1,11 +1,11 @@
-# Coverage targets for the unit tests (CI also gates at 40% of lines). Most behaviour is pinned by the differential
-# parity harness against upstream (the CI parity job), which these numbers do not include, so targets are set just
-# under what the unit tests reach today (45% of lines on macOS, October 2026) rather than relative to the base.
+# Coverage targets (CI also gates at 84% of lines). The numbers count the unit tests and every case of the
+# differential parity harness, run against one instrumented build in CI's coverage job; targets are set just under
+# what that reached (84.8% of lines on macOS, October 2026) rather than relative to the base.
 coverage:
   status:
     project:
       default:
-        target: 40%
+        target: 84%
     patch:
       default:
-        target: 40%
+        target: 84%

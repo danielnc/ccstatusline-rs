@@ -413,8 +413,15 @@ const SIDES = {
         setup,
         opts.timeoutMs
     ),
-    rust: (args, setup, opts) => runProcess(opts.rustBin, args, setup, opts.timeoutMs)
+    rust: (args, setup, opts) => runProcess(opts.rustBin, args, withProfileFile(setup), opts.timeoutMs)
 };
+
+// An instrumented Rust build (CI's coverage job) writes its coverage profile to
+// LLVM_PROFILE_FILE, which the case environment would otherwise drop.
+function withProfileFile(setup) {
+    const profileFile = process.env.LLVM_PROFILE_FILE;
+    return profileFile ? { ...setup, env: { ...setup.env, LLVM_PROFILE_FILE: profileFile } } : setup;
+}
 
 function readMaybe(file) {
     try {
