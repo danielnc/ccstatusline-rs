@@ -88,6 +88,9 @@ impl Widget for GitWidget {
     fn hideable_states(&self) -> &'static [super::HideableState] {
         super::git_editor::hideable_states(self.kind)
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        super::git_editor::label_prefix(self.kind)
+    }
     fn custom_keybinds(&self, item: &WidgetItem) -> Vec<super::Keybind> {
         super::git_editor::keybinds(self.kind, item)
     }
@@ -290,7 +293,7 @@ pub fn branch_link_enabled(item: &WidgetItem) -> bool {
     is_flag(item, "linkToRepo") || (item.meta("linkToRepo").is_none() && is_flag(item, "linkToGitHub"))
 }
 
-fn ide_link_mode(item: &WidgetItem) -> Option<&'static str> {
+pub(crate) fn ide_link_mode(item: &WidgetItem) -> Option<&'static str> {
     match item.meta("linkToIDE") {
         Some("vscode") => return Some("vscode"),
         Some("cursor") => return Some("cursor"),
