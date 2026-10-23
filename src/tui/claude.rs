@@ -25,9 +25,11 @@ fn matches_base(command: &str, base: &str) -> bool {
     command == base || command.starts_with(&format!("{base} --config "))
 }
 
-/// `isKnownCommand`.
+/// `isKnownCommand`, plus this binary's own command (see `super::install`).
 pub fn is_known_command(command: &str) -> bool {
-    [AUTO_NPX, AUTO_BUNX, GLOBAL].iter().any(|p| matches_base(command, p)) || is_local_development_command(command)
+    [AUTO_NPX, AUTO_BUNX, GLOBAL].iter().any(|p| matches_base(command, p))
+        || is_local_development_command(command)
+        || super::install::is_rust_command(command)
 }
 
 fn load() -> Result<Value, ()> {
@@ -101,7 +103,7 @@ mod tests {
         assert!(is_known_command("npx -y ccstatusline@latest"));
         assert!(is_known_command("ccstatusline --config /tmp/x.json"));
         assert!(is_known_command("bun run /src/ccstatusline.ts"));
-        assert!(!is_known_command("ccstatusline-rs"));
+        assert!(is_known_command("ccstatusline-rs"));
         assert!(!is_known_command("bun run /src/ccstatusline.tsx"));
     }
 }
