@@ -147,6 +147,100 @@ pub fn cycle_number_style(item: &Value) -> Value {
     jsobj::with(item, "numberFormat", Value::Object(format))
 }
 
+// --- Format options (`format-options.ts`, the Nerd Font half of `metadata.ts`) --------------------------------
+
+pub const CYCLE_FORMAT_ACTION: &str = "cycle-format";
+pub const TOGGLE_NERD_FONT_ACTION: &str = "toggle-nerd-font";
+
+/// `FormatOptions`: a widget's display formats, cycled with (f), and which of them can show a Nerd Font icon,
+/// toggled with (n). Upstream's predicates read only the resolved format and `rawValue`, so that is what this one
+/// gets.
+pub struct FormatOptions {
+    pub formats: &'static [&'static str],
+    pub default_format: &'static str,
+    pub can_use_nerd_font: fn(format: &str, raw: bool) -> bool,
+}
+
+impl FormatOptions {
+    fn typed_format(&self, item: &WidgetItem) -> &'static str {
+        super::shared::get_format(item, self.formats, self.default_format)
+    }
+
+    fn typed_can_use(&self, item: &WidgetItem) -> bool {
+        (self.can_use_nerd_font)(self.typed_format(item), item.raw())
+    }
+
+    /// `getFormat` on the item's JSON object.
+    fn format(&self, item: &Value) -> &'static str {
+        let f = jsobj::metadata_str(item, "format").unwrap_or("");
+        self.formats.iter().find(|x| **x == f).copied().unwrap_or(self.default_format)
+    }
+
+    fn can_use(&self, item: &Value) -> bool {
+        (self.can_use_nerd_font)(self.format(item), jsobj::get_bool(item, "rawValue") == Some(true))
+    }
+
+    fn nerd_font_enabled(&self, item: &Value) -> bool {
+        self.can_use(item) && jsobj::metadata_flag(item, "nerdFont")
+    }
+}
+
+/// `getFormatModifierText`, e.g. "(icon, nerd font)".
+pub fn format_modifier_text(item: &WidgetItem, options: &FormatOptions) -> String {
+    let mut modifiers = vec![options.typed_format(item)];
+    if super::shared::nerd_font_enabled(item, options.typed_can_use(item)) {
+        modifiers.push("nerd font");
+    }
+    format!("({})", modifiers.join(", "))
+}
+
+pub fn format_keybinds(item: &WidgetItem, options: &FormatOptions) -> Vec<Keybind> {
+    let mut keybinds = vec![Keybind::new("f", "(f)ormat", CYCLE_FORMAT_ACTION)];
+    if options.typed_can_use(item) {
+        keybinds.push(Keybind::new("n", "(n)erd font", TOGGLE_NERD_FONT_ACTION));
+    }
+    keybinds
+}
+
+/// `setNerdFontFormat`: writes the format (none for the default), clearing the Nerd Font flag when the new format
+/// has no glyph.
+fn set_nerd_font_format(item: &Value, format: &str, options: &FormatOptions) -> Value {
+    let updated = if format == options.default_format {
+        jsobj::remove_metadata_keys(item, &["format"])
+    } else {
+        jsobj::set_metadata(item, "format", format)
+    };
+    if options.can_use(&updated) {
+        updated
+    } else {
+        jsobj::remove_metadata_keys(&updated, &["nerdFont"])
+    }
+}
+
+/// `toggleNerdFont`: off is the absence of the key, not `'false'`.
+fn toggle_nerd_font(item: &Value, options: &FormatOptions) -> Value {
+    if options.nerd_font_enabled(item) || !options.can_use(item) {
+        return jsobj::remove_metadata_keys(item, &["nerdFont"]);
+    }
+    jsobj::set_metadata(item, "nerdFont", "true")
+}
+
+/// `handleFormatAction`.
+pub fn handle_format_action(action: &str, item: &Value, options: &FormatOptions) -> Option<Value> {
+    match action {
+        CYCLE_FORMAT_ACTION => {
+            let current = options.format(item);
+            // `formats[(indexOf(current) + 1) % length] ?? defaultFormat`
+            let next_index = options.formats.iter().position(|f| *f == current).map_or(0, |i| i + 1);
+            let next =
+                options.formats.get(next_index % options.formats.len()).copied().unwrap_or(options.default_format);
+            Some(set_nerd_font_format(item, next, options))
+        }
+        TOGGLE_NERD_FONT_ACTION => Some(toggle_nerd_font(item, options)),
+        _ => None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

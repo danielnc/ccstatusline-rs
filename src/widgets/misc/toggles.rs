@@ -6,8 +6,10 @@ use super::widget_info;
 use crate::context::RenderContext;
 use crate::misc::claude_layers;
 use crate::settings::WidgetItem;
+use crate::widgets::editor::{format_keybinds, format_modifier_text, handle_format_action, FormatOptions};
 use crate::widgets::shared::{get_format, nerd_font_enabled};
-use crate::widgets::Widget;
+use crate::widgets::{EditorDisplay, Keybind, Widget};
+use serde_json::Value;
 
 const STATE_DOT_OFF: &str = "○";
 const STATE_DOT_ON: &str = "◉";
@@ -18,6 +20,13 @@ pub struct SandboxStatus;
 pub static SANDBOX_STATUS: SandboxStatus = SandboxStatus;
 
 const SANDBOX_FORMATS: &[&str] = &["glyph", "text", "word"];
+
+fn sandbox_can_use_nerd_font(format: &str, _raw: bool) -> bool {
+    format == "glyph"
+}
+
+const SANDBOX_OPTIONS: FormatOptions =
+    FormatOptions { formats: SANDBOX_FORMATS, default_format: "glyph", can_use_nerd_font: sandbox_can_use_nerd_font };
 
 fn sandbox_text(enabled: bool, format: &str, nerd: bool, raw: bool) -> String {
     let state = if enabled { "ON" } else { "OFF" };
@@ -59,9 +68,18 @@ impl Widget for SandboxStatus {
         "Shows whether Claude Code bash sandbox mode is enabled\nBest effort: may not reflect active sandboxing when managed or CLI settings override it, or when sandbox initialization fails.",
         "Core"
     );
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        EditorDisplay { text: self.display_name().into(), modifier: Some(format_modifier_text(item, &SANDBOX_OPTIONS)) }
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        format_keybinds(item, &SANDBOX_OPTIONS)
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        handle_format_action(action, item, &SANDBOX_OPTIONS)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = get_format(item, SANDBOX_FORMATS, "glyph");
-        let nerd = nerd_font_enabled(item, format == "glyph");
+        let nerd = nerd_font_enabled(item, sandbox_can_use_nerd_font(format, item.raw()));
         if ctx.is_preview {
             return Some(sandbox_text(true, format, nerd, item.raw()));
         }
@@ -76,9 +94,14 @@ const ICON_FORMATS_VOICE: &[&str] = &["icon", "icon-text", "text", "word"];
 const ICON_FORMATS_REMOTE: &[&str] = &["icon", "icon-text", "text", "word", "label-check", "label-mark"];
 
 /// Shared by voice and remote control: `canUseNerdFont`.
-fn icon_can_use_nerd_font(format: &str, item: &WidgetItem) -> bool {
-    format == "icon" || (format == "icon-text" && !item.raw())
+fn icon_can_use_nerd_font(format: &str, raw: bool) -> bool {
+    format == "icon" || (format == "icon-text" && !raw)
 }
+
+const VOICE_OPTIONS: FormatOptions =
+    FormatOptions { formats: ICON_FORMATS_VOICE, default_format: "icon", can_use_nerd_font: icon_can_use_nerd_font };
+const REMOTE_OPTIONS: FormatOptions =
+    FormatOptions { formats: ICON_FORMATS_REMOTE, default_format: "icon", can_use_nerd_font: icon_can_use_nerd_font };
 
 struct Icons {
     emoji: &'static str,
@@ -152,9 +175,18 @@ pub static VOICE_STATUS: VoiceStatus = VoiceStatus;
 
 impl Widget for VoiceStatus {
     widget_info!("magenta", "Voice Status", "Shows whether Claude Code voice input is enabled", "Core");
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        EditorDisplay { text: self.display_name().into(), modifier: Some(format_modifier_text(item, &VOICE_OPTIONS)) }
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        format_keybinds(item, &VOICE_OPTIONS)
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        handle_format_action(action, item, &VOICE_OPTIONS)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = get_format(item, ICON_FORMATS_VOICE, "icon");
-        let nerd = nerd_font_enabled(item, icon_can_use_nerd_font(format, item));
+        let nerd = nerd_font_enabled(item, icon_can_use_nerd_font(format, item.raw()));
         if ctx.is_preview {
             return Some(icon_status_text(&VOICE_ICONS, true, format, nerd, item.raw()));
         }
@@ -173,9 +205,18 @@ impl Widget for RemoteControlStatus {
         "Shows whether Claude Code remote control is attached to the current session",
         "Core"
     );
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        EditorDisplay { text: self.display_name().into(), modifier: Some(format_modifier_text(item, &REMOTE_OPTIONS)) }
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        format_keybinds(item, &REMOTE_OPTIONS)
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        handle_format_action(action, item, &REMOTE_OPTIONS)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = get_format(item, ICON_FORMATS_REMOTE, "icon");
-        let nerd = nerd_font_enabled(item, icon_can_use_nerd_font(format, item));
+        let nerd = nerd_font_enabled(item, icon_can_use_nerd_font(format, item.raw()));
         if ctx.is_preview {
             return Some(icon_status_text(&REMOTE_ICONS, true, format, nerd, item.raw()));
         }
@@ -190,6 +231,16 @@ pub struct VimMode;
 pub static VIM_MODE: VimMode = VimMode;
 
 const VIM_FORMATS: &[&str] = &["icon-dash-letter", "icon-letter", "icon", "letter", "word"];
+
+fn vim_can_use_nerd_font(format: &str, _raw: bool) -> bool {
+    matches!(format, "icon-dash-letter" | "icon-letter" | "icon")
+}
+
+const VIM_OPTIONS: FormatOptions = FormatOptions {
+    formats: VIM_FORMATS,
+    default_format: "icon-dash-letter",
+    can_use_nerd_font: vim_can_use_nerd_font,
+};
 
 fn vim_text(mode: &str, format: &str, icon: &str) -> String {
     let letter = match mode {
@@ -209,10 +260,18 @@ fn vim_text(mode: &str, format: &str, icon: &str) -> String {
 
 impl Widget for VimMode {
     widget_info!("green", "Vim Mode", "Displays current vim editor mode", "Core");
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        EditorDisplay { text: self.display_name().into(), modifier: Some(format_modifier_text(item, &VIM_OPTIONS)) }
+    }
+    fn custom_keybinds(&self, item: &WidgetItem) -> Vec<Keybind> {
+        format_keybinds(item, &VIM_OPTIONS)
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        handle_format_action(action, item, &VIM_OPTIONS)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = get_format(item, VIM_FORMATS, "icon-dash-letter");
-        let can_nerd = matches!(format, "icon-dash-letter" | "icon-letter" | "icon");
-        let icon = if nerd_font_enabled(item, can_nerd) { "\u{e62b}" } else { "v" };
+        let icon = if nerd_font_enabled(item, vim_can_use_nerd_font(format, item.raw())) { "\u{e62b}" } else { "v" };
         if ctx.is_preview {
             return Some(vim_text("NORMAL", format, icon));
         }
