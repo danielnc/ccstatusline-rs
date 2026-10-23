@@ -146,3 +146,63 @@ pub fn cycle_number_style(item: &Value) -> Value {
     }
     jsobj::with(item, "numberFormat", Value::Object(format))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    const STATES: &[HideableState] =
+        &[NO_GIT, HideableState { key: "zero", label: "when zero", default_enabled: true }];
+
+    #[test]
+    fn hide_states_round_trip_and_drop_defaults() {
+        let item = json!({"id": "1", "type": "x"});
+        assert_eq!(enabled_hide_states(&item, STATES), vec!["zero"]);
+        let both = set_enabled_hide_states(&item, STATES, &["zero", "no-git"]);
+        assert_eq!(jsobj::stringify(&both), r#"{"id":"1","type":"x","metadata":{"hide":"no-git,zero"}}"#);
+        assert_eq!(hide_modifier_text(&both, STATES).as_deref(), Some("(hide: no-git, zero)"));
+        let back = set_enabled_hide_states(&both, STATES, &["zero"]);
+        assert_eq!(jsobj::stringify(&back), r#"{"id":"1","type":"x"}"#);
+        let none = set_enabled_hide_states(&item, STATES, &[]);
+        assert_eq!(jsobj::stringify(&none), r#"{"id":"1","type":"x","metadata":{"hide":""}}"#);
+        assert_eq!(hide_modifier_text(&none, STATES), None);
+    }
+
+    #[test]
+    fn labels() {
+        let item = json!({"id": "1", "type": "model"});
+        assert_eq!(get_label(&item, "Model: "), "Model: ");
+        let set = set_label(&item, "M \"x\": ");
+        assert_eq!(get_label(&set, "Model: "), "M \"x\": ");
+        assert_eq!(label_modifier_text(&set).as_deref(), Some(r#"(label: "M \"x\": ")"#));
+        assert_eq!(jsobj::stringify(&clear_label(&set)), r#"{"id":"1","type":"model"}"#);
+        assert_eq!(label_modifier_text(&item), None);
+    }
+
+    #[test]
+    fn precision_cycle_keeps_decimals() {
+        let item = json!({"id": "1", "type": "tokens-total"});
+        let compact = cycle_number_style(&item);
+        assert_eq!(number_format_modifier_text(&compact).as_deref(), Some("(compact)"));
+        let whole = cycle_number_style(&compact);
+        assert_eq!(number_format_modifier_text(&whole).as_deref(), Some("(whole)"));
+        assert_eq!(jsobj::stringify(&cycle_number_style(&whole)), r#"{"id":"1","type":"tokens-total"}"#);
+        let with_decimals = json!({"id": "1", "type": "t", "numberFormat": {"style": "whole", "decimals": 2}});
+        assert_eq!(
+            jsobj::stringify(&cycle_number_style(&with_decimals)),
+            r#"{"id":"1","type":"t","numberFormat":{"decimals":2}}"#
+        );
+    }
+
+    #[test]
+    fn shared_keybinds_and_modifiers() {
+        assert_eq!(hide_keybind().key, "h");
+        assert_eq!(label_keybind().action, EDIT_LABEL_ACTION);
+        assert_eq!(number_format_keybind().label, "(.) precision");
+        assert_eq!(make_modifier_text(&[]), None);
+        assert_eq!(make_modifier_text(&["a".into(), "b".into()]).as_deref(), Some("(a, b)"));
+        let t = crate::settings::parse_widget_item(&json!({"id": "1", "type": "git-branch", "maxWidth": 12})).unwrap();
+        assert_eq!(max_width_modifier(&t).as_deref(), Some("max:12"));
+    }
+}

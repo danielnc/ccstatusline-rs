@@ -138,3 +138,24 @@ mod tests {
         assert_eq!(stringify(&without(&raw, "metadata")), r#"{"id":"1","type":"x","rawValue":true}"#);
     }
 }
+
+#[cfg(test)]
+mod more_tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn flags_merges_and_undefined_in_arrays() {
+        let o = json!({"id": "1"});
+        let on = toggle_metadata_flag(&o, "nerdFont");
+        assert!(metadata_flag(&on, "nerdFont"));
+        assert!(!metadata_flag(&toggle_metadata_flag(&on, "nerdFont"), "nerdFont"));
+        let merged = merge(&o, &json!({"b": 1, "id": "2"}));
+        assert_eq!(stringify(&merged), r#"{"id":"2","b":1}"#);
+        assert_eq!(get_bool(&json!({"x": true}), "x"), Some(true));
+        let built = object(vec![("a", Value::Array(vec![undefined(), json!(1)])), ("b", undefined())]);
+        assert_eq!(stringify(&built), r#"{"a":[null,1]}"#);
+        assert!(stringify_pretty(&built).contains("null"));
+        assert!(get(&built, "b").is_none());
+    }
+}
