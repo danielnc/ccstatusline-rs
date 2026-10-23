@@ -6,6 +6,8 @@ mod app;
 mod claude;
 mod components;
 mod ink;
+mod intl;
+mod intl_tables;
 mod open_url;
 mod random;
 pub mod screens;

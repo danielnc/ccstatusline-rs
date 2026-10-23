@@ -101,13 +101,23 @@ fn fuzzy_score(text: &[char], query: &[char]) -> Option<i64> {
     Some((last - first) as i64 + first as i64 - consecutive - word_starts * 20 - full_initialism)
 }
 
-fn score(e: &Entry, query: &str) -> Option<i64> {
+/// A `FuzzySearchRecord`: the texts a fuzzy search scores and sorts on.
+pub struct Record<'a> {
+    pub name: &'a str,
+    pub kind: &'a str,
+    pub description: &'a str,
+    pub search_text: &'a str,
+    pub sort_text: &'a str,
+    pub secondary_sort_text: &'a str,
+}
+
+fn score(e: &Record, query: &str) -> Option<i64> {
     if query.is_empty() {
         return Some(99);
     }
     const TIER: i64 = 1000;
     let q: Vec<char> = query.chars().collect();
-    let name_s = e.display_name.to_lowercase();
+    let name_s = e.name.to_lowercase();
     let name: Vec<char> = name_s.chars().collect();
     let description = e.description.to_lowercase();
     let kind = e.kind.to_lowercase();
@@ -143,21 +153,36 @@ fn score(e: &Entry, query: &str) -> Option<i64> {
     fuzzy_score(&search.chars().collect::<Vec<_>>(), &q).map(|s| 9 * TIER + s)
 }
 
-/// `filterWidgetCatalog(catalog, category, query)`.
-pub fn filter<'a>(catalog: &'a [Entry], category: &str, query: &str) -> Vec<&'a Entry> {
+/// `filterFuzzySearchRecords(records, query)`: the indices of the matching records, best first.
+pub fn filter_records(records: &[Record], query: &str) -> Vec<usize> {
     let q = crate::jsnum::js_trim(query).to_lowercase();
-    let mut scored: Vec<(i64, &Entry)> = catalog
-        .iter()
-        .filter(|e| category == "All" || e.category == category)
-        .filter_map(|e| score(e, &q).map(|s| (s, e)))
-        .collect();
+    let mut scored: Vec<(i64, usize)> =
+        records.iter().enumerate().filter_map(|(i, r)| score(r, &q).map(|s| (s, i))).collect();
     // Array.prototype.sort is stable.
     scored.sort_by(|a, b| {
+        let (ra, rb) = (&records[a.1], &records[b.1]);
         a.0.cmp(&b.0)
-            .then_with(|| locale_compare(&a.1.display_name, &b.1.display_name))
-            .then_with(|| locale_compare(&a.1.kind, &b.1.kind))
+            .then_with(|| locale_compare(ra.sort_text, rb.sort_text))
+            .then_with(|| locale_compare(ra.secondary_sort_text, rb.secondary_sort_text))
     });
-    scored.into_iter().map(|(_, e)| e).collect()
+    scored.into_iter().map(|(_, i)| i).collect()
+}
+
+/// `filterWidgetCatalog(catalog, category, query)`.
+pub fn filter<'a>(catalog: &'a [Entry], category: &str, query: &str) -> Vec<&'a Entry> {
+    let entries: Vec<&Entry> = catalog.iter().filter(|e| category == "All" || e.category == category).collect();
+    let records: Vec<Record> = entries
+        .iter()
+        .map(|e| Record {
+            name: &e.display_name,
+            kind: &e.kind,
+            description: &e.description,
+            search_text: &e.search_text,
+            sort_text: &e.display_name,
+            secondary_sort_text: &e.kind,
+        })
+        .collect();
+    filter_records(&records, query).into_iter().map(|i| entries[i]).collect()
 }
 
 /// `getMatchSegments(text, query)`: (text, matched) runs.

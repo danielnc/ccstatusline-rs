@@ -3,6 +3,7 @@
 //! to editors in its own module.
 
 pub mod shared;
+pub mod usage;
 
 use crate::tui::components::hide_label::Done;
 use crate::tui::ink::keys::Input;
@@ -24,6 +25,7 @@ pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEdit
         } else {
             shared::symbol_override(item, "⎇")
         }),
+        "reset-timer" | "weekly-reset-timer" => usage::open(kind, action, item),
         _ => None,
     }
 }
