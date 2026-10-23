@@ -54,6 +54,8 @@ const KEYS = {
     backspace: '\u007F',
     delete: '\u001B[3~',
     space: ' ',
+    'ctrl+left': '\u001B[1;5D',
+    'ctrl+right': '\u001B[1;5C',
     'ctrl+c': '\u0003',
     'ctrl+s': '\u0013'
 };
@@ -215,6 +217,7 @@ function caseEnv(caseDef, home, binDir, vars) {
         CCSL_TEST_NO_KEYCHAIN: '1',
         CCSL_TEST_NO_BACKGROUND: '1',
         CCSTATUSLINE_RS_TUI: '1',
+        CCSL_TEST_RANDOM_SEED: String(caseDef.seed ?? 1),
         GIT_CONFIG_GLOBAL: '/dev/null',
         GIT_CONFIG_NOSYSTEM: '1'
     };

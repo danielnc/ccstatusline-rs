@@ -12,6 +12,8 @@ use serde_json::Value;
 
 use super::claude;
 use super::components::confirm::{Answer, Confirm};
+use super::components::items_editor::{self, ItemsEditor};
+use super::components::line_selector::{self, LineSelector};
 use super::components::list::{Event, List};
 use super::components::main_menu::{self, MainMenuOption};
 use super::components::preview;
@@ -24,6 +26,9 @@ const GITHUB_REPO_URL: &str = "https://github.com/sirmalloc/ccstatusline";
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Screen {
     Main,
+    Lines,
+    Items,
+    ColorLines,
     Confirm,
     /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
     Pending,
@@ -77,13 +82,16 @@ pub struct App {
     pub terminal_width: usize,
     flash: Option<Flash>,
     main_list: List,
+    selected_line: usize,
+    line_selector: LineSelector,
+    items_editor: ItemsEditor,
     pub exit: Exit,
     messages: Vec<String>,
 }
 
 /// `JSON.stringify(v)`.
 fn json(v: &Value) -> String {
-    crate::jsjson::stringify(v)
+    crate::jsobj::stringify(v)
 }
 
 impl App {
@@ -112,6 +120,9 @@ impl App {
             terminal_width,
             flash: None,
             main_list: List::new(0),
+            selected_line: 0,
+            line_selector: LineSelector::new(),
+            items_editor: ItemsEditor::new(),
             exit: Exit::No,
             messages,
         }
@@ -123,7 +134,7 @@ impl App {
     }
 
     fn typed(&self) -> Settings {
-        crate::settings::parse_settings(&self.settings).unwrap_or_default()
+        crate::settings::parse_settings(&crate::jsobj::strip_undefined(&self.settings)).unwrap_or_default()
     }
 
     fn set_settings(&mut self, v: Value) {
@@ -160,7 +171,7 @@ impl App {
         if let Some(o) = v.as_object_mut() {
             o.insert("version".into(), crate::jsjson::num(crate::settings::CURRENT_VERSION));
         }
-        match self.store.write_settings_value(&v) {
+        match self.store.write_settings_value(&crate::jsobj::strip_undefined(&v)) {
             Ok(()) => {
                 crate::hooks::sync_widget_hooks(&self.typed());
                 true
@@ -215,6 +226,8 @@ impl App {
         let screen_before = self.screen;
         match self.screen {
             Screen::Main => self.handle_main(ev),
+            Screen::Lines | Screen::ColorLines => self.handle_lines(ev),
+            Screen::Items => self.handle_items(ev),
             Screen::Confirm => self.handle_confirm(ev),
             Screen::Pending => {
                 if ev.key.escape {
@@ -256,7 +269,87 @@ impl App {
                 None => self.save_and_exit(Exit::Now),
             },
             MainMenuOption::Exit => self.exit = Exit::Now,
+            MainMenuOption::Lines => self.go(Screen::Lines),
+            MainMenuOption::Colors => self.go(Screen::ColorLines),
             _ => self.screen = Screen::Pending,
+        }
+    }
+
+    /// Switching screens mounts the new screen's components afresh.
+    fn go(&mut self, screen: Screen) {
+        match screen {
+            Screen::Lines | Screen::ColorLines => self.line_selector = LineSelector::new(),
+            Screen::Items => self.items_editor = ItemsEditor::new(),
+            _ => {}
+        }
+        self.screen = screen;
+    }
+
+    fn lines(&self) -> Vec<Value> {
+        crate::jsobj::get(&self.settings, "lines").and_then(Value::as_array).cloned().unwrap_or_default()
+    }
+
+    /// `updateLines`: `{...settings, lines}`.
+    fn set_lines(&mut self, lines: Vec<Value>) {
+        let next = crate::jsobj::with(&self.settings, "lines", Value::Array(lines));
+        self.set_settings(next);
+    }
+
+    fn line_config(&self) -> (Option<&'static str>, bool, Option<String>) {
+        if self.screen == Screen::ColorLines {
+            let t = self.typed();
+            let managed = (t.powerline.enabled
+                && t.powerline.theme.as_deref().is_some_and(|th| !th.is_empty() && th != "custom"))
+            .then(|| t.powerline.theme.clone().unwrap_or_default());
+            (Some("Select Line to Edit Colors"), false, managed)
+        } else {
+            (Some("Select Line to Edit Items"), true, None)
+        }
+    }
+
+    fn handle_lines(&mut self, ev: &Input) {
+        let lines = self.lines();
+        let initial = self.menu_selections.get("lines").copied().unwrap_or(0);
+        self.line_selector.sync(&lines, initial);
+        let (title, allow_editing, managed) = self.line_config();
+        let cfg = line_selector::Config { title, allow_editing, managed_theme: managed.as_deref() };
+        match self.line_selector.handle(ev, &cfg) {
+            line_selector::Outcome::Select(line) => {
+                self.menu_selections.insert("lines", line);
+                self.selected_line = line;
+                let next = if self.screen == Screen::ColorLines { Screen::Pending } else { Screen::Items };
+                self.go(next);
+            }
+            line_selector::Outcome::Back => {
+                self.menu_selections.insert("main", if self.screen == Screen::ColorLines { 1 } else { 0 });
+                self.screen = Screen::Main;
+            }
+            line_selector::Outcome::LinesUpdated(lines) => self.set_lines(lines),
+            line_selector::Outcome::None => {}
+        }
+    }
+
+    fn handle_items(&mut self, ev: &Input) {
+        let typed = self.typed();
+        let lines = self.lines();
+        let widgets: Vec<Value> = lines.get(self.selected_line).and_then(Value::as_array).cloned().unwrap_or_default();
+        match self.items_editor.handle(ev, &widgets, &typed) {
+            items_editor::Outcome::Update(widgets) => {
+                // `updateLine`: newLines[selectedLine] = widgets.
+                let mut lines = lines;
+                if self.selected_line < lines.len() {
+                    lines[self.selected_line] = Value::Array(widgets);
+                } else {
+                    lines.resize(self.selected_line, crate::jsobj::undefined());
+                    lines.push(Value::Array(widgets));
+                }
+                self.set_lines(lines);
+            }
+            items_editor::Outcome::Back => {
+                self.menu_selections.insert("lines", self.selected_line);
+                self.go(Screen::Lines);
+            }
+            items_editor::Outcome::None => {}
         }
     }
 
@@ -337,6 +430,19 @@ impl App {
             Screen::Confirm => {
                 let message = self.confirm.as_ref().map(|c| c.message.clone());
                 message.map(|m| self.confirm_ui.view(Some(&m), false, false))
+            }
+            Screen::Lines | Screen::ColorLines => {
+                let lines = self.lines();
+                let initial = self.menu_selections.get("lines").copied().unwrap_or(0);
+                self.line_selector.sync(&lines, initial);
+                let (title, allow_editing, managed) = self.line_config();
+                let cfg = line_selector::Config { title, allow_editing, managed_theme: managed.as_deref() };
+                Some(self.line_selector.view(&cfg))
+            }
+            Screen::Items => {
+                let widgets: Vec<Value> =
+                    self.lines().get(self.selected_line).and_then(Value::as_array).cloned().unwrap_or_default();
+                Some(self.items_editor.view(&widgets, self.selected_line + 1, &typed))
             }
             Screen::Pending => None,
         };

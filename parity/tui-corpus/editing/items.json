@@ -1,0 +1,801 @@
+[
+  {
+    "name": "browse-widgets",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      "up"
+    ]
+  },
+  {
+    "name": "toggle-raw-and-save",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "r"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "raw-twice-keeps-false",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "r"
+      },
+      {
+        "text": "r"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "merge-cycle",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "m"
+      },
+      {
+        "text": "m"
+      },
+      {
+        "text": "m"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "merge-last-widget",
+    "keys": [
+      "enter",
+      "enter",
+      "up",
+      {
+        "text": "m"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "delete-widgets",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "d"
+      },
+      "down",
+      {
+        "text": "d"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "delete-last-moves-selection",
+    "keys": [
+      "enter",
+      "enter",
+      "up",
+      {
+        "text": "d"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "clone-widget",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "k"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "separator-cycle",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "space",
+      "space",
+      "space",
+      "space",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "clear-line-yes",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "c"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "clear-line-no",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "c"
+      },
+      "down",
+      "enter"
+    ]
+  },
+  {
+    "name": "move-widget",
+    "keys": [
+      "enter",
+      "enter",
+      "enter",
+      "down",
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "move-widget-escape",
+    "keys": [
+      "enter",
+      "enter",
+      "enter",
+      "up",
+      "escape",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "picker-add-from-category",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      "down",
+      "enter",
+      "down",
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "picker-insert-search",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "i"
+      },
+      {
+        "text": "git chan"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "picker-change-type",
+    "keys": [
+      "enter",
+      "enter",
+      "right",
+      {
+        "text": "branch"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "picker-escape-clears-then-cancels",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "git"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "picker-widget-level-search",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "br"
+      },
+      "backspace",
+      "down",
+      "escape",
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "picker-no-match",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "zzzz"
+      }
+    ]
+  },
+  {
+    "name": "picker-all-category",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      "enter",
+      "down",
+      "down",
+      "down"
+    ]
+  },
+  {
+    "name": "hide-states-git-branch",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      {
+        "text": "h"
+      },
+      "space",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "hide-states-cancel",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      {
+        "text": "h"
+      },
+      "down",
+      "space",
+      "escape"
+    ]
+  },
+  {
+    "name": "label-editor",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "e"
+      },
+      "backspace",
+      "backspace",
+      {
+        "text": "M> "
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "label-editor-cursor",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "e"
+      },
+      "left",
+      "left",
+      {
+        "text": "X"
+      },
+      "left",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "label-editor-tab-resets",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "metadata": {
+              "label": "M: "
+            }
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "e"
+      },
+      "tab",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "precision-cycle",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      {
+        "text": "."
+      },
+      {
+        "text": "."
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "precision-full-cycle",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      {
+        "text": "."
+      },
+      {
+        "text": "."
+      },
+      {
+        "text": "."
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "link-toggle",
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      {
+        "text": "l"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "empty-line-add",
+    "keys": [
+      "enter",
+      "down",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "model"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "powerline-add-random-bg",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "theme": "nord",
+        "autoAlign": true,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "model"
+      },
+      "enter",
+      {
+        "text": "k"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "powerline-exclude-align",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": true,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "theme": "nord",
+        "autoAlign": true,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "x"
+      },
+      "down",
+      "down",
+      {
+        "text": "x"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "flex-separator-warning",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model"
+          },
+          {
+            "id": "2",
+            "type": "flex-separator"
+          },
+          {
+            "id": "3",
+            "type": "git-branch"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "keys": [
+      "enter",
+      "enter",
+      "down"
+    ]
+  },
+  {
+    "name": "default-separator-warning",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          },
+          {
+            "id": "6",
+            "type": "separator"
+          },
+          {
+            "id": "7",
+            "type": "git-changes",
+            "color": "yellow"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 60,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": false,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      },
+      "defaultSeparator": " | "
+    },
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "sep"
+      }
+    ]
+  },
+  {
+    "name": "items-60-cols",
+    "size": [
+      60,
+      50
+    ],
+    "keys": [
+      "enter",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down"
+    ]
+  },
+  {
+    "name": "save-and-exit-after-edit",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "r"
+      },
+      "escape",
+      "escape",
+      "up",
+      "up",
+      "up",
+      "enter"
+    ]
+  },
+  {
+    "name": "exit-without-saving",
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "r"
+      },
+      "escape",
+      "escape",
+      "up",
+      "up",
+      "enter"
+    ]
+  }
+]
