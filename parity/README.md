@@ -188,6 +188,8 @@ A case:
   "files": { ".claude/settings.json": { "json": { "statusLine": { "command": "ccstatusline" } } } },
   "env": { "TERM": "xterm" },        // added to (or, with null, removed from) the environment
   "args": ["--config", "${HOME}/custom.json"],
+  "pathPrepend": ["bin"],            // dirs under HOME (or absolute) put first on PATH, for fakes made with
+                                     // "files": {"bin/claude": {"executable": "#!/bin/sh\necho 2.1.97"}}
   "keys": ["ctrl+s", "enter", { "text": "abc" }]
 }
 ```
