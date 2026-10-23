@@ -34,8 +34,10 @@ const FAILING_STUBS = ['gh', 'glab', 'curl', 'wget', 'security'];
 // Openers succeed without opening anything.
 const OK_STUBS = ['open', 'xdg-open', 'gio'];
 // A step is over once the program has written nothing for this long (longer
-// at start, while node loads upstream).
-const DEFAULT_QUIET_MS = 500;
+// at start, while node loads upstream). Upstream's screens are the reference,
+// so its window is the longer one; the Rust side also waits for a match.
+const DEFAULT_QUIET_MS = 700;
+const RUST_QUIET_MS = 300;
 const START_QUIET_MS = 1500;
 // The Rust side then gets up to this long to reach upstream's screen for the
 // same step, so a stall on a loaded machine is not a failure.
@@ -360,7 +362,7 @@ function readTree(root) {
 // With `expected` (upstream's screens), each step also waits for the screen to match, up to MATCH_WAIT_MS.
 async function runSide(side, caseDef, opts, dir, binDir, steps, expected = null) {
     const size = caseDef.size ?? DEFAULT_SIZE;
-    const quietMs = caseDef.quietMs ?? DEFAULT_QUIET_MS;
+    const quietMs = side === 'rust' ? RUST_QUIET_MS : (caseDef.quietMs ?? DEFAULT_QUIET_MS);
     const { home, vars } = prepareHome(caseDef, dir);
     const env = caseEnv(caseDef, home, binDir, vars);
     const args = substitute(caseDef.args ?? [], vars);
