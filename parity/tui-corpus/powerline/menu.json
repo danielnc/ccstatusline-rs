@@ -1,0 +1,281 @@
+[
+  {
+    "name": "open-browse-back",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "down",
+      "up",
+      "escape"
+    ]
+  },
+  {
+    "name": "enable-confirm-yes-toggles-save",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "t"
+      },
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "c"
+      },
+      "down",
+      "down",
+      {
+        "text": "A"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "enable-confirm-no",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "t"
+      },
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "enable-confirm-escape-stays",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "T"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "enable-without-separators-and-disable",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ]
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "t"
+      },
+      "down",
+      "down",
+      "down",
+      {
+        "text": "t"
+      },
+      {
+        "text": "a"
+      },
+      {
+        "text": "t"
+      },
+      "down",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "toggles-ignored-while-disabled",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ]
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "c"
+      },
+      "down",
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "global-fg-override-warning",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "overrideForegroundColor": "red"
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "t"
+      }
+    ]
+  },
+  {
+    "name": "narrow-60",
+    "size": [
+      60,
+      40
+    ],
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "nord"
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "up",
+      {
+        "text": "c"
+      },
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "unknown-theme-and-custom-glyphs",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "foo",
+        "separators": [
+          "x"
+        ],
+        "startCaps": [
+          ""
+        ],
+        "endCaps": [
+          "",
+          ""
+        ]
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter"
+    ]
+  }
+]
