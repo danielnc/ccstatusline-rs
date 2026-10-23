@@ -9,7 +9,8 @@ use crate::widgets::shared::{
     context_config, context_percentage_metrics, context_window_metrics, format_percent, format_tokens, is_flag,
     model_context_identifier, raw_or_labeled, resolve_number_format,
 };
-use crate::widgets::Widget;
+use crate::widgets::{EditorDisplay, Keybind, Widget};
+use serde_json::Value;
 
 /// `Math.min(100, v)` (NaN stays NaN)
 fn min100(v: f64) -> f64 {
@@ -55,6 +56,8 @@ impl Widget for Length {
     }
 }
 
+const WINDOW_LABEL: &str = "Win: ";
+
 pub struct Window;
 
 impl Widget for Window {
@@ -70,8 +73,14 @@ impl Widget for Window {
     fn category(&self) -> &'static str {
         "Context"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(WINDOW_LABEL.into())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        const LABEL: &str = "Win: ";
+        const LABEL: &str = WINDOW_LABEL;
         let format = resolve_number_format("token", item, ctx.settings);
         if ctx.is_preview {
             return Some(raw_or_labeled(item, LABEL, &format_tokens(200000.0, &format, 1)));
@@ -123,6 +132,17 @@ pub struct Percentage {
     usable: bool,
 }
 
+impl Percentage {
+    fn label(&self, inverse: bool) -> &'static str {
+        match (self.usable, inverse) {
+            (false, false) => "Ctx Used: ",
+            (false, true) => "Ctx Left: ",
+            (true, false) => "Ctx(u) Used: ",
+            (true, true) => "Ctx(u) Left: ",
+        }
+    }
+}
+
 impl Widget for Percentage {
     fn default_color(&self) -> &'static str {
         if self.usable {
@@ -148,14 +168,24 @@ impl Widget for Percentage {
     fn category(&self) -> &'static str {
         "Context"
     }
+    fn label_prefix(&self, item: &WidgetItem) -> Option<String> {
+        Some(self.label(is_flag(item, "inverse")).into())
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        super::editor::context_percentage_display(self.display_name(), item)
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        super::editor::context_percentage_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        super::editor::context_percentage_action(action, item)
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let inverse = is_flag(item, "inverse");
-        let label = match (self.usable, inverse) {
-            (false, false) => "Ctx Used: ",
-            (false, true) => "Ctx Left: ",
-            (true, false) => "Ctx(u) Used: ",
-            (true, true) => "Ctx(u) Left: ",
-        };
+        let label = self.label(inverse);
         let format = resolve_number_format("percent", item, ctx.settings);
         let show = |used: f64| {
             let pct = if inverse { 100.0 - used } else { used };
