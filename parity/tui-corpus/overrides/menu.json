@@ -1,0 +1,83 @@
+[
+  {
+    "name": "toggles-and-save",
+    "size": [100, 45],
+    "keys": [
+      "down", "down", "down", "down", "enter",
+      { "text": "o" }, { "text": "M" }, { "text": "i" },
+      { "text": "d" }, { "text": "d" }, { "text": "D" },
+      { "text": "f" }, { "text": "f" }, { "text": "b" }, { "text": "B" }, { "text": "c" },
+      "ctrl+s", { "text": "x" }, "escape"
+    ]
+  },
+  {
+    "name": "cycle-colors-wrap",
+    "size": [100, 45],
+    "config": { "version": 4, "overrideForegroundColor": "brightWhite", "overrideBackgroundColor": "bgBrightWhite" },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "f" }, { "text": "b" }, { "text": "f" }, { "text": "b" }, "ctrl+s"]
+  },
+  {
+    "name": "custom-color-displays",
+    "size": [100, 45],
+    "config": {
+      "version": 4,
+      "colorLevel": 3,
+      "overrideForegroundColor": "hex:FF8800",
+      "overrideBackgroundColor": "ansi256:200",
+      "defaultPadding": " ",
+      "defaultSeparator": "|",
+      "defaultPaddingSide": "right",
+      "numberFormat": { "cost": { "style": "whole" } }
+    },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "f" }, "escape"]
+  },
+  {
+    "name": "custom-color-displays-basic",
+    "size": [100, 45],
+    "config": {
+      "version": 4,
+      "colorLevel": 1,
+      "overrideForegroundColor": "ansi256:200",
+      "overrideBackgroundColor": "hex:003366"
+    },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "b" }]
+  },
+  {
+    "name": "no-color-level",
+    "size": [100, 45],
+    "config": { "version": 4, "colorLevel": 0, "overrideForegroundColor": "red", "overrideBackgroundColor": "bgBlue" },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "g" }]
+  },
+  {
+    "name": "powerline-disables-options",
+    "size": [100, 45],
+    "config": { "version": 4, "powerline": { "enabled": true } },
+    "keys": [
+      "down", "down", "down", "down", "enter",
+      { "text": "s" }, { "text": "i" }, { "text": "b" }, { "text": "c" }, { "text": "o" }, "ctrl+s"
+    ]
+  },
+  {
+    "name": "padding-edit",
+    "size": [100, 45],
+    "keys": [
+      "down", "down", "down", "down", "enter",
+      { "text": "p" }, { "text": "ab" }, "backspace", "delete", { "text": " " }, "enter",
+      { "text": "P" }, { "text": "zz" }, "escape",
+      { "text": "p" }, "backspace", "backspace", "backspace", "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "narrow",
+    "size": [60, 50],
+    "config": { "version": 4, "overrideForegroundColor": "gradient:retro", "defaultPadding": " " },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "p" }, "escape", { "text": "s" }]
+  },
+  {
+    "name": "narrow-80-powerline",
+    "size": [80, 45],
+    "config": { "version": 4, "powerline": { "enabled": true } },
+    "keys": ["down", "down", "down", "down", "enter", "escape"]
+  }
+]
