@@ -6,6 +6,7 @@
 
 mod custom_command;
 mod cwd;
+pub(crate) mod editor;
 mod herdr;
 mod link;
 mod toggles;

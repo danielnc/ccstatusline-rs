@@ -23,6 +23,11 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 - **Parity first.** Port upstream's TypeScript line by line and keep JavaScript semantics: `??` vs `||`, truthiness
   of `""` and `0`, UTF-16 lengths, `Math.round`, `toFixed`, `parseInt`. Use `src/jsnum.rs` for number formatting and
   `crate::clock::now_ms()` for time. A change to an upstream widget type needs a case under `parity/corpus/`.
+- **Widgets' editor behaviour is checked against upstream's registry.** `tools/gen-editor-meta.mjs` records, from
+  pinned upstream, every widget's catalog entry, editor display, hideable states, label prefix, key bindings and
+  the result of each editor action (key order included) into `src/widgets/testdata/editor-meta.json`;
+  `src/widgets/editor_meta_tests.rs` compares. A widget joins its group's `EDITOR_PORTED` once its editor methods
+  are ported.
 - **Never read a whole transcript on the render path.** Transcript data comes from the incremental per-file cache in
   `src/transcript/`, which parses only appended bytes and streams cold rebuilds under a time budget.
 - **No network on the render path.** Renders read caches; refreshes run in one detached, lock-guarded background
