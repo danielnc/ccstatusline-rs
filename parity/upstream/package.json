@@ -1,8 +1,0 @@
-{
-  "name": "ccstatusline-parity-upstream",
-  "private": true,
-  "description": "Pinned upstream ccstatusline used as the parity oracle",
-  "dependencies": {
-    "ccstatusline": "2.2.32"
-  }
-}
