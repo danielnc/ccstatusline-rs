@@ -1,0 +1,810 @@
+[
+  {
+    "name": "hex-entry-foreground",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "h"
+      },
+      "up",
+      "down",
+      {
+        "text": "f"
+      },
+      {
+        "text": "z"
+      },
+      {
+        "text": "f8"
+      },
+      {
+        "text": "8"
+      },
+      {
+        "text": "8"
+      },
+      "backspace",
+      {
+        "text": "0"
+      },
+      {
+        "text": "0"
+      },
+      {
+        "text": "1"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "hex-entry-background-and-escape",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      "down",
+      "down",
+      {
+        "text": "f"
+      },
+      {
+        "text": "H"
+      },
+      {
+        "text": "12"
+      },
+      {
+        "text": "1"
+      },
+      {
+        "text": "2"
+      },
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "b"
+      },
+      {
+        "text": "c"
+      },
+      {
+        "text": "d"
+      },
+      "enter",
+      "down",
+      {
+        "text": "h"
+      },
+      {
+        "text": "ff"
+      },
+      "escape",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "hex-entry-short-enter-stays",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "h"
+      },
+      {
+        "text": "1"
+      },
+      {
+        "text": "2"
+      },
+      "enter",
+      "delete",
+      "escape"
+    ]
+  },
+  {
+    "name": "hex-only-at-level3",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "h"
+      },
+      {
+        "text": "a"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "ansi256-entry-foreground",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      "up",
+      {
+        "text": "x"
+      },
+      {
+        "text": "2"
+      },
+      {
+        "text": "5"
+      },
+      {
+        "text": "6"
+      },
+      {
+        "text": "5"
+      },
+      {
+        "text": "9"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "ansi256-entry-background",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "f"
+      },
+      {
+        "text": "A"
+      },
+      "enter",
+      {
+        "text": "0"
+      },
+      {
+        "text": "0"
+      },
+      {
+        "text": "7"
+      },
+      "backspace",
+      {
+        "text": "9"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "ansi256-escape-and-level3",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "1"
+      },
+      "escape"
+    ]
+  },
+  {
+    "name": "ansi256-escape",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "a"
+      },
+      {
+        "text": "1"
+      },
+      "escape",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "gradient-preset",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "g"
+      },
+      "down",
+      "down",
+      "down",
+      "up",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "gradient-preset-truecolor",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      "down",
+      "down",
+      {
+        "text": "G"
+      },
+      "up",
+      "up",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "gradient-custom-stops",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "g"
+      },
+      "up",
+      "enter",
+      {
+        "text": "ff"
+      },
+      {
+        "text": "0"
+      },
+      {
+        "text": "0"
+      },
+      {
+        "text": "0"
+      },
+      {
+        "text": "0"
+      },
+      "enter",
+      {
+        "text": "0"
+      },
+      {
+        "text": "0"
+      },
+      {
+        "text": "f"
+      },
+      {
+        "text": "f"
+      },
+      {
+        "text": "0"
+      },
+      "backspace",
+      {
+        "text": "0"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "gradient-custom-escape-back-to-list",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "g"
+      },
+      "up",
+      "enter",
+      {
+        "text": "a"
+      },
+      "escape",
+      "down",
+      "escape",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "gradient-not-in-background-mode",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello (world)"
+          },
+          {
+            "id": "4",
+            "type": "separator",
+            "character": " "
+          },
+          {
+            "id": "5",
+            "type": "context-length",
+            "color": "brightBlack",
+            "backgroundColor": "bgBlue",
+            "bold": true
+          }
+        ],
+        [],
+        []
+      ],
+      "colorLevel": 2
+    },
+    "keys": [
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "f"
+      },
+      {
+        "text": "g"
+      },
+      "escape",
+      {
+        "text": "g"
+      },
+      "escape"
+    ]
+  }
+]
