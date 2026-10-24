@@ -139,14 +139,7 @@ fn main() {
             st.updatemessage = None;
             store.save(&st);
         }
-        if tui::enabled() {
-            tui::run(store);
-            return;
-        }
-        eprintln!(
-            "ccstatusline-rs: the interactive editor is not built yet; edit {} with `npx ccstatusline@latest` (same file).",
-            store.path.display()
-        );
+        tui::run(store);
     }
 }
 
