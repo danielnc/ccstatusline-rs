@@ -1,5 +1,6 @@
 //! The editors several widgets share: max width (`widgets/shared/max-width.tsx`), glyph overrides
-//! (`widgets/shared/symbol-override.tsx`) and the searchable option list (`widgets/shared/searchable-option-editor.tsx`).
+//! (`widgets/shared/symbol-override.tsx`), the speed widgets' window (`widgets/shared/speed-widget.tsx`) and the
+//! searchable option list (`widgets/shared/searchable-option-editor.tsx`).
 
 use super::WidgetEditor;
 use crate::jsobj;
@@ -365,5 +366,85 @@ impl WidgetEditor for SearchableOptionEditor {
             ));
         }
         col(out)
+    }
+}
+
+// --- Speed window (`widgets/shared/speed-widget.tsx`, `utils/speed-window.ts`) ---------------------------------
+
+const MIN_SPEED_WINDOW_SECONDS: f64 = 0.0;
+const MAX_SPEED_WINDOW_SECONDS: f64 = 120.0;
+
+/// `clampSpeedWindowSeconds`; None is a non-finite value.
+fn clamp_speed_window_seconds(value: Option<f64>) -> f64 {
+    match value.filter(|v| v.is_finite()) {
+        None => 0.0,
+        Some(v) => v.trunc().clamp(MIN_SPEED_WINDOW_SECONDS, MAX_SPEED_WINDOW_SECONDS),
+    }
+}
+
+/// `getWidgetSpeedWindowSeconds`.
+fn speed_window_seconds(item: &Value) -> f64 {
+    match jsobj::metadata_str(item, "windowSeconds").filter(|v| !v.is_empty()) {
+        None => 0.0,
+        Some(v) => clamp_speed_window_seconds(crate::jsnum::parse_int(v)),
+    }
+}
+
+/// `SpeedWindowEditor`.
+pub struct SpeedWindowEditor {
+    widget: Value,
+    input: String,
+}
+
+impl SpeedWindowEditor {
+    pub fn new(widget: &Value) -> Self {
+        SpeedWindowEditor { widget: widget.clone(), input: crate::jsnum::to_js_string(speed_window_seconds(widget)) }
+    }
+}
+
+impl WidgetEditor for SpeedWindowEditor {
+    fn handle(&mut self, ev: &Input) -> Done {
+        let k = &ev.key;
+        if k.return_ {
+            // `withWidgetSpeedWindowSeconds`; a blank or non-numeric input is the default, 0
+            let seconds = clamp_speed_window_seconds(crate::jsnum::parse_int(&self.input));
+            return Done::Complete(jsobj::set_metadata(
+                &self.widget,
+                "windowSeconds",
+                &crate::jsnum::to_js_string(seconds),
+            ));
+        }
+        if k.escape {
+            return Done::Cancel;
+        }
+        if k.backspace {
+            self.input.pop();
+            return Done::Pending;
+        }
+        if should_insert_input(&ev.input, k) && ev.input.chars().any(|c| c.is_ascii_digit()) {
+            self.input.push_str(&ev.input);
+        }
+        Done::Pending
+    }
+
+    fn view(&mut self) -> El {
+        col(vec![
+            row(vec![
+                plain(format!(
+                    "Enter window in seconds ({}-{}): ",
+                    crate::jsnum::to_js_string(MIN_SPEED_WINDOW_SECONDS),
+                    crate::jsnum::to_js_string(MAX_SPEED_WINDOW_SECONDS)
+                )),
+                plain(self.input.clone()),
+                text(
+                    TextStyle { background: Some("gray".into()), color: Some("black".into()), ..Default::default() },
+                    vec![s(" ")],
+                ),
+            ]),
+            text(
+                TextStyle::dim(),
+                vec![s("0 disables window mode and averages the full session. Press Enter to save, ESC to cancel.")],
+            ),
+        ])
     }
 }
