@@ -3,6 +3,7 @@
 //! to editors in its own module.
 
 pub mod shared;
+mod transcript;
 
 use crate::tui::components::hide_label::Done;
 use crate::tui::ink::keys::Input;
@@ -24,6 +25,6 @@ pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEdit
         } else {
             shared::symbol_override(item, "⎇")
         }),
-        _ => None,
+        _ => transcript::open(kind, action, item),
     }
 }
