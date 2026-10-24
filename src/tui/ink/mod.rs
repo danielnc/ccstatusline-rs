@@ -5,6 +5,8 @@ pub mod chalk;
 pub mod gradient;
 pub mod keys;
 pub mod layout;
+#[cfg(test)]
+mod layout_oracle_tests;
 pub mod output;
 pub mod term;
 pub mod text;
