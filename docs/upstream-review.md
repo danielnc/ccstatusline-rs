@@ -4,8 +4,10 @@ Notes from reading upstream [ccstatusline](https://github.com/sirmalloc/ccstatus
 October 2026 against v2.2.32. Paths like `src/utils/usage-fetch.ts:883` point into upstream's source at that tag;
 `v2.2.17:` marks the older release. These are observations about behaviour under heavy use (dozens of concurrent
 Claude Code sessions, transcripts of hundreds of MB, several accounts), offered in the hope they are useful
-upstream. ccstatusline-rs reproduces upstream's output byte for byte, so where a behaviour is visible in the output
-it keeps it, and changes only how the work is done.
+upstream. For every input the parity harness covers, ccstatusline-rs reproduces upstream's output byte for byte, so
+where a behaviour is visible in the output it keeps it, and changes only how the work is done; the few places where
+it differs on purpose (a stale usage cache, another account's rate-limit lock, an out-of-range reset time) are listed
+under [Known gaps](../README.md#parity) in the README.
 
 ## The transcript is parsed on every render
 
