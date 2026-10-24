@@ -24,9 +24,12 @@ reviews:
       instructions: >-
         This repository is public. Flag any personal data in code, tests, docs, or commit messages: real names,
         emails, hostnames, IPs, home paths (/Users/..., /home/...), account or profile names from someone's real
-        setup, private repository, organization or company names. Examples must use generic names (profile-a,
-        example.com). Tokens, OAuth data, keychain values, real transcripts and .env contents must never be
-        committed. Measured numbers must say whose machine, what input, and when.
+        setup, private repository, organization, company or client names. Examples must use generic names
+        (profile-a, example.com). Tokens, OAuth data, keychain values, real transcripts and .env contents must never
+        be committed. Measured numbers must say whose machine, what input, and when. Allowed, do not flag: credit
+        to upstream ccstatusline and its author (name, GitHub handle, repository links), copyright notices in
+        LICENSE, and the repository owner's GitHub handle where it is part of this repository's own URLs (badges,
+        links, the security reporting route, Cargo.toml).
     - path: "src/**"
       instructions: >-
         Contract, check every change against it: (1) Parity: for the same stdin, config and environment, output
