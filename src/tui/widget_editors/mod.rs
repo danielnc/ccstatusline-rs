@@ -2,6 +2,7 @@
 //! `handleEditorAction` returns null. Shared editors live in `shared`; each widget group maps its types and actions
 //! to editors in its own module.
 
+pub mod misc;
 pub mod shared;
 mod transcript;
 
@@ -25,6 +26,6 @@ pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEdit
         } else {
             shared::symbol_override(item, "⎇")
         }),
-        _ => transcript::open(kind, action, item),
+        _ => misc::open(kind, action, item).or_else(|| transcript::open(kind, action, item)),
     }
 }
