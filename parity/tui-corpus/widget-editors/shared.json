@@ -1,0 +1,9 @@
+[
+  { "name": "git-branch-max-width", "keys": ["enter", "enter", "down", "down", "down", "down", { "text": "w" }, { "text": "1" }, { "text": "2" }, "enter", "ctrl+s"] },
+  { "name": "git-branch-max-width-letters-ignored", "keys": ["enter", "enter", "down", "down", "down", "down", { "text": "w" }, { "text": "a" }, { "text": "7" }, "backspace", { "text": "9" }, "enter", "ctrl+s"] },
+  { "name": "git-branch-max-width-clear", "config": { "version": 4, "lines": [[{ "id": "1", "type": "git-branch", "maxWidth": 20 }], [], []] }, "keys": ["enter", "enter", { "text": "w" }, "backspace", "backspace", "enter", "ctrl+s"] },
+  { "name": "git-branch-max-width-escape", "keys": ["enter", "enter", "down", "down", "down", "down", { "text": "w" }, { "text": "5" }, "escape"] },
+  { "name": "git-branch-glyph", "keys": ["enter", "enter", "down", "down", "down", "down", { "text": "g" }, { "text": "★" }, "enter", "ctrl+s"] },
+  { "name": "git-branch-glyph-none-then-default", "keys": ["enter", "enter", "down", "down", "down", "down", { "text": "g" }, "backspace", "enter", { "text": "g" }, "tab", "enter", "ctrl+s"] },
+  { "name": "git-branch-glyph-emoji-first-grapheme", "keys": ["enter", "enter", "down", "down", "down", "down", { "text": "g" }, { "text": "🌿x" }, "enter", "ctrl+s"] }
+]

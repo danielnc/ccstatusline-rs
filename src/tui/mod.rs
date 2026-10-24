@@ -10,6 +10,7 @@ mod open_url;
 mod random;
 pub mod screens;
 mod text_cursor;
+pub mod widget_editors;
 
 /// JavaScript truthiness of a JSON value (`undefined` properties are falsy).
 pub fn truthy(v: &serde_json::Value) -> bool {

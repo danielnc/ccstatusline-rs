@@ -42,8 +42,8 @@ struct Picker {
 enum Overlay {
     Hide(Value, HideStatesEditor),
     Label(Value, String, LabelEditor),
-    /// A widget's `renderEditor`, opened for this action; ported with the widget's group.
-    Custom(Value, String),
+    /// A widget's `renderEditor` for this action (None while the widget's editors are not ported: blank).
+    Custom(Option<Box<dyn crate::tui::widget_editors::WidgetEditor>>),
 }
 
 pub struct ItemsEditor {
@@ -252,7 +252,8 @@ impl ItemsEditor {
                     ed.handle(ev, w, states)
                 }
                 Overlay::Label(w, _, ed) => ed.handle(ev, w),
-                Overlay::Custom(..) => {
+                Overlay::Custom(Some(ed)) => ed.handle(ev),
+                Overlay::Custom(None) => {
                     if ev.key.escape {
                         Done::Cancel
                     } else {
@@ -535,20 +536,21 @@ impl ItemsEditor {
                     next[self.selected] = updated;
                     return Outcome::Update(next);
                 }
-                None => self.overlay = Some(Overlay::Custom(w.clone(), kb.action.clone())),
+                None => self.overlay = Some(Overlay::Custom(crate::tui::widget_editors::open(kind(w), &kb.action, w))),
             }
         }
         Outcome::None
     }
 
     pub fn view(&mut self, widgets: &[Value], line_number: usize, settings: &Settings) -> El {
-        match &self.overlay {
+        match &mut self.overlay {
             Some(Overlay::Hide(w, ed)) => {
                 let states = impl_of(w).map(|i| i.hideable_states()).unwrap_or(&[]);
                 return ed.view(w, states);
             }
             Some(Overlay::Label(_, default_label, ed)) => return ed.view(default_label),
-            Some(Overlay::Custom(..)) => return col(Vec::new()),
+            Some(Overlay::Custom(Some(ed))) => return ed.view(),
+            Some(Overlay::Custom(None)) => return col(Vec::new()),
             None => {}
         }
         if let Some(confirm) = &mut self.clear_confirm {
