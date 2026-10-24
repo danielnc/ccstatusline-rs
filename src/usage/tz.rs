@@ -386,7 +386,7 @@ pub fn date_parts(ms: f64, zone: Option<&str>) -> Option<Parts> {
 /// `name` None: a system zone without a name (`/etc/localtime` a plain file).
 /// `local_offset` is the C library's UTC offset in seconds at `ms`.
 fn parts_in(ms: f64, name: Option<&str>, system: bool, local_offset: fn(f64) -> i64) -> Option<Parts> {
-    // unnamed or unreadable system zone: the C library's view
+    // unnamed or unreadable system zone: the C library's offset; Node names a zero offset "UTC" only when unnamed
     let c_local = || {
         let offset = local_offset(ms);
         (offset, gmt_format(offset))
@@ -458,6 +458,14 @@ mod tests {
         assert_eq!(at(|_| -5 * 3600), "2026-01-15 08:45 GMT-5");
         assert_eq!(at(|_| 5 * 3600 + 1800), "2026-01-15 19:15 GMT+5:30");
         assert_eq!(at(|_| 0), "2026-01-15 13:45 UTC");
+    }
+
+    #[test]
+    fn unreadable_named_system_zone_is_gmt_offset_even_at_zero() {
+        // `TZ=Bogus/Zone node` formats this "01:45 PM GMT+0": unlike an unnamed zone, never "UTC"
+        let ms = crate::timefmt::parse_iso("2026-01-15T13:45:00Z").unwrap();
+        assert_eq!(parts_in(ms, Some("Bogus/Zone"), true, |_| 0).unwrap().zone_name, "GMT+0");
+        assert_eq!(parts_in(ms, Some("Bogus/Zone"), true, |_| -5 * 3600).unwrap().zone_name, "GMT-5");
     }
 
     #[test]

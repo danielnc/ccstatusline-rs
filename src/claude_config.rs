@@ -58,7 +58,7 @@ pub fn try_save_settings(v: &Value) -> std::io::Result<()> {
     save_settings_at(&settings_path(), v)
 }
 
-fn save_settings_at(path: &Path, v: &Value) -> std::io::Result<()> {
+pub(crate) fn save_settings_at(path: &Path, v: &Value) -> std::io::Result<()> {
     // backup first, with the original's permissions
     if let Ok(content) = std::fs::read(path) {
         use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};

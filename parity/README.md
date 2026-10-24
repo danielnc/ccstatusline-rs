@@ -46,8 +46,8 @@ searched before `parity/fixtures/`.
 ## World the binary sees
 
 Each side of each case gets a freshly built case dir (`<tmp>/ccsl-parity-XXXXXX/<case>/`,
-`<tmp>` = `realpath(os.tmpdir())`), rebuilt from scratch between the two sides so
-nothing either side writes leaks into the other. Both sides see the same paths.
+`<tmp>` = the real path of the scratch parent: `--tmp-root DIR`, else `os.tmpdir()`),
+rebuilt from scratch between the two sides so nothing either side writes leaks into the other. Both sides see the same paths.
 
 - `HOME=<case dir>/home`, containing empty `.config/ccstatusline/` and `.claude/`.
 - `PATH` = the case's `pathPrepend` dirs, then the harness bin dir, then
@@ -170,9 +170,11 @@ fixture works from a worktree's `fixtures/` dir too. The fixtures from `no-git` 
 and the Rust binary on a pseudo-terminal of the same size (`tui/pty-run.py`, Python's
 stdlib `pty`), sends the same keys, and reads both terminals through
 [`@xterm/headless`](https://www.npmjs.com/package/@xterm/headless) (pinned in
-`tui/package.json`). After the start and after every key it compares the whole screen
-cell by cell: character, foreground and background color, bold, dim, italic,
-underline, inverse and strikethrough. After exit it compares the exit codes and every
+`tui/package.json`). After the start and after every key it compares the screen line
+by line: the characters (trailing blanks trimmed), and, for every cell that shows a
+character, a background color, inverse or underline, its foreground and background
+color, bold, dim, italic, underline, inverse and strikethrough. Attributes on any other
+blank cell (bold or strikethrough on a space) draw nothing and are not compared. After exit it compares the exit codes and every
 file under HOME (`.cache/` excluded), byte for byte.
 
 ```sh
@@ -202,10 +204,14 @@ A case:
   "args": ["--config", "${HOME}/custom.json"],
   "pathPrepend": ["bin"],            // dirs under HOME (or absolute) put first on PATH, for fakes made with
                                      // "files": {"bin/claude": {"executable": "#!/bin/sh\necho 2.1.97"}}
+  "seed": 1,                         // CCSL_TEST_RANDOM_SEED (default 1): new widgets' ids, powerline colors
+  "nowMs": 1792584000000,            // CCSL_TEST_NOW_MS, the clock both sides see (default 2026-10-21T12:00Z)
+  "quietMs": 700,                    // how long upstream stays silent to end a step (default 700)
+  "startQuietMs": 1500,              // the same for the start screen (default 1500)
   "keys": ["ctrl+s", "enter", { "text": "abc" }]
 }
 ```
 
-Key names: `up`, `down`, `left`, `right`, `enter`, `escape`, `tab`, `backspace`,
-`delete`, `space`, `ctrl+c`, `ctrl+s`; `{"text": "..."}` sends literal input in one
-chunk. The report goes to `parity/last-tui-report.json` (gitignored).
+Key names: `up`, `down`, `left`, `right`, `ctrl+left`, `ctrl+right`, `enter`,
+`escape`, `tab`, `backspace`, `delete`, `space`, `ctrl+c`, `ctrl+s`; `{"text": "..."}`
+sends literal input in one chunk. The report goes to `parity/last-tui-report.json` (gitignored).
