@@ -54,7 +54,7 @@ fn valid_zone_name(name: &str) -> bool {
 
 /// The zone `Intl` resolves when no `timeZone` is given: `TZ`, else the
 /// system zone.
-fn default_zone_name() -> Option<String> {
+pub fn default_zone_name() -> Option<String> {
     if let Ok(tz) = std::env::var("TZ") {
         let tz = tz.strip_prefix(':').unwrap_or(&tz).to_string();
         if !tz.is_empty() {
@@ -316,6 +316,11 @@ fn load_zone(name: &str) -> Option<TzData> {
     }
     let data = std::fs::read(zoneinfo_dir().join(name)).ok()?;
     parse_tzif(&data)
+}
+
+/// A zone the tz database (or the UTC aliases) knows by this name.
+pub fn zone_exists(name: &str) -> bool {
+    UTC_ALIASES.contains(&name.to_ascii_lowercase().as_str()) || load_zone(name).is_some()
 }
 
 fn uses_us_metazone(zone: &str) -> bool {
