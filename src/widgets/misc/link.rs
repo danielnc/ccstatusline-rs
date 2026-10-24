@@ -13,6 +13,12 @@ pub static LINK: Link = Link;
 
 impl Widget for Link {
     widget_info!("cyan", "Link", "Displays a clickable terminal hyperlink using OSC 8", "Custom");
+    fn editor_display(&self, item: &WidgetItem) -> crate::widgets::EditorDisplay {
+        super::editor::link_display(item, self.display_name())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<crate::widgets::Keybind> {
+        super::editor::link_keybinds()
+    }
     fn render(&self, item: &WidgetItem, _ctx: &RenderContext) -> Option<String> {
         let url = item.meta("url").map(js_trim).unwrap_or("");
         let text = item.meta("text").map(js_trim).filter(|t| !t.is_empty());
