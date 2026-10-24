@@ -6,7 +6,7 @@ use crate::jsnum::parse_int;
 use crate::settings::{NumberFormat, WidgetItem};
 use crate::transcript::state::SpeedMetrics;
 use crate::widgets::shared::{effective_decimals, is_hidden, raw_or_labeled, render_magnitude, resolve_number_format};
-use crate::widgets::Widget;
+use crate::widgets::{EditorDisplay, HideableState, Keybind, Widget};
 
 #[derive(Clone, Copy)]
 enum Kind {
@@ -64,6 +64,21 @@ impl Widget for Speed {
     }
     fn category(&self) -> &'static str {
         "Token Speed"
+    }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(self.label.into())
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        super::editor::speed_display(self.name, window_seconds(item))
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        super::editor::speed_keybinds()
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[super::editor::SPEED_NO_DATA]
+    }
+    fn supports_number_format(&self) -> bool {
+        true
     }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         let format = resolve_number_format("speed", item, ctx.settings);
