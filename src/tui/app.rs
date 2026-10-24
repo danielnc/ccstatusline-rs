@@ -699,10 +699,7 @@ impl App {
             }
             Err(message) => {
                 self.flash = None;
-                self.flow_notice = Some((
-                    FlowNotice::new("Install Failed".into(), message, "red"),
-                    Screen::Install,
-                ));
+                self.flow_notice = Some((FlowNotice::new("Install Failed".into(), message, "red"), Screen::Install));
                 self.screen = Screen::FlowNotice;
             }
         }
