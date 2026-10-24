@@ -42,7 +42,7 @@ struct Picker {
 enum Overlay {
     Hide(Value, HideStatesEditor),
     Label(Value, String, LabelEditor),
-    /// A widget's `renderEditor` for this action (None while the widget's editors are not ported: blank).
+    /// A widget's `renderEditor` for this action (None where upstream's renders nothing: blank).
     Custom(Option<Box<dyn crate::tui::widget_editors::WidgetEditor>>),
 }
 

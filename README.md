@@ -77,7 +77,7 @@ migrations from v1 to v4, invalid configs, and CLI edge cases.
 main menu, lines and items, the widget picker, every widget's own editor, colors, powerline, terminal options,
 global overrides, refresh interval, export and import. A second harness (`parity/tui.mjs`) runs both editors on a
 pseudo-terminal, sends the same keys, compares the screens cell by cell (character, colors, bold, dim) at every
-step, and then compares every file written under `HOME`. Current result: **@@TUI_CASES@@ of @@TUI_CASES@@ cases pass**
+step, and then compares every file written under `HOME`. Current result: **340 of 340 cases pass**
 (macOS, Node 24, October 2026). Two generated oracles back it up: every widget's editor metadata and actions are
 checked against upstream's widget registry, and the layout engine (a port of the slice of Ink and Yoga that the
 editor uses) against real Ink on 460 frames, of which 447 match; the other 13 are random trees at widths no screen

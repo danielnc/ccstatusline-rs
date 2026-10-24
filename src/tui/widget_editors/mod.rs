@@ -19,8 +19,8 @@ pub trait WidgetEditor {
     fn view(&mut self) -> El;
 }
 
-/// The editor `renderEditor({widget, action})` would show for this widget type, or None while the type's editors
-/// are not ported (the items editor then shows a blank screen that ESC leaves).
+/// The editor `renderEditor({widget, action})` shows for this widget type and action, or None where upstream's
+/// renders nothing (the items editor then shows a blank screen that ESC leaves).
 pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEditor>> {
     match kind {
         "reset-timer" | "weekly-reset-timer" => usage::open(kind, action, item),
