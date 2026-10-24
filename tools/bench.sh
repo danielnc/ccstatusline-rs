@@ -67,12 +67,13 @@ timed() {
             ;;
         gnu)
             "$TIME_CMD" -f '%M %e' -o "$out.raw" "$@" < "$WORK/payload.json" > /dev/null 2>&1 || die "render failed: $*"
-            awk 'NF == 2 {printf "%d %s\n", $1 * 1024, $2}' "$out.raw" > "$out"
+            # validate the raw KB before converting it: awk would turn a non-number into 0
+            awk 'NF == 2 && $1 ~ /^[0-9]+$/ {printf "%d %s\n", $1 * 1024, $2}' "$out.raw" > "$out"
             ;;
     esac
     read -r rss real < "$out" || true
     case ${rss:-} in '' | *[!0-9]*) die "$TIME_CMD reported no peak RSS for: $*" ;; esac
-    case ${real:-} in '' | *[!0-9.]*) die "$TIME_CMD reported no wall time for: $*" ;; esac
+    printf '%s\n' "${real:-}" | grep -Eq '^[0-9]+(\.[0-9]+)?$' || die "$TIME_CMD reported no wall time for: $*"
 }
 
 # measure <label> <command...>: prints "label  max_rss_MB  wall_s" (median of RUNS)

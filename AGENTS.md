@@ -42,7 +42,7 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
   subprocess on the render path needs a reason.
 - **Tests are offline and hermetic.** No network, no real keychain, no real `~/.claude`, `~/.clauth` or `~/.cache`.
 - **No personal data in the repo.** No real names, emails, hostnames, home paths, tokens, account or profile names,
-  or private repository, organization or client names in code, tests, docs or commit messages. The exceptions: credit
+  or private repository, organization, company or client names in code, tests, docs or commit messages. The exceptions: credit
   to upstream ccstatusline and its author, the copyright notices in `LICENSE`, and the owner's handle in this
   repository's own URLs.
 - **Measured numbers are labelled** with whose machine, what input, and when.

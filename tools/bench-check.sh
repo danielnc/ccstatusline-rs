@@ -5,7 +5,8 @@
 # JSON carrying the right paths. Needs node, perl and BSD or GNU /usr/bin/time.
 #   1. paths with quotes and backslashes still give a valid payload;
 #   2. a failing render stops the run before its numbers are printed;
-#   3. a time command that reports nothing stops the run with no numbers at all.
+#   3. a time command that reports nothing stops the run with no numbers at all;
+#   4. GNU time output is used only when both fields are numbers.
 set -eu
 here=$(dirname "$0")
 here=$(CDPATH= cd -- "$here" && pwd)
@@ -82,5 +83,26 @@ chmod +x "$work/notime"
 run_bench TIME_CMD="$work/notime" && fail "bench.sh succeeded with a time command that reports nothing"
 grep -q ' MB ' "$work/out" && fail "printed numbers without measurements"
 grep -q 'reported no peak RSS' "$work/err" || fail "no measurement failure reported"
+
+# 4. A GNU-style time (-f, no -l) that writes $FAKE_TIME_OUTPUT as its measurement.
+cat > "$work/gnutime" <<'SH'
+#!/bin/sh
+[ "$1" = -f ] || exit 2
+shift 2
+out=/dev/stderr
+if [ "$1" = -o ]; then out=$2; shift 2; fi
+status=0
+"$@" || status=$?
+printf '%s\n' "$FAKE_TIME_OUTPUT" > "$out"
+exit "$status"
+SH
+chmod +x "$work/gnutime"
+run_bench TIME_CMD="$work/gnutime" FAKE_TIME_OUTPUT="1000 0.10" || { cat "$work/err" >&2; fail "bench.sh failed with GNU time"; }
+grep -q '^ccstatusline-rs warm .* 1\.0 MB ' "$work/out" || fail "GNU time's KB not converted to MB: $(cat "$work/out")"
+run_bench TIME_CMD="$work/gnutime" FAKE_TIME_OUTPUT="invalid 0.10" && fail "bench.sh accepted a non-numeric RSS"
+grep -q ' MB ' "$work/out" && fail "printed numbers for a non-numeric RSS"
+run_bench TIME_CMD="$work/gnutime" FAKE_TIME_OUTPUT="1000 1.2.3" && fail "bench.sh accepted a malformed wall time"
+grep -q ' MB ' "$work/out" && fail "printed numbers for a malformed wall time"
+grep -q 'reported no wall time' "$work/err" || fail "no wall-time failure reported"
 
 echo "ok   tools/bench.sh: JSON-safe payload, failures stop the run, results labelled"

@@ -50,9 +50,9 @@ function usage() {
   --upstream-only     run only upstream and print its output (exploration)
   --determinism       run upstream twice per case and compare the runs
   --corpus DIR        load cases from DIR instead of parity/corpus (repeatable, union)
-  --tmp-root DIR      scratch parent: cases run in DIR/ccsl-parity-<pid>, and only that is removed
-                      (default DIR is os.tmpdir())
-  --keep-tmp          keep DIR/ccsl-parity-<pid> afterwards
+  --tmp-root DIR      scratch parent: cases run in a new DIR/ccsl-parity-XXXXXX, and only that is
+                      removed (default DIR is os.tmpdir())
+  --keep-tmp          keep DIR/ccsl-parity-XXXXXX afterwards
   --timeout MS        per-process timeout (default ${DEFAULT_TIMEOUT_MS})
   --fail-fast         stop at the first failure
   -q, --quiet         only print failures and the summary
@@ -778,13 +778,12 @@ async function main() {
 
     await acquireLock();
 
-    // The harness owns only ccsl-parity-<pid> under the scratch parent, never the parent itself: --tmp-root may name a
-    // directory holding unrelated files, and cleanup removes the harness's directory recursively.
+    // The harness owns only the ccsl-parity-XXXXXX it creates under the scratch parent, never the parent itself or
+    // anything already in it: --tmp-root may name a directory holding unrelated files or an earlier --keep-tmp run,
+    // and cleanup removes the harness's directory recursively.
     const scratchParent = opts.tmpRoot ?? os.tmpdir();
     fs.mkdirSync(scratchParent, { recursive: true });
-    const tmpRoot = path.join(fs.realpathSync(scratchParent), `ccsl-parity-${process.pid}`);
-    fs.rmSync(tmpRoot, { recursive: true, force: true });
-    fs.mkdirSync(tmpRoot, { recursive: true });
+    const tmpRoot = fs.mkdtempSync(path.join(fs.realpathSync(scratchParent), 'ccsl-parity-'));
     if (opts.keepTmp) {
         console.error(`scratch kept in ${tmpRoot}`);
     } else {

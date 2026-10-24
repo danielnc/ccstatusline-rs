@@ -24,9 +24,9 @@ Options: `--rust-bin PATH`, `--filter SUBSTR` and `--tag TAG` (both repeatable, 
 `--show-diff`, `--json PATH`, `--upstream-only`, `--determinism`, `--corpus DIR`
 (repeatable; when given, only those dirs are loaded, not `parity/corpus`),
 `--tmp-root DIR`, `--keep-tmp`, `--timeout MS` (default 10000), `--fail-fast`, `-q`.
-The report always goes to `parity/last-report.json` (gitignored). Cases run in
-`<DIR>/ccsl-parity-<pid>` (`DIR` defaults to `os.tmpdir()`), and cleanup removes only that
-directory, never `DIR` or anything else in it (`sh parity/tmp-root-check.sh` checks this);
+The report always goes to `parity/last-report.json` (gitignored). Cases run in a
+new `<DIR>/ccsl-parity-XXXXXX` (`DIR` defaults to `os.tmpdir()`), and cleanup removes only
+that directory, never `DIR` or anything else in it, earlier `--keep-tmp` runs included (`sh parity/tmp-root-check.sh` checks this);
 `--keep-tmp` keeps it and prints its path.
 
 **One run at a time, machine-wide.** Cases run sequentially, one process at a time,
@@ -45,7 +45,7 @@ searched before `parity/fixtures/`.
 
 ## World the binary sees
 
-Each side of each case gets a freshly built case dir (`<tmp>/ccsl-parity-<pid>/<case>/`,
+Each side of each case gets a freshly built case dir (`<tmp>/ccsl-parity-XXXXXX/<case>/`,
 `<tmp>` = `realpath(os.tmpdir())`), rebuilt from scratch between the two sides so
 nothing either side writes leaks into the other. Both sides see the same paths.
 
@@ -126,7 +126,8 @@ One JSON file per case under `corpus/` (a file may also hold an array, or
 user or system git config), always in place, so linked worktrees keep valid paths.
 New fixtures can source `fixtures/_lib.sh` (`g`, `commit`, `target_dir`), or
 `fixtures/_gitlib.sh` (`g`, `commit`, same conventions), which is self-contained so a
-fixture works from a worktree's `fixtures/` dir too; the git widget group's fixtures use it.
+fixture works from a worktree's `fixtures/` dir too. The fixtures from `no-git` to
+`git-detached` below source `_lib.sh`; the rest source `_gitlib.sh`.
 
 | Fixture | Contents |
 |---|---|
