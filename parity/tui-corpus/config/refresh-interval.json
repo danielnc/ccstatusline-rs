@@ -1,0 +1,527 @@
+[
+  {
+    "name": "refresh-unsupported-no-claude",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down"
+    ]
+  },
+  {
+    "name": "refresh-unsupported-old-claude",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.50 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "up"
+    ]
+  },
+  {
+    "name": "refresh-set",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "1"
+      },
+      {
+        "text": "5"
+      },
+      {
+        "text": "9"
+      },
+      "enter"
+    ]
+  },
+  {
+    "name": "refresh-validation",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      {
+        "text": "0"
+      },
+      "enter",
+      "backspace",
+      {
+        "text": "a"
+      },
+      {
+        "text": "75"
+      },
+      "enter",
+      "delete",
+      "backspace",
+      "escape",
+      "down"
+    ]
+  },
+  {
+    "name": "refresh-clear-existing",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0,
+            "refreshInterval": 10
+          },
+          "model": "opus"
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "backspace",
+      "backspace",
+      "enter"
+    ]
+  },
+  {
+    "name": "refresh-change-existing",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0,
+            "refreshInterval": 10
+          },
+          "model": "opus"
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "backspace",
+      {
+        "text": "2"
+      },
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "refresh-empty-clears-unset",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "ttl-git-zero-and-save",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "enter",
+      "backspace",
+      {
+        "text": "0"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "ttl-git-too-big",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "enter",
+      "backspace",
+      {
+        "text": "61"
+      },
+      "enter",
+      {
+        "text": "2"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "ttl-custom-command",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "down",
+      "enter",
+      "backspace",
+      {
+        "text": "30"
+      },
+      "enter",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "ttl-terminal-width",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "backspace",
+      {
+        "text": "301"
+      },
+      "enter",
+      "backspace",
+      "backspace",
+      "backspace",
+      "enter",
+      "backspace",
+      {
+        "text": "300"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "ttl-narrow-60",
+    "size": [
+      60,
+      50
+    ],
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "enter"
+    ]
+  },
+  {
+    "name": "refresh-list-narrow-60",
+    "size": [
+      60,
+      50
+    ],
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "down",
+      "down"
+    ]
+  },
+  {
+    "name": "back-item-and-escape",
+    "files": {
+      ".claude/settings.json": {
+        "json": {
+          "statusLine": {
+            "type": "command",
+            "command": "npx -y ccstatusline@latest",
+            "padding": 0
+          }
+        }
+      },
+      "bin/claude": {
+        "executable": "#!/bin/sh\necho '2.1.97 (Claude Code)'\n"
+      }
+    },
+    "pathPrepend": [
+      "bin"
+    ],
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "up",
+      "enter",
+      "enter",
+      "escape"
+    ]
+  },
+  {
+    "name": "not-installed-skips-configure",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "up"
+    ]
+  }
+]

@@ -52,6 +52,10 @@ pub enum Action {
     OpenTerminalWidth,
     /// `setFlashMessage({text, color})`.
     Flash(String, &'static str),
+    /// RefreshIntervalMenu's `onUpdate(interval)`: write Claude's `statusLine.refreshInterval`, back to the menu.
+    SetRefreshInterval(Option<f64>),
+    /// `setFlowNotice({title, message, color, continueScreen: 'main'})` and `setScreen('flowNotice')`.
+    FlowNotice { title: String, message: String, color: &'static str },
     /// PowerlineSetup's `onInstallFonts()`.
     InstallFonts,
     /// PowerlineSetup's `onClearMessage()`.

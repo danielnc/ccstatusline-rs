@@ -3,6 +3,7 @@
 pub mod color_menu;
 pub mod confirm;
 pub mod export_config;
+pub mod flow_notice;
 pub mod global_overrides;
 pub mod hide_label;
 pub mod import_config;

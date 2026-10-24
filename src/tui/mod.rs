@@ -9,7 +9,7 @@ mod ink;
 mod intl;
 mod intl_tables;
 mod open_url;
-mod random;
+pub(crate) mod random;
 pub mod screens;
 mod text_cursor;
 pub mod widget_editors;
