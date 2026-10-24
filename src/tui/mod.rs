@@ -6,6 +6,7 @@ mod app;
 mod claude;
 mod components;
 mod ink;
+mod install;
 mod open_url;
 pub(crate) mod random;
 pub mod screens;
@@ -71,6 +72,9 @@ pub fn run(mut store: crate::settings::ConfigStore) {
         match term::read_chunk(timeout) {
             Read::Chunk(s) => {
                 app.handle(&ink::keys::to_input(&s));
+                for message in app.take_messages() {
+                    writer.write_through(&format!("{message}\n"));
+                }
                 if app.exit == app::Exit::Now {
                     break;
                 }
