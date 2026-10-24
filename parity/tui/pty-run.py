@@ -4,8 +4,9 @@
     pty-run.py COLS ROWS COMMAND [ARG...]
 
 Bytes on our stdin go to the terminal (keys); bytes the command writes to the
-terminal come out on our stdout. Exits with the command's exit code, or 128 +
-the signal that ended it. Stdlib only, so the harness needs no native module.
+terminal come out on our stdout. EOF on our stdin hangs up the command. Exits
+with the command's exit code, or 128 + the signal that ended it. Stdlib only,
+so the harness needs no native module.
 """
 import fcntl
 import os
@@ -40,8 +41,9 @@ def main():
                     readers.remove(master)
             elif data:
                 os.write(master, data)
-            else:
+            else:  # the harness is gone (it never closes our stdin first): hang up the command
                 readers.remove(stdin)
+                os.kill(pid, signal.SIGHUP)
 
     _, status = os.waitpid(pid, 0)
     sys.exit(os.waitstatus_to_exitcode(status) if not os.WIFSIGNALED(status) else 128 + os.WTERMSIG(status))

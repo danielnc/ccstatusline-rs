@@ -105,13 +105,15 @@ pub fn local_timezone() -> Option<String> {
     crate::usage::tz::default_zone_name().filter(|z| !z.is_empty())
 }
 
+/// `±HH`, `±HHMM` or `±HH:MM`, hours 00-23 and minutes 00-59.
 fn is_offset_zone(tz: &str) -> bool {
     let b = tz.as_bytes();
-    let digits = |s: &[u8]| s.iter().all(u8::is_ascii_digit);
+    let two = |s: &[u8], max: u8| s.iter().all(u8::is_ascii_digit) && (s[0] - b'0') * 10 + (s[1] - b'0') <= max;
     matches!(b.first(), Some(b'+' | b'-'))
         && match b.len() {
-            3 | 5 => digits(&b[1..]),
-            6 => digits(&b[1..3]) && b[3] == b':' && digits(&b[4..]),
+            3 => two(&b[1..3], 23),
+            5 => two(&b[1..3], 23) && two(&b[3..5], 59),
+            6 => two(&b[1..3], 23) && b[3] == b':' && two(&b[4..6], 59),
             _ => false,
         }
 }
@@ -164,6 +166,13 @@ mod tests {
         assert!(is_offset_zone("+05:30"));
         assert!(is_offset_zone("-03"));
         assert!(!is_offset_zone("+5"));
+        // Node's Intl.DateTimeFormat: hours to 23, minutes to 59
+        for tz in ["+23:59", "+2359", "-23:59", "+23", "+14", "-00"] {
+            assert!(is_valid_timezone(tz), "{tz}");
+        }
+        for tz in ["+99", "+24", "+24:00", "+12:75", "+1260", "+0960"] {
+            assert!(!is_valid_timezone(tz), "{tz}");
+        }
         assert!(TIME_ZONES.iter().any(|z| z.eq_ignore_ascii_case("america/sao_paulo")));
     }
 }

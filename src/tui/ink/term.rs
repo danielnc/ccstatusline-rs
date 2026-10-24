@@ -76,18 +76,31 @@ pub enum Read {
 /// Waits up to `timeout_ms` (None: forever) for stdin and returns what one read gives, like a Node `readable`
 /// chunk.
 pub fn read_chunk(timeout_ms: Option<i32>) -> Read {
-    let mut pfd = libc::pollfd { fd: 0, events: libc::POLLIN, revents: 0 };
+    read_chunk_from(0, timeout_ms)
+}
+
+/// A signal (SIGWINCH) interrupting the wait is `Interrupted`; any other error ends input, as Node ends the stdin
+/// stream, rather than failing again on every loop (EIO, EBADF).
+fn read_error() -> Read {
+    match std::io::Error::last_os_error().raw_os_error() {
+        Some(libc::EINTR | libc::EAGAIN) => Read::Interrupted,
+        _ => Read::Eof,
+    }
+}
+
+fn read_chunk_from(fd: libc::c_int, timeout_ms: Option<i32>) -> Read {
+    let mut pfd = libc::pollfd { fd, events: libc::POLLIN, revents: 0 };
     let ready = unsafe { libc::poll(&mut pfd, 1, timeout_ms.unwrap_or(-1)) };
     if ready < 0 {
-        return Read::Interrupted;
+        return read_error();
     }
     if ready == 0 {
         return Read::Timeout;
     }
     let mut buf = [0u8; 65536];
-    let n = unsafe { libc::read(0, buf.as_mut_ptr() as *mut libc::c_void, buf.len()) };
+    let n = unsafe { libc::read(fd, buf.as_mut_ptr() as *mut libc::c_void, buf.len()) };
     if n < 0 {
-        return Read::Interrupted;
+        return read_error();
     }
     if n == 0 {
         return Read::Eof;
@@ -172,5 +185,16 @@ impl Writer {
         let _ = out.flush();
         self.previous_output.clear();
         self.previous_line_count = 0;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_failing_read_ends_input() {
+        // Far above the open-file limit, so never open: poll reports it ready (POLLNVAL) and read fails with EBADF.
+        assert!(matches!(read_chunk_from(1_000_000, Some(0)), Read::Eof));
     }
 }

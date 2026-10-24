@@ -74,13 +74,9 @@ fn backup(path: &Path, suffix: &str) {
     }
 }
 
-/// `saveClaudeSettings`: back up to `.bak`, then write.
+/// `saveClaudeSettings`: back up to `.bak`, then replace the file atomically.
 fn save_settings(path: &Path, v: &Value) -> Result<(), String> {
-    backup(path, ".bak");
-    if let Some(dir) = path.parent() {
-        std::fs::create_dir_all(dir).map_err(|e| e.to_string())?;
-    }
-    std::fs::write(path, crate::jsjson::stringify_pretty(v)).map_err(|e| e.to_string())
+    crate::claude_config::save_settings_at(path, v).map_err(|e| e.to_string())
 }
 
 /// `installStatusLine`: the status line set to `command` (keeping a refresh interval already there, or 10, when the
@@ -165,6 +161,21 @@ mod tests {
         let v: Value = serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
         assert!(v.get("statusLine").is_none());
         assert_eq!(v["theme"], "dark");
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn install_and_uninstall_replace_the_file_atomically() {
+        use std::os::unix::fs::MetadataExt;
+        let d = temp_dir("atomic");
+        let path = d.join("settings.json");
+        std::fs::write(&path, r#"{"theme":"dark"}"#).unwrap();
+        let ino = std::fs::metadata(&path).unwrap().ino();
+        install(&path, "ccstatusline-rs", false).unwrap();
+        let installed = std::fs::metadata(&path).unwrap().ino();
+        assert_ne!(installed, ino, "install replaces the file by a rename, not a write in place");
+        assert!(uninstall(&path));
+        assert_ne!(std::fs::metadata(&path).unwrap().ino(), installed, "so does uninstall");
         let _ = std::fs::remove_dir_all(&d);
     }
 

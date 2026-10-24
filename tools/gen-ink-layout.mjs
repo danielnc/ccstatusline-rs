@@ -159,5 +159,6 @@ for (let i = 0; i < 400; i++) {
 for (const c of cases) {
     c.output = await renderTree(c.tree, c.columns);
 }
-console.log(JSON.stringify(cases, null, 0).replace(/\},\{"columns"/g, '},\n{"columns"'));
-process.exit(0);
+// Exit only once stdout has taken it all: a write to a pipe is asynchronous, and exit would cut it short.
+const output = JSON.stringify(cases, null, 0).replace(/\},\{"columns"/g, '},\n{"columns"');
+process.stdout.write(`${output}\n`, () => process.exit(0));
