@@ -5,6 +5,8 @@ mod claude;
 mod components;
 mod ink;
 mod install;
+mod intl;
+mod intl_tables;
 mod open_url;
 pub(crate) mod random;
 pub mod screens;
