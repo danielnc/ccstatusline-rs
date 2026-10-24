@@ -1,0 +1,401 @@
+[
+  {
+    "name": "browse-preview-escape-reverts",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "nord"
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      "down",
+      "down",
+      "escape",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "browse-apply-enter",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "nord"
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "from-custom-wraps",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      {
+        "text": "c"
+      },
+      "up",
+      {
+        "text": "c"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "customize-yes",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "merge": true
+          },
+          {
+            "id": "2",
+            "type": "context-length"
+          },
+          {
+            "id": "3",
+            "type": "separator"
+          },
+          {
+            "id": "4",
+            "type": "custom-text",
+            "customText": "a"
+          }
+        ],
+        [
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "b"
+          },
+          {
+            "id": "6",
+            "type": "custom-text",
+            "customText": "c"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "gruvbox"
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      {
+        "text": "c"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "customize-continue-theme-truecolor",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "merge": true
+          },
+          {
+            "id": "2",
+            "type": "context-length"
+          },
+          {
+            "id": "3",
+            "type": "separator"
+          },
+          {
+            "id": "4",
+            "type": "custom-text",
+            "customText": "a"
+          }
+        ],
+        [
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "b"
+          },
+          {
+            "id": "6",
+            "type": "custom-text",
+            "customText": "c"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "dracula",
+        "continueThemeAcrossLines": true
+      },
+      "colorLevel": 3
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      "down",
+      {
+        "text": "c"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "customize-no-and-escape",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "nord"
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      {
+        "text": "c"
+      },
+      "down",
+      "enter",
+      "down",
+      {
+        "text": "c"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "ansi16-warning-customize",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "merge": true
+          },
+          {
+            "id": "2",
+            "type": "context-length"
+          },
+          {
+            "id": "3",
+            "type": "separator"
+          },
+          {
+            "id": "4",
+            "type": "custom-text",
+            "customText": "a"
+          }
+        ],
+        [
+          {
+            "id": "5",
+            "type": "custom-text",
+            "customText": "b"
+          },
+          {
+            "id": "6",
+            "type": "custom-text",
+            "customText": "c"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "nord"
+      },
+      "colorLevel": 1
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      {
+        "text": "c"
+      },
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "themes-narrow-80",
+    "size": [
+      80,
+      45
+    ],
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "3",
+            "type": "custom-text",
+            "customText": "hello",
+            "color": "magenta"
+          }
+        ]
+      ],
+      "powerline": {
+        "enabled": true,
+        "theme": "nord"
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      "up",
+      "up",
+      "enter",
+      "down",
+      "escape"
+    ]
+  }
+]

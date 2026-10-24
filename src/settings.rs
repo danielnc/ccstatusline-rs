@@ -87,6 +87,8 @@ pub struct PowerlineConfig {
     pub theme: Option<String>,
     pub auto_align: bool,
     pub continue_theme_across_lines: bool,
+    /// The object is the schema's default literal, whose `theme: undefined` key keeps its slot when it is set.
+    pub theme_slot: bool,
 }
 
 impl Default for PowerlineConfig {
@@ -100,6 +102,7 @@ impl Default for PowerlineConfig {
             theme: None,
             auto_align: false,
             continue_theme_across_lines: false,
+            theme_slot: true,
         }
     }
 }
@@ -360,6 +363,7 @@ fn parse_powerline(v: &Value) -> R<PowerlineConfig> {
         theme: get_str(o, "theme")?,
         auto_align: get_bool(o, "autoAlign")?.unwrap_or(false),
         continue_theme_across_lines: get_bool(o, "continueThemeAcrossLines")?.unwrap_or(false),
+        theme_slot: false,
     })
 }
 
@@ -622,6 +626,8 @@ pub fn settings_json(st: &Settings) -> Value {
     pm.insert("endCaps".into(), Value::Array(p.end_caps.iter().cloned().map(Value::String).collect()));
     if let Some(t) = &p.theme {
         pm.insert("theme".into(), Value::String(t.clone()));
+    } else if p.theme_slot {
+        pm.insert("theme".into(), crate::jsobj::undefined());
     }
     pm.insert("autoAlign".into(), Value::Bool(p.auto_align));
     pm.insert("continueThemeAcrossLines".into(), Value::Bool(p.continue_theme_across_lines));
@@ -770,7 +776,7 @@ impl ConfigStore {
     }
 
     fn write_json(&self, v: &Value) -> std::io::Result<()> {
-        write_json_atomic(&self.path, v)
+        write_json_atomic(&self.path, &crate::jsobj::strip_undefined(v))
     }
 
     /// Upstream `loadSettings`.
