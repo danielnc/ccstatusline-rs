@@ -1,0 +1,8 @@
+{
+  "name": "ccstatusline-parity-tui",
+  "private": true,
+  "description": "Terminal emulator the TUI parity harness reads both screens through",
+  "dependencies": {
+    "@xterm/headless": "6.0.0"
+  }
+}

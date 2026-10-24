@@ -68,7 +68,7 @@ jobs:
       - name: Rust toolchain
         run: rustup toolchain install stable --profile minimal --component llvm-tools-preview && rustup default stable
 
-      - uses: taiki-e/install-action@1168f6810a3cb30a3514bf5756a3b7f0422c6df8 # v2.87.28
+      - uses: taiki-e/install-action@8cca0918f8471c33515202b73f56ab27f2bed283 # v2.87.29
         with:
           tool: cargo-llvm-cov
 
@@ -76,20 +76,25 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install pinned upstream ccstatusline
-        run: npm ci --prefix parity/upstream --ignore-scripts
+      - name: Install pinned upstream ccstatusline and the TUI harness's terminal emulator
+        run: |
+          npm ci --prefix parity/upstream --ignore-scripts
+          npm ci --prefix parity/tui --ignore-scripts
 
-      # One instrumented build runs the unit tests and every parity case, and one report merges both. The parity
-      # job is the parity gate (on the release build), so a parity failure here is only a warning; coverage is
-      # gated here, and uploading it can never fail CI.
-      - name: cargo llvm-cov (unit tests and parity harness)
+      # One instrumented build runs the unit tests and every parity case (renders and editor), and one report
+      # merges them. The parity job is the parity gate (on the release build), so a parity failure here is only a
+      # warning; coverage is gated here, and uploading it can never fail CI.
+      - name: cargo llvm-cov (unit tests and parity harnesses)
         run: |
           eval "$(cargo llvm-cov show-env --export-prefix)" # not `source <(...)`: macOS ships bash 3.2
           cargo llvm-cov clean --workspace
           cargo test --locked
           cargo build --locked
-          node parity/run.mjs -q --rust-bin "${CARGO_TARGET_DIR:-target}/debug/ccstatusline-rs" \
+          bin="${CARGO_TARGET_DIR:-target}/debug/ccstatusline-rs"
+          node parity/run.mjs -q --rust-bin "$bin" \
             || echo "::warning::parity cases failed against the instrumented build"
+          node parity/tui.mjs -q --rust-bin "$bin" \
+            || echo "::warning::TUI parity cases failed against the instrumented build"
           cargo llvm-cov report --summary-only
           cargo llvm-cov report --lcov --output-path lcov.info --fail-under-lines 84
 
@@ -143,14 +148,50 @@ jobs:
       - name: Run the differential harness
         run: node parity/run.mjs -q --json parity-report.json
 
-      - name: Keep the report
+      - name: --tmp-root removes only the harness's own scratch
+        run: sh parity/tmp-root-check.sh
+
+      # The editor on a pseudo-terminal, both screens read through a terminal emulator and compared cell by cell.
+      - name: Install the TUI harness's terminal emulator
+        run: npm ci --prefix parity/tui --ignore-scripts
+
+      - name: Run the TUI differential harness
+        run: node parity/tui.mjs -q --json tui-parity-report.json
+
+      - name: Keep the reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: parity-report
-          path: parity-report.json
+          path: |
+            parity-report.json
+            tui-parity-report.json
           retention-days: 14
           if-no-files-found: ignore
+
+  scripts:
+    name: scripts (${{ matrix.os }})
+    # tools/bench.sh against stub renderers, on BSD time (macOS) and GNU time (Linux).
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: GNU time
+        if: runner.os == 'Linux'
+        run: test -x /usr/bin/time || { sudo apt-get update -q && sudo apt-get install -y -q time; }
+
+      - name: tools/bench.sh
+        run: sh tools/bench-check.sh
 
   gitleaks:
     name: gitleaks
@@ -178,7 +219,7 @@ jobs:
   ci:
     name: ci
     if: always()
-    needs: [test, msrv, coverage, lint, parity, gitleaks]
+    needs: [test, msrv, coverage, lint, parity, scripts, gitleaks]
     runs-on: ubuntu-latest
     steps:
       - name: Every job passed

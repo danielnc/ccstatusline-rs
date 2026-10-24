@@ -12,6 +12,7 @@ mod gradient;
 mod hooks;
 mod jsjson;
 mod jsnum;
+mod jsobj;
 mod migrations;
 mod misc;
 mod render;
@@ -21,6 +22,7 @@ mod status;
 mod terminal;
 mod timefmt;
 mod transcript;
+mod tui;
 mod unicode_tables;
 mod usage;
 mod widgets;
@@ -137,10 +139,7 @@ fn main() {
             st.updatemessage = None;
             store.save(&st);
         }
-        eprintln!(
-            "ccstatusline-rs: the interactive editor is not built yet; edit {} with `npx ccstatusline@latest` (same file).",
-            store.path.display()
-        );
+        tui::run(store);
     }
 }
 

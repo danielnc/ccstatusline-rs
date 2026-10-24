@@ -87,6 +87,8 @@ pub struct PowerlineConfig {
     pub theme: Option<String>,
     pub auto_align: bool,
     pub continue_theme_across_lines: bool,
+    /// The object is the schema's default literal, whose `theme: undefined` key keeps its slot when it is set.
+    pub theme_slot: bool,
 }
 
 impl Default for PowerlineConfig {
@@ -100,6 +102,7 @@ impl Default for PowerlineConfig {
             theme: None,
             auto_align: false,
             continue_theme_across_lines: false,
+            theme_slot: true,
         }
     }
 }
@@ -360,6 +363,7 @@ fn parse_powerline(v: &Value) -> R<PowerlineConfig> {
         theme: get_str(o, "theme")?,
         auto_align: get_bool(o, "autoAlign")?.unwrap_or(false),
         continue_theme_across_lines: get_bool(o, "continueThemeAcrossLines")?.unwrap_or(false),
+        theme_slot: false,
     })
 }
 
@@ -622,6 +626,8 @@ pub fn settings_json(st: &Settings) -> Value {
     pm.insert("endCaps".into(), Value::Array(p.end_caps.iter().cloned().map(Value::String).collect()));
     if let Some(t) = &p.theme {
         pm.insert("theme".into(), Value::String(t.clone()));
+    } else if p.theme_slot {
+        pm.insert("theme".into(), crate::jsobj::undefined());
     }
     pm.insert("autoAlign".into(), Value::Bool(p.auto_align));
     pm.insert("continueThemeAcrossLines".into(), Value::Bool(p.continue_theme_across_lines));
@@ -702,50 +708,75 @@ fn same_dir(d: &Path) -> bool {
 pub struct ConfigStore {
     pub path: PathBuf,
     pub load_error: Option<&'static str>,
+    /// When set, `load` collects its console messages here instead of printing them (the editor shows them
+    /// the way Ink's patched console does).
+    pub captured: Option<Vec<String>>,
 }
 
 fn now_ms() -> f64 {
     crate::clock::now_ms()
 }
 
+/// Upstream `writeSettingsJson`: a unique temp file next to the target (a
+/// symlink's target), then a rename over it, keeping the target's permissions.
+pub(crate) fn write_json_atomic(path: &Path, v: &Value) -> std::io::Result<()> {
+    let dir = path.parent().map(Path::to_path_buf).unwrap_or_else(|| PathBuf::from("/"));
+    std::fs::create_dir_all(&dir)?;
+    let (target, temp_dir) = match std::fs::symlink_metadata(path) {
+        Ok(md) if md.file_type().is_symlink() => {
+            let t = std::fs::canonicalize(path)
+                .or_else(|_| std::fs::read_link(path).map(|l| path.parent().unwrap().join(l)))?;
+            let td = t.parent().map(Path::to_path_buf).unwrap_or_default();
+            (t, td)
+        }
+        Ok(_) => (path.to_path_buf(), dir.clone()),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => (path.to_path_buf(), dir.clone()),
+        Err(e) => return Err(e),
+    };
+    let base = target.file_name().map(|s| s.to_string_lossy().into_owned()).unwrap_or_default();
+    let tmp = temp_dir.join(format!("{base}.{}.{}.tmp", std::process::id(), now_ms() as u64));
+    use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
+    let mode = std::fs::metadata(&target).map(|m| m.permissions().mode() & 0o777).unwrap_or(0o666);
+    let res = (|| {
+        use std::io::Write;
+        let mut f = std::fs::OpenOptions::new().write(true).create(true).truncate(true).mode(mode).open(&tmp)?;
+        f.write_all(jsjson::stringify_pretty(v).as_bytes())?;
+        drop(f);
+        std::fs::rename(&tmp, &target)
+    })();
+    if res.is_err() {
+        let _ = std::fs::remove_file(&tmp);
+    }
+    res
+}
+
 impl ConfigStore {
     pub fn new(path: Option<&str>) -> Self {
-        ConfigStore { path: path.map(path_resolve).unwrap_or_else(default_settings_path), load_error: None }
+        ConfigStore {
+            path: path.map(path_resolve).unwrap_or_else(default_settings_path),
+            load_error: None,
+            captured: None,
+        }
     }
 
     pub fn is_custom_path(&self) -> bool {
         self.path != default_settings_path()
     }
 
-    fn write_json(&self, v: &Value) -> std::io::Result<()> {
-        let dir = self.path.parent().map(Path::to_path_buf).unwrap_or_else(|| PathBuf::from("/"));
-        std::fs::create_dir_all(&dir)?;
-        let (target, temp_dir) = match std::fs::symlink_metadata(&self.path) {
-            Ok(md) if md.file_type().is_symlink() => {
-                let t = std::fs::canonicalize(&self.path)
-                    .or_else(|_| std::fs::read_link(&self.path).map(|l| self.path.parent().unwrap().join(l)))?;
-                let td = t.parent().map(Path::to_path_buf).unwrap_or_default();
-                (t, td)
-            }
-            Ok(_) => (self.path.clone(), dir.clone()),
-            Err(e) if e.kind() == std::io::ErrorKind::NotFound => (self.path.clone(), dir.clone()),
-            Err(e) => return Err(e),
-        };
-        let base = target.file_name().map(|s| s.to_string_lossy().into_owned()).unwrap_or_default();
-        let tmp = temp_dir.join(format!("{base}.{}.{}.tmp", std::process::id(), now_ms() as u64));
-        use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
-        let mode = std::fs::metadata(&target).map(|m| m.permissions().mode() & 0o777).unwrap_or(0o666);
-        let res = (|| {
-            use std::io::Write;
-            let mut f = std::fs::OpenOptions::new().write(true).create(true).truncate(true).mode(mode).open(&tmp)?;
-            f.write_all(jsjson::stringify_pretty(v).as_bytes())?;
-            drop(f);
-            std::fs::rename(&tmp, &target)
-        })();
-        if res.is_err() {
-            let _ = std::fs::remove_file(&tmp);
+    fn report(&mut self, message: String) {
+        match &mut self.captured {
+            Some(v) => v.push(message),
+            None => eprintln!("{message}"),
         }
-        res
+    }
+
+    /// `writeSettingsJson(value)`: the editor saves its own JSON object, keys in the order it built them.
+    pub fn write_settings_value(&self, v: &Value) -> std::io::Result<()> {
+        self.write_json(v)
+    }
+
+    fn write_json(&self, v: &Value) -> std::io::Result<()> {
+        write_json_atomic(&self.path, &crate::jsobj::strip_undefined(v))
     }
 
     /// Upstream `loadSettings`.
@@ -754,15 +785,15 @@ impl ConfigStore {
         if !self.path.exists() {
             let d = Settings::default();
             match self.write_json(&settings_json(&d)) {
-                Ok(()) => eprintln!("Default settings written to {}", self.path.display()),
-                Err(e) => eprintln!("Failed to write default settings: {e}"),
+                Ok(()) => self.report(format!("Default settings written to {}", self.path.display())),
+                Err(e) => self.report(format!("Failed to write default settings: {e}")),
             }
             return d;
         }
         let content = match std::fs::read(&self.path) {
             Ok(c) => String::from_utf8_lossy(&c).into_owned(),
             Err(e) => {
-                eprintln!("Error loading settings, using defaults: {e}");
+                self.report(format!("Error loading settings, using defaults: {e}"));
                 self.load_error = Some("settings.json could not be read");
                 return Settings::default();
             }
@@ -770,7 +801,7 @@ impl ConfigStore {
         let mut raw: Value = match serde_json::from_str(&content) {
             Ok(v) => v,
             Err(_) => {
-                eprintln!("Failed to parse settings.json, using defaults (file left unchanged)");
+                self.report("Failed to parse settings.json, using defaults (file left unchanged)".to_string());
                 self.load_error = Some("settings.json is not valid JSON");
                 return Settings::default();
             }
@@ -779,7 +810,7 @@ impl ConfigStore {
         let mut migrated = false;
         if !has_version {
             if let Err(e) = validate_v1(&raw) {
-                eprintln!("Invalid v1 settings format, using defaults (file left unchanged): {e}");
+                self.report(format!("Invalid v1 settings format, using defaults (file left unchanged): {e}"));
                 self.load_error = Some("settings.json is not in a valid format");
                 return Settings::default();
             }
@@ -792,14 +823,14 @@ impl ConfigStore {
         let mut st = match parse_settings(&raw) {
             Ok(s) => s,
             Err(e) => {
-                eprintln!("Failed to parse settings, using defaults (file left unchanged): {e}");
+                self.report(format!("Failed to parse settings, using defaults (file left unchanged): {e}"));
                 self.load_error = Some("settings.json is not in a valid format");
                 return Settings::default();
             }
         };
         if migrated {
             if let Err(e) = self.write_json(&raw) {
-                eprintln!("Error loading settings, using defaults: {e}");
+                self.report(format!("Error loading settings, using defaults: {e}"));
                 self.load_error = Some("settings.json could not be read");
                 return Settings::default();
             }

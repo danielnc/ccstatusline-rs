@@ -54,7 +54,7 @@ fn valid_zone_name(name: &str) -> bool {
 
 /// The zone `Intl` resolves when no `timeZone` is given: `TZ`, else the
 /// system zone.
-fn default_zone_name() -> Option<String> {
+pub fn default_zone_name() -> Option<String> {
     if let Ok(tz) = std::env::var("TZ") {
         let tz = tz.strip_prefix(':').unwrap_or(&tz).to_string();
         if !tz.is_empty() {
@@ -318,6 +318,11 @@ fn load_zone(name: &str) -> Option<TzData> {
     parse_tzif(&data)
 }
 
+/// A zone the tz database (or the UTC aliases) knows by this name.
+pub fn zone_exists(name: &str) -> bool {
+    UTC_ALIASES.contains(&name.to_ascii_lowercase().as_str()) || load_zone(name).is_some()
+}
+
 fn uses_us_metazone(zone: &str) -> bool {
     let z = zone.to_ascii_lowercase();
     if z == "america/havana" || z == "cuba" {
@@ -371,25 +376,35 @@ fn zone_display_name(zone: &str, t: &TType) -> String {
 /// Civil date/time of `ms` in `zone` (None: the default zone). None when the
 /// zone is unknown, which upstream sees as a RangeError.
 pub fn date_parts(ms: f64, zone: Option<&str>) -> Option<Parts> {
-    let name = match zone {
-        Some(z) => z.to_string(),
-        None => default_zone_name().unwrap_or_else(|| "UTC".into()),
+    let local_offset = |ms| crate::timefmt::local(ms).offset_seconds;
+    match zone {
+        Some(z) => parts_in(ms, Some(z), false, local_offset),
+        None => parts_in(ms, default_zone_name().as_deref(), true, local_offset),
+    }
+}
+
+/// `name` None: a system zone without a name (`/etc/localtime` a plain file).
+/// `local_offset` is the C library's UTC offset in seconds at `ms`.
+fn parts_in(ms: f64, name: Option<&str>, system: bool, local_offset: fn(f64) -> i64) -> Option<Parts> {
+    // unnamed or unreadable system zone: the C library's view
+    let c_local = || {
+        let offset = local_offset(ms);
+        (offset, gmt_format(offset))
     };
-    let (offset, zone_name) = if UTC_ALIASES.contains(&name.to_ascii_lowercase().as_str()) {
-        (0, "UTC".to_string())
-    } else {
-        match load_zone(&name) {
+    let (offset, zone_name) = match name {
+        None => match c_local() {
+            (0, _) => (0, "UTC".to_string()),
+            local => local,
+        },
+        Some(name) if UTC_ALIASES.contains(&name.to_ascii_lowercase().as_str()) => (0, "UTC".to_string()),
+        Some(name) => match load_zone(name) {
             Some(data) => {
                 let t = data.type_at((ms / 1000.0).floor() as i64);
-                (t.offset, zone_display_name(&name, &t))
+                (t.offset, zone_display_name(name, &t))
             }
-            None if zone.is_none() => {
-                // unreadable system zone: the C library's view
-                let c = crate::timefmt::local(ms);
-                (c.offset_seconds, gmt_format(c.offset_seconds))
-            }
+            None if system => c_local(),
             None => return None,
-        }
+        },
     };
     let c = crate::timefmt::utc(ms + (offset * 1000) as f64);
     Some(Parts {
@@ -431,6 +446,18 @@ mod tests {
         assert_eq!(fmt("2040-01-04T12:00:00Z", "Europe/Berlin"), "2040-01-04 13:00 GMT+1");
         assert!(date_parts(0.0, Some("Bogus/Zone")).is_none());
         assert!(date_parts(0.0, Some("../etc/passwd")).is_none());
+    }
+
+    #[test]
+    fn unnamed_system_zone_is_the_c_library_local_zone() {
+        let ms = crate::timefmt::parse_iso("2026-01-15T13:45:00Z").unwrap();
+        let at = |offset: fn(f64) -> i64| {
+            let p = parts_in(ms, None, true, offset).unwrap();
+            format!("{}-{:02}-{:02} {:02}:{:02} {}", p.year, p.month, p.day, p.hour, p.minute, p.zone_name)
+        };
+        assert_eq!(at(|_| -5 * 3600), "2026-01-15 08:45 GMT-5");
+        assert_eq!(at(|_| 5 * 3600 + 1800), "2026-01-15 19:15 GMT+5:30");
+        assert_eq!(at(|_| 0), "2026-01-15 13:45 UTC");
     }
 
     #[test]

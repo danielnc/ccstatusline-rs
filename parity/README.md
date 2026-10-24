@@ -24,7 +24,10 @@ Options: `--rust-bin PATH`, `--filter SUBSTR` and `--tag TAG` (both repeatable, 
 `--show-diff`, `--json PATH`, `--upstream-only`, `--determinism`, `--corpus DIR`
 (repeatable; when given, only those dirs are loaded, not `parity/corpus`),
 `--tmp-root DIR`, `--keep-tmp`, `--timeout MS` (default 10000), `--fail-fast`, `-q`.
-The report always goes to `parity/last-report.json` (gitignored).
+The report always goes to `parity/last-report.json` (gitignored). Cases run in a
+new `<DIR>/ccsl-parity-XXXXXX` (`DIR` defaults to `os.tmpdir()`), and cleanup removes only
+that directory, never `DIR` or anything else in it, earlier `--keep-tmp` runs included (`sh parity/tmp-root-check.sh` checks this);
+`--keep-tmp` keeps it and prints its path.
 
 **One run at a time, machine-wide.** Cases run sequentially, one process at a time,
 and every invocation first takes the lock `<os.tmpdir()>/ccsl-parity-run.lock`
@@ -42,7 +45,7 @@ searched before `parity/fixtures/`.
 
 ## World the binary sees
 
-Each side of each case gets a freshly built case dir (`<tmp>/ccsl-parity-<pid>/<case>/`,
+Each side of each case gets a freshly built case dir (`<tmp>/ccsl-parity-XXXXXX/<case>/`,
 `<tmp>` = `realpath(os.tmpdir())`), rebuilt from scratch between the two sides so
 nothing either side writes leaks into the other. Both sides see the same paths.
 
@@ -121,7 +124,10 @@ One JSON file per case under `corpus/` (a file may also hold an array, or
 
 `fixtures/*.sh <dir>` build deterministic git repos (fixed identities and dates, no
 user or system git config), always in place, so linked worktrees keep valid paths.
-New fixtures can source `fixtures/_lib.sh` (`g`, `commit`, `target_dir`).
+New fixtures can source `fixtures/_lib.sh` (`g`, `commit`, `target_dir`), or
+`fixtures/_gitlib.sh` (`g`, `commit`, same conventions), which is self-contained so a
+fixture works from a worktree's `fixtures/` dir too. The fixtures from `no-git` to
+`git-detached` below source `_lib.sh`; the rest source `_gitlib.sh`.
 
 | Fixture | Contents |
 |---|---|
@@ -133,6 +139,13 @@ New fixtures can source `fixtures/_lib.sh` (`g`, `commit`, `target_dir`).
 | `git-worktree` | repo at `main/`, linked worktree at `linked/` on `feature/wt` |
 | `git-conflict` | unmerged merge, two conflicted files |
 | `git-detached` | detached HEAD |
+| `git-conflict-spaces` | unmerged merge, three conflicted files, one named with runs of spaces (`a  b.txt`) |
+| `git-filters` | modified files under a repository-defined filter driver that would touch `$HOME/FILTER-RAN` if run, an lfs filter and a config include; status and diff must not run the driver |
+| `git-renames` | staged rename, copy-like add and type change, unstaged delete, names with spaces and non-ASCII, untracked files |
+| `git-review` | clean repo on `main`, origin `https://github.com/acme/widgets.git`; also writes outside `<dir>`: a symlink under `$HOME/.cache/ccstatusline/git-review/` (the git-review cache file for this cwd and branch) to `<dir>.review.json`, so a case supplies the cache content with `files` (missing = no cache) |
+| `git-review-repo` | clean repo on `feature/login`, origin `https://github.com/acme/widgets.git`, no git-review cache (for `--internal-refresh-git-review-cache` cases) |
+| `git-symlink` | repo at `real/` with a modified file in `sub/`, and a symlink `link` -> `real/sub` (cwd through a symlink) |
+| `git-tracking` | no `upstream` remote; `main` tracks `my/remote/main` while remotes `my` and `my/remote` both exist (longest remote name wins) |
 
 ## Notes on the corpus
 
@@ -150,3 +163,49 @@ New fixtures can source `fixtures/_lib.sh` (`g`, `commit`, `target_dir`).
   "no credentials" (no keychain, no `.credentials.json`, no network).
 - The scratch path appears in outputs (cwd widgets, stderr), so reports from two
   harness runs differ in those paths; within one run both sides share them.
+
+## The editor (TUI) harness
+
+`tui.mjs` checks the interactive config editor. Each case in `tui-corpus/` runs upstream
+and the Rust binary on a pseudo-terminal of the same size (`tui/pty-run.py`, Python's
+stdlib `pty`), sends the same keys, and reads both terminals through
+[`@xterm/headless`](https://www.npmjs.com/package/@xterm/headless) (pinned in
+`tui/package.json`). After the start and after every key it compares the whole screen
+cell by cell: character, foreground and background color, bold, dim, italic,
+underline, inverse and strikethrough. After exit it compares the exit codes and every
+file under HOME (`.cache/` excluded), byte for byte.
+
+```sh
+npm ci --prefix parity/tui --ignore-scripts      # once
+node parity/tui.mjs                              # all cases vs target/release/ccstatusline-rs
+node parity/tui.mjs --filter shell/configs --show-diff
+node parity/tui.mjs --filter star --upstream-only   # print upstream's screens
+```
+
+The two sides run one after the other in the same HOME path, since paths can show on
+screen. A step ends once upstream has written nothing for 700 ms (1.5 s at start); the
+Rust side then gets up to 3 s to reach upstream's screen for that step, so a stall on a
+loaded machine is not a failure. A case that leaves the editor running ends with
+Ctrl+C, a clean exit. The world is the one described above, plus
+`TERM=xterm-256color`, and stubs for `open`, `xdg-open` and `gio` that succeed without
+opening anything.
+
+A case:
+
+```jsonc
+{
+  "name": "invalid-json-ctrl-s-guard-yes",
+  "size": [100, 40],                 // columns, rows (default 100x40)
+  "config": "{ not json",            // ~/.config/ccstatusline/settings.json: JSON value or raw string
+  "files": { ".claude/settings.json": { "json": { "statusLine": { "command": "ccstatusline" } } } },
+  "env": { "TERM": "xterm" },        // added to (or, with null, removed from) the environment
+  "args": ["--config", "${HOME}/custom.json"],
+  "pathPrepend": ["bin"],            // dirs under HOME (or absolute) put first on PATH, for fakes made with
+                                     // "files": {"bin/claude": {"executable": "#!/bin/sh\necho 2.1.97"}}
+  "keys": ["ctrl+s", "enter", { "text": "abc" }]
+}
+```
+
+Key names: `up`, `down`, `left`, `right`, `enter`, `escape`, `tab`, `backspace`,
+`delete`, `space`, `ctrl+c`, `ctrl+s`; `{"text": "..."}` sends literal input in one
+chunk. The report goes to `parity/last-tui-report.json` (gitignored).

@@ -14,6 +14,7 @@ the upstream release pinned in `parity/upstream/package.json`.
 make fmt            # cargo fmt
 make check          # rustfmt, clippy -D warnings and the offline test suite; what CI's test and lint jobs run
 make parity         # the differential harness against pinned upstream (needs node 24); what CI's parity job runs
+make parity-tui     # the editor's harness: both programs on a pty, screens compared cell by cell (needs python3)
 make check-secrets  # gitleaks over the full history
 node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 ```
@@ -22,7 +23,13 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 
 - **Parity first.** Port upstream's TypeScript line by line and keep JavaScript semantics: `??` vs `||`, truthiness
   of `""` and `0`, UTF-16 lengths, `Math.round`, `toFixed`, `parseInt`. Use `src/jsnum.rs` for number formatting and
-  `crate::clock::now_ms()` for time. A change to an upstream widget type needs a case under `parity/corpus/`.
+  `crate::clock::now_ms()` for time. A change to an upstream widget type needs a case under `parity/corpus/`, and
+  a change to an editor screen one under `parity/tui-corpus/`.
+- **Widgets' editor behaviour is checked against upstream's registry.** `tools/gen-editor-meta.mjs` records, from
+  pinned upstream, every widget's catalog entry, editor display, hideable states, label prefix, key bindings and
+  the result of each editor action (key order included) into `src/widgets/testdata/editor-meta.json`;
+  `src/widgets/editor_meta_tests.rs` compares. A widget joins its group's `EDITOR_PORTED` once its editor methods
+  are ported.
 - **Never read a whole transcript on the render path.** Transcript data comes from the incremental per-file cache in
   `src/transcript/`, which parses only appended bytes and streams cold rebuilds under a time budget.
 - **No network on the render path.** Renders read caches; refreshes run in one detached, lock-guarded background
@@ -35,7 +42,9 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
   subprocess on the render path needs a reason.
 - **Tests are offline and hermetic.** No network, no real keychain, no real `~/.claude`, `~/.clauth` or `~/.cache`.
 - **No personal data in the repo.** No real names, emails, hostnames, home paths, tokens, account or profile names,
-  or private repository or organization names in code, tests, docs or commit messages.
+  or private repository, organization, company or client names in code, tests, docs or commit messages. The exceptions: credit
+  to upstream ccstatusline and its author, the copyright notices in `LICENSE`, and the owner's handle in this
+  repository's own URLs.
 - **Measured numbers are labelled** with whose machine, what input, and when.
 
 ## Layout
@@ -54,4 +63,5 @@ node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs
 | `src/usage/` | usage data: stdin rate limits, cache, background refresher, clauth feed |
 | `src/git/` | git and jj data with caching |
 | `src/misc/` | custom commands, links, herdr, memory |
-| `parity/` | the differential harness, its preload, fixtures and corpus |
+| `src/tui/` | the config editor: `ink/` ports the slice of Ink it renders through (layout, output grid, chalk, keys); `components/` the screens |
+| `parity/` | the differential harnesses (`run.mjs` for renders, `tui.mjs` for the editor), the preload, fixtures and corpora |
