@@ -187,9 +187,8 @@ screen. A step ends once upstream has written nothing for 700 ms (1.5 s at start
 Rust side then gets up to 3 s to reach upstream's screen for that step, so a stall on a
 loaded machine is not a failure. A case that leaves the editor running ends with
 Ctrl+C, a clean exit. The world is the one described above, plus
-`TERM=xterm-256color`, `CCSTATUSLINE_RS_TUI=1` (the editor is opt-in until every screen
-is ported), and stubs for `open`, `xdg-open` and `gio` that succeed without opening
-anything.
+`TERM=xterm-256color`, and stubs for `open`, `xdg-open` and `gio` that succeed without
+opening anything.
 
 A case:
 

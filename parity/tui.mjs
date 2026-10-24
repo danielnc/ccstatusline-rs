@@ -220,7 +220,6 @@ function caseEnv(caseDef, home, binDir, vars) {
         CCSL_TEST_NO_NETWORK: '1',
         CCSL_TEST_NO_KEYCHAIN: '1',
         CCSL_TEST_NO_BACKGROUND: '1',
-        CCSTATUSLINE_RS_TUI: '1',
         CCSL_TEST_RANDOM_SEED: String(caseDef.seed ?? 1),
         GIT_CONFIG_GLOBAL: '/dev/null',
         GIT_CONFIG_NOSYSTEM: '1'

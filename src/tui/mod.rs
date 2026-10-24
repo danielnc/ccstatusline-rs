@@ -1,6 +1,4 @@
 //! The interactive config editor (upstream `src/tui/`), run when stdin is a terminal.
-//!
-//! Until every screen is ported it is opt-in: `CCSTATUSLINE_RS_TUI=1` enables it.
 
 mod app;
 mod claude;
@@ -29,10 +27,6 @@ pub fn truthy(v: &serde_json::Value) -> bool {
 
 use ink::layout::{plain, render_frame, Chalks};
 use ink::term::{self, Read};
-
-pub fn enabled() -> bool {
-    std::env::var("CCSTATUSLINE_RS_TUI").is_ok_and(|v| v == "1")
-}
 
 /// `runTUI()`: clear the screen, then render the App inline until it exits.
 pub fn run(mut store: crate::settings::ConfigStore) {

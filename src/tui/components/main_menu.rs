@@ -12,7 +12,6 @@ pub enum MainMenuOption {
     GlobalOverrides,
     Install,
     ManageInstallation,
-    CheckUpdates,
     ConfigureStatusLine,
     ExportConfig,
     ImportConfig,

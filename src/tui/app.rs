@@ -45,8 +45,6 @@ pub enum Screen {
     ImportConfig,
     Confirm,
     FlowNotice,
-    /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
-    Pending,
 }
 
 #[derive(Clone, Debug)]
@@ -330,11 +328,6 @@ impl App {
             }
             s if is_hosted(s) => self.handle_hosted(ev),
             Screen::Confirm => self.handle_confirm(ev),
-            Screen::Pending => {
-                if ev.key.escape {
-                    self.screen = Screen::Main;
-                }
-            }
             _ => self.handle_hosted(ev),
         }
         // The App's own handler: Ctrl+S saves from any screen but the confirm dialog.
@@ -391,7 +384,6 @@ impl App {
                 self.manage = super::components::install_menu::ManageInstallation::new();
                 self.screen = Screen::ManageInstallation;
             }
-            _ => self.screen = Screen::Pending,
         }
     }
 
@@ -828,7 +820,6 @@ impl App {
                 Some(self.manage.view(current))
             }
             Screen::FlowNotice => self.flow_notice.as_mut().map(|(n, _)| n.view()),
-            Screen::Pending => None,
             _ => None,
         };
         children.push(boxed(BoxStyle::default().margin_top(1.0), screen.into_iter().collect()));
