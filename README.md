@@ -73,12 +73,23 @@ repositories in clean, dirty, conflicted, detached, empty and worktree states (j
 compactions and malformed lines, powerline themes at every color level, flex modes and truncation, config
 migrations from v1 to v4, invalid configs, and CLI edge cases.
 
+**The config editor** (run `ccstatusline-rs` in a terminal, with no piped input) is ported screen by screen: the
+main menu, lines and items, the widget picker, every widget's own editor, colors, powerline, terminal options,
+global overrides, refresh interval, export and import. A second harness (`parity/tui.mjs`) runs both editors on a
+pseudo-terminal, sends the same keys, compares the screens cell by cell (character, colors, bold, dim) at every
+step, and then compares every file written under `HOME`. Current result: **@@TUI_CASES@@ of @@TUI_CASES@@ cases pass**
+(macOS, Node 24, October 2026). Two generated oracles back it up: every widget's editor metadata and actions are
+checked against upstream's widget registry, and the layout engine (a port of the slice of Ink and Yoga that the
+editor uses) against real Ink on 460 frames, of which 447 match; the other 13 are random trees at widths no screen
+produces.
+
 Known gaps:
 
-- **The interactive config editor (TUI) is not ported yet.** Run without piped input, ccstatusline-rs only prints a
-  note. Keep editing with `npx ccstatusline@latest`: the config file is shared, so both read and write the same
-  `~/.config/ccstatusline/settings.json`. The port is under way, screen by screen, behind `CCSTATUSLINE_RS_TUI=1`,
-  with its own differential harness (`parity/tui.mjs`) that compares both editors' screens cell by cell.
+- When the config file fails schema validation, upstream's editor prints zod's whole error object (with its stack)
+  above the menu; ccstatusline-rs prints a one-line reason. A config that is not valid JSON shows the same screen
+  on both.
+- The editor skips wrap-ansi's NFC normalization when it wraps text, so decomposed Unicode in widget text can wrap
+  at a different column than upstream.
 - The editor's install screens install ccstatusline-rs, not the npm package: Install writes the command that runs
   this binary as `statusLine.command` (with `--config` when one is in use) and Uninstall removes it. Upstream's
   npm/bun actions (global install, update check, pinned-version check, removing global packages) are left out, so
@@ -119,6 +130,9 @@ Then point Claude Code's status line at it in `~/.claude/settings.json`:
 It reads `~/.config/ccstatusline/settings.json` by default, or the file given with `--config <path>`, exactly as
 upstream does. `--hook`, `--version` and `CCSTATUSLINE_WIDTH` behave as upstream. To go back, set the command to
 `npx -y ccstatusline@latest` again; the config needs no change.
+
+Run `ccstatusline-rs` in a terminal to open the config editor, the same one as upstream's, or use its
+Install / Uninstall screen to write the status line command into Claude Code's settings for you.
 
 ## Extras beyond upstream
 
@@ -163,6 +177,7 @@ Prerequisites: Rust, Node 24 (Node's ICU decides upstream's text widths) and git
 ```bash
 make parity                                        # build, install pinned upstream, run every case
 node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs on failure
+make parity-tui                                    # the editor's harness (also needs python3)
 ```
 
 `parity/README.md` describes the case format and the environment both sides see.
