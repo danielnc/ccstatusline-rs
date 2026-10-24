@@ -2,6 +2,7 @@
 //! `handleEditorAction` returns null. Shared editors live in `shared`; each widget group maps its types and actions
 //! to editors in its own module.
 
+pub mod git;
 pub mod misc;
 pub mod shared;
 mod transcript;
@@ -22,12 +23,9 @@ pub trait WidgetEditor {
 /// are not ported (the items editor then shows a blank screen that ESC leaves).
 pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEditor>> {
     match kind {
-        "git-branch" => Some(if action == crate::widgets::editor::MAX_WIDTH_ACTION {
-            Box::new(shared::MaxWidthEditor::new(item))
-        } else {
-            shared::symbol_override(item, "⎇")
-        }),
         "reset-timer" | "weekly-reset-timer" => usage::open(kind, action, item),
-        _ => misc::open(kind, action, item).or_else(|| transcript::open(kind, action, item)),
+        _ => git::open(kind, action, item)
+            .or_else(|| misc::open(kind, action, item))
+            .or_else(|| transcript::open(kind, action, item)),
     }
 }
