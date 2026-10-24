@@ -1,0 +1,124 @@
+[
+  {
+    "name": "install-confirm-no-and-escape",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "i"
+      },
+      "down",
+      "enter",
+      {
+        "text": "I"
+      },
+      "escape",
+      "escape"
+    ]
+  },
+  {
+    "name": "install-git-fails",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "i"
+      },
+      "enter",
+      "escape",
+      {
+        "text": "x"
+      },
+      "escape"
+    ],
+    "pathPrepend": [
+      "fakebin"
+    ],
+    "files": {
+      "fakebin/git": {
+        "executable": "#!/bin/sh\necho \"fatal: unable to access the fonts repository\" >&2\nexit 128\n"
+      }
+    }
+  },
+  {
+    "name": "install-no-script",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "i"
+      },
+      "enter",
+      "enter"
+    ],
+    "pathPrepend": [
+      "fakebin"
+    ],
+    "files": {
+      "fakebin/git": {
+        "executable": "#!/bin/sh\nexit 0\n"
+      }
+    }
+  },
+  {
+    "name": "install-success",
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "i"
+      },
+      "enter",
+      "down",
+      "escape"
+    ],
+    "pathPrepend": [
+      "fakebin"
+    ],
+    "files": {
+      "fakebin/git": {
+        "executable": "#!/bin/sh\ncat > \"$4/install.sh\" <<'SH'\n#!/bin/sh\nmkdir -p \"$HOME/Library/Fonts\" \"$HOME/.local/share/fonts\"\necho font > \"$HOME/Library/Fonts/Fake Mono for Powerline.ttf\"\necho font > \"$HOME/.local/share/fonts/Fake Mono for Powerline.ttf\"\nSH\nexit 0\n"
+      }
+    }
+  },
+  {
+    "name": "install-success-debug-flag",
+    "env": {
+      "DEBUG_FONT_INSTALL": "1"
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "i"
+      },
+      "enter",
+      "ctrl+s",
+      "up"
+    ],
+    "pathPrepend": [
+      "fakebin"
+    ],
+    "files": {
+      "fakebin/git": {
+        "executable": "#!/bin/sh\ncat > \"$4/install.sh\" <<'SH'\n#!/bin/sh\nmkdir -p \"$HOME/Library/Fonts\" \"$HOME/.local/share/fonts\"\necho font > \"$HOME/Library/Fonts/Fake Mono for Powerline.ttf\"\necho font > \"$HOME/.local/share/fonts/Fake Mono for Powerline.ttf\"\nSH\nexit 0\n"
+      }
+    }
+  },
+  {
+    "name": "debug-flag-not-installed",
+    "env": {
+      "DEBUG_FONT_INSTALL": "1"
+    },
+    "keys": [
+      "down",
+      "down",
+      "enter"
+    ]
+  }
+]

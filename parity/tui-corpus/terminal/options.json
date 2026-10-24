@@ -1,0 +1,59 @@
+[
+  {
+    "name": "browse-and-back",
+    "keys": ["down", "down", "down", "enter", "down", "down", "down", "up", "escape"]
+  },
+  {
+    "name": "back-button",
+    "keys": ["down", "down", "down", "enter", "down", "down", "enter", "enter"]
+  },
+  {
+    "name": "cycle-color-levels-and-save",
+    "keys": ["down", "down", "down", "enter", "down", "enter", "enter", "enter", "ctrl+s"]
+  },
+  {
+    "name": "custom-colors-warning-confirm",
+    "config": {
+      "version": 4,
+      "colorLevel": 2,
+      "lines": [[
+        { "id": "1", "type": "model", "color": "hex:FF8800", "backgroundColor": "ansi256:22" },
+        { "id": "2", "type": "separator", "color": "ansi256:200" },
+        { "id": "3", "type": "git-branch", "color": "ansi256:45", "backgroundColor": "hex:003366" }
+      ]]
+    },
+    "keys": ["down", "down", "down", "enter", "down", "enter", "enter", "ctrl+s"]
+  },
+  {
+    "name": "custom-colors-warning-no",
+    "config": {
+      "version": 4,
+      "colorLevel": 3,
+      "lines": [[{ "id": "1", "type": "model", "color": "hex:FF8800" }]]
+    },
+    "keys": ["down", "down", "down", "enter", "down", "enter", "down", "enter", "down", "escape"]
+  },
+  {
+    "name": "custom-colors-warning-escape",
+    "config": {
+      "version": 4,
+      "colorLevel": 3,
+      "lines": [[{ "id": "1", "type": "model", "color": "ansi256:45" }]]
+    },
+    "keys": ["down", "down", "down", "enter", "down", "enter", "escape", "escape"]
+  },
+  {
+    "name": "basic-level-no-warning",
+    "config": {
+      "version": 4,
+      "colorLevel": 1,
+      "lines": [[{ "id": "1", "type": "model", "color": "hex:FF8800" }]]
+    },
+    "keys": ["down", "down", "down", "enter", "down", "enter", "ctrl+s"]
+  },
+  {
+    "name": "narrow",
+    "size": [60, 40],
+    "keys": ["down", "down", "down", "enter", "down", "enter", "escape"]
+  }
+]
