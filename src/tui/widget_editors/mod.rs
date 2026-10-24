@@ -2,7 +2,9 @@
 //! `handleEditorAction` returns null. Shared editors live in `shared`; each widget group maps its types and actions
 //! to editors in its own module.
 
+pub mod misc;
 pub mod shared;
+mod transcript;
 
 use crate::tui::components::hide_label::Done;
 use crate::tui::ink::keys::Input;
@@ -24,6 +26,6 @@ pub fn open(kind: &str, action: &str, item: &Value) -> Option<Box<dyn WidgetEdit
         } else {
             shared::symbol_override(item, "⎇")
         }),
-        _ => None,
+        _ => misc::open(kind, action, item).or_else(|| transcript::open(kind, action, item)),
     }
 }

@@ -1,0 +1,152 @@
+[
+  {
+    "name": "export-default-path",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter"
+    ],
+    "size": [
+      220,
+      40
+    ]
+  },
+  {
+    "name": "export-edit-path",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "backspace",
+      "backspace",
+      "backspace",
+      "backspace",
+      "backspace",
+      {
+        "text": "-2.json"
+      },
+      "enter",
+      "ctrl+c"
+    ],
+    "size": [
+      220,
+      40
+    ]
+  },
+  {
+    "name": "export-escape",
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "x"
+      },
+      "escape",
+      "down"
+    ],
+    "size": [
+      220,
+      40
+    ]
+  },
+  {
+    "name": "export-is-directory",
+    "files": {
+      "ccstatusline-config.json/keep": "x"
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "enter"
+    ],
+    "size": [
+      220,
+      40
+    ]
+  },
+  {
+    "name": "export-parent-is-file",
+    "files": {
+      "ccstatusline-config.json": "{}"
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "/sub/x.json"
+      },
+      "enter",
+      "escape"
+    ],
+    "size": [
+      220,
+      40
+    ]
+  },
+  {
+    "name": "export-parent-exists-as-file",
+    "files": {
+      "ccstatusline-config.json": "{}"
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "/x.json"
+      },
+      "enter"
+    ],
+    "size": [
+      220,
+      40
+    ]
+  },
+  {
+    "name": "export-after-edit",
+    "size": [
+      220,
+      40
+    ],
+    "keys": [
+      "enter",
+      "enter",
+      {
+        "text": "r"
+      },
+      "escape",
+      "escape",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "ctrl+s"
+    ]
+  }
+]

@@ -13,6 +13,7 @@ use serde_json::Value;
 
 use super::claude;
 use super::components::confirm::{Answer, Confirm};
+use super::components::flow_notice::FlowNotice;
 use super::components::items_editor::{self, ItemsEditor};
 use super::components::line_selector::{self, LineSelector};
 use super::components::list::{Event, List};
@@ -33,6 +34,8 @@ pub enum Screen {
     Items,
     ColorLines,
     Colors,
+    Install,
+    ManageInstallation,
     TerminalConfig,
     TerminalWidth,
     GlobalOverrides,
@@ -41,6 +44,7 @@ pub enum Screen {
     ExportConfig,
     ImportConfig,
     Confirm,
+    FlowNotice,
     /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
     Pending,
 }
@@ -60,6 +64,12 @@ enum ConfirmAction {
         then_exit: bool,
     },
     StarGithub,
+    /// `handleInstallSelection`'s action: write the status line command.
+    Install {
+        command: String,
+    },
+    /// `handleUninstallSelection`'s action.
+    Uninstall,
 }
 
 #[derive(Clone, Debug)]
@@ -90,6 +100,12 @@ pub struct App {
     confirm_ui: Confirm,
     installed: bool,
     existing_status_line: Option<String>,
+    /// `currentRefreshInterval`: Claude's `statusLine.refreshInterval`, read at mount.
+    refresh_interval: Option<Value>,
+    /// `supportsRefreshInterval`: `claude --version` is at least 2.1.97, checked once at mount.
+    supports_refresh_interval: bool,
+    /// `flowNotice` with its `continueScreen`.
+    flow_notice: Option<(FlowNotice, Screen)>,
     pub terminal_width: usize,
     flash: Option<Flash>,
     main_list: List,
@@ -98,6 +114,8 @@ pub struct App {
     items_editor: ItemsEditor,
     /// The screen hosted through `screens::Screen` (colors, terminal, overrides, powerline, ...).
     hosted: Option<Box<dyn screens::Screen>>,
+    install_menu: super::components::install_menu::InstallMenu,
+    manage: super::components::install_menu::ManageInstallation,
     pub exit: Exit,
     messages: Vec<String>,
     /// `powerlineFontStatus.installed`.
@@ -135,6 +153,8 @@ impl App {
         let original = json(&settings);
         let installed = claude::is_installed();
         let existing_status_line = claude::existing_status_line();
+        let refresh_interval = claude::refresh_interval();
+        let supports_refresh_interval = claude::is_claude_code_version_at_least("2.1.97");
         App {
             store,
             settings,
@@ -147,6 +167,9 @@ impl App {
             confirm_ui: Confirm::default(),
             installed,
             existing_status_line,
+            refresh_interval,
+            supports_refresh_interval,
+            flow_notice: None,
             terminal_width,
             flash: None,
             main_list: List::new(0),
@@ -154,6 +177,8 @@ impl App {
             line_selector: LineSelector::new(),
             items_editor: ItemsEditor::new(),
             hosted: None,
+            install_menu: super::components::install_menu::InstallMenu::new(),
+            manage: super::components::install_menu::ManageInstallation::new(),
             exit: Exit::No,
             messages,
             // The sync check on startup, then the async one.
@@ -292,6 +317,17 @@ impl App {
             Screen::Main => self.handle_main(ev),
             Screen::Lines | Screen::ColorLines => self.handle_lines(ev),
             Screen::Items => self.handle_items(ev),
+            Screen::Install => self.handle_install(ev),
+            Screen::ManageInstallation => self.handle_manage(ev),
+            Screen::FlowNotice => {
+                if let Some((notice, next)) = self.flow_notice.as_mut() {
+                    let next = *next;
+                    if notice.handle(ev) {
+                        self.flow_notice = None;
+                        self.go(next);
+                    }
+                }
+            }
             s if is_hosted(s) => self.handle_hosted(ev),
             Screen::Confirm => self.handle_confirm(ev),
             Screen::Pending => {
@@ -343,6 +379,18 @@ impl App {
             MainMenuOption::ConfigureStatusLine => self.go(Screen::RefreshInterval),
             MainMenuOption::ExportConfig => self.go(Screen::ExportConfig),
             MainMenuOption::ImportConfig => self.go(Screen::ImportConfig),
+            MainMenuOption::Install => {
+                if self.installed {
+                    self.open_uninstall_confirm(Screen::Main);
+                } else {
+                    self.install_menu = super::components::install_menu::InstallMenu::new();
+                    self.screen = Screen::Install;
+                }
+            }
+            MainMenuOption::ManageInstallation => {
+                self.manage = super::components::install_menu::ManageInstallation::new();
+                self.screen = Screen::ManageInstallation;
+            }
             _ => self.screen = Screen::Pending,
         }
     }
@@ -366,9 +414,11 @@ impl App {
                         Box::new(super::components::global_overrides::GlobalOverridesMenu::new(&ctx))
                     }
                     Screen::Powerline => Box::new(super::components::powerline_setup::PowerlineSetup::new(&ctx)),
-                    Screen::RefreshInterval => {
-                        Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(&ctx))
-                    }
+                    Screen::RefreshInterval => Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(
+                        &ctx,
+                        self.refresh_interval.clone(),
+                        self.supports_refresh_interval,
+                    )),
                     Screen::ExportConfig => Box::new(super::components::export_config::ExportConfigDialog::new(&ctx)),
                     _ => Box::new(super::components::import_config::ImportConfigDialog::new(&ctx)),
                 };
@@ -443,6 +493,21 @@ impl App {
             Action::Back => self.back_from_hosted(),
             Action::OpenTerminalWidth => self.go(Screen::TerminalWidth),
             Action::Flash(text, color) => self.set_flash(text, color),
+            Action::SetRefreshInterval(interval) => {
+                let previous = self.refresh_interval.take();
+                self.refresh_interval = interval.map(crate::jsjson::num);
+                if claude::set_refresh_interval(interval).is_ok() {
+                    self.set_flash("✓ Refresh interval updated", "green");
+                } else {
+                    self.refresh_interval = previous;
+                    self.set_flash("✗ Failed to save refresh interval", "red");
+                }
+                self.go(Screen::Main);
+            }
+            Action::FlowNotice { title, message, color } => {
+                self.flow_notice = Some((FlowNotice::new(title, message, color), Screen::Main));
+                self.go(Screen::FlowNotice);
+            }
             Action::InstallFonts => {
                 self.installing_fonts = true;
                 self.font_install_at = Some(Instant::now() + Duration::from_millis(50));
@@ -543,6 +608,8 @@ impl App {
                     self.perform_save();
                 }
             }
+            ConfirmAction::Install { command } => self.run_install(&command),
+            ConfirmAction::Uninstall => self.run_uninstall(),
             ConfirmAction::StarGithub => {
                 if super::open_url::open_external_url(GITHUB_REPO_URL) {
                     self.set_flash("✓ Opened GitHub repository in browser", "green");
@@ -553,6 +620,129 @@ impl App {
                 self.confirm = None;
             }
         }
+    }
+
+    fn install_command(&self) -> String {
+        let custom = self.store.is_custom_path().then(|| self.store.path.clone());
+        super::install::status_line_command(&super::install::base_command(), custom.as_deref())
+    }
+
+    fn handle_install(&mut self, ev: &Input) {
+        let command = self.install_command();
+        match self.install_menu.handle(ev, &command) {
+            super::components::install_menu::Outcome::Select => self.open_install_confirm(command),
+            super::components::install_menu::Outcome::Cancel => self.screen = Screen::Main,
+            super::components::install_menu::Outcome::None => {}
+        }
+    }
+
+    fn handle_manage(&mut self, ev: &Input) {
+        match self.manage.handle(ev) {
+            super::components::install_menu::Outcome::Select => self.open_uninstall_confirm(Screen::ManageInstallation),
+            super::components::install_menu::Outcome::Cancel => {
+                let index = main_menu::install_selection_index(true, Some(self.installation_method()));
+                self.menu_selections.insert("main", index);
+                self.screen = Screen::Main;
+            }
+            super::components::install_menu::Outcome::None => {}
+        }
+    }
+
+    /// `handleInstallSelection`: describe the side effects, then confirm.
+    fn open_install_confirm(&mut self, command: String) {
+        let existing = claude::existing_status_line();
+        let already = existing.as_deref().is_some_and(claude::is_known_command);
+        let path = crate::claude_config::settings_path().display().to_string();
+        let side_effects = [
+            format!("Claude settings path: {path}"),
+            format!("Final statusLine.command: {command}"),
+            format!("Hook command behavior: hook-enabled widgets run {command} --hook"),
+        ]
+        .join("\n");
+        let message = match &existing {
+            Some(e) if !already => {
+                format!("A status line is already configured: \"{e}\"\n\n{side_effects}\n\nReplace it?")
+            }
+            _ if already => format!("ccstatusline is already installed.\n\n{side_effects}\n\nUpdate it?"),
+            _ => format!("{side_effects}\n\nContinue?"),
+        };
+        self.open_confirm(ConfirmState {
+            message,
+            action: ConfirmAction::Install { command },
+            cancel_screen: Some(Screen::Install),
+        });
+    }
+
+    fn open_uninstall_confirm(&mut self, cancel: Screen) {
+        let path = crate::claude_config::settings_path().display().to_string();
+        self.open_confirm(ConfirmState {
+            message: format!("This will remove ccstatusline from {path}. Continue?"),
+            action: ConfirmAction::Uninstall,
+            cancel_screen: Some(cancel),
+        });
+    }
+
+    fn run_install(&mut self, command: &str) {
+        let supports = claude::is_claude_code_version_at_least("2.1.97");
+        match super::install::install(&crate::claude_config::settings_path(), command, supports) {
+            Ok(()) => {
+                // Hooks follow the saved config, as upstream re-reads it after installing.
+                if let Some(saved) = self.saved_settings() {
+                    crate::hooks::sync_widget_hooks(&saved);
+                }
+                self.installed = true;
+                self.existing_status_line = claude::existing_status_line().or_else(|| Some(command.to_string()));
+                let index = main_menu::install_selection_index(true, Some(self.installation_method()));
+                self.menu_selections.insert("main", index);
+                self.screen = Screen::Main;
+                self.set_flash("✓ Installed to Claude Code", "green");
+            }
+            Err(message) => {
+                self.flash = None;
+                self.flow_notice = Some((FlowNotice::new("Install Failed".into(), message, "red"), Screen::Install));
+                self.screen = Screen::FlowNotice;
+            }
+        }
+        self.confirm = None;
+    }
+
+    fn run_uninstall(&mut self) {
+        if !super::install::uninstall(&crate::claude_config::settings_path()) {
+            self.messages.push("Warning: Could not read existing Claude settings.".into());
+        }
+        // saveInstallationMetadata(undefined): the config file without its installation record.
+        if self.store.path.exists() {
+            if let Some(saved) = self.saved_settings_json() {
+                let mut v = crate::jsobj::without(&saved, "installation");
+                v = crate::jsobj::with(&v, "version", crate::jsjson::num(crate::settings::CURRENT_VERSION));
+                let _ = self.store.write_settings_value(&crate::jsobj::strip_undefined(&v));
+            }
+        }
+        crate::hooks::remove_managed_hooks();
+        self.installed = false;
+        self.existing_status_line = None;
+        self.settings = crate::jsobj::without(&self.settings, "installation");
+        self.original =
+            json(&crate::jsobj::without(&serde_json::from_str(&self.original).unwrap_or(Value::Null), "installation"));
+        self.has_changes = json(&self.settings) != self.original;
+        let index = main_menu::install_selection_index(false, None);
+        self.menu_selections.insert("main", index);
+        self.set_flash("✓ Uninstalled from Claude Code", "green");
+        self.screen = Screen::Main;
+        self.confirm = None;
+    }
+
+    /// The config as saved on disk (`loadSettings`), when it loads without error.
+    fn saved_settings_json(&self) -> Option<Value> {
+        let mut store = crate::settings::ConfigStore::new(Some(&self.store.path.to_string_lossy()));
+        store.captured = Some(Vec::new());
+        let st = store.load();
+        store.load_error.is_none().then(|| crate::settings::settings_json(&st))
+    }
+
+    fn saved_settings(&self) -> Option<Settings> {
+        let v = self.saved_settings_json()?;
+        crate::settings::parse_settings(&v).ok()
     }
 
     pub fn view(&mut self) -> El {
@@ -622,6 +812,22 @@ impl App {
                 };
                 self.hosted.as_mut().map(|h| h.view(&ctx))
             }
+            Screen::Install => {
+                let command = self.install_command();
+                let path = crate::claude_config::settings_path().display().to_string();
+                let existing = self.existing_status_line.clone();
+                Some(self.install_menu.view(&command, existing.as_deref(), &path))
+            }
+            Screen::ManageInstallation => {
+                let current = match self.installation_method() {
+                    main_menu::InstallMethod::Pinned => "Pinned global install",
+                    main_menu::InstallMethod::SelfManaged => "Self-managed/global install",
+                    main_menu::InstallMethod::AutoUpdate => "Auto-update",
+                    main_menu::InstallMethod::Unknown => "Unknown installation",
+                };
+                Some(self.manage.view(current))
+            }
+            Screen::FlowNotice => self.flow_notice.as_mut().map(|(n, _)| n.view()),
             Screen::Pending => None,
             _ => None,
         };
