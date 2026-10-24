@@ -8,6 +8,7 @@
 //   CCSL_TEST_NO_BACKGROUND=1      detached `spawn()` (git-review refresh) is a no-op
 //   CCSL_TEST_MEM_TOTAL_BYTES=<n>  os.totalmem(); also makes `vm_stat` fail
 //   CCSL_TEST_MEM_FREE_BYTES=<n>   os.freemem()
+//   CCSL_TEST_RANDOM_SEED=<n>      Math.random is mulberry32 seeded with n
 //
 // Always, regardless of env: the macOS keychain (`security`), `curl`/`wget`,
 // `globalThis.fetch` and http(s).request/get are blocked. `gh`/`glab` are
@@ -54,6 +55,21 @@ if (env.CCSL_TEST_NOW_MS !== undefined && env.CCSL_TEST_NOW_MS !== '') {
             return new RealDate(fixedNow).toString();
         }
     });
+}
+
+// --- Seeded Math.random -----------------------------------------------------
+// The editor's new-widget GUIDs and powerline backgrounds come from Math.random;
+// the Rust editor uses the same mulberry32 sequence (src/tui/random.rs).
+
+if (env.CCSL_TEST_RANDOM_SEED !== undefined && env.CCSL_TEST_RANDOM_SEED !== '') {
+    let state = Number.parseInt(env.CCSL_TEST_RANDOM_SEED, 10) >>> 0;
+    Math.random = () => {
+        state = (state + 0x6d2b79f5) >>> 0;
+        let t = state;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
 }
 
 // --- child_process ---------------------------------------------------------

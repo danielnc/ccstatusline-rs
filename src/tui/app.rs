@@ -6,17 +6,22 @@
 //! preview.
 
 use std::collections::HashMap;
+use std::sync::mpsc::{self, Receiver, TryRecvError};
 use std::time::{Duration, Instant};
 
 use serde_json::Value;
 
 use super::claude;
 use super::components::confirm::{Answer, Confirm};
+use super::components::items_editor::{self, ItemsEditor};
+use super::components::line_selector::{self, LineSelector};
 use super::components::list::{Event, List};
 use super::components::main_menu::{self, MainMenuOption};
+use super::components::powerline_setup::fonts;
 use super::components::preview;
 use super::ink::keys::Input;
 use super::ink::layout::*;
+use super::screens::{self, Action};
 use crate::settings::{ConfigStore, Settings};
 
 const GITHUB_REPO_URL: &str = "https://github.com/sirmalloc/ccstatusline";
@@ -24,6 +29,17 @@ const GITHUB_REPO_URL: &str = "https://github.com/sirmalloc/ccstatusline";
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Screen {
     Main,
+    Lines,
+    Items,
+    ColorLines,
+    Colors,
+    TerminalConfig,
+    TerminalWidth,
+    GlobalOverrides,
+    Powerline,
+    RefreshInterval,
+    ExportConfig,
+    ImportConfig,
     Confirm,
     /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
     Pending,
@@ -77,13 +93,35 @@ pub struct App {
     pub terminal_width: usize,
     flash: Option<Flash>,
     main_list: List,
+    selected_line: usize,
+    line_selector: LineSelector,
+    items_editor: ItemsEditor,
+    /// The screen hosted through `screens::Screen` (colors, terminal, overrides, powerline, ...).
+    hosted: Option<Box<dyn screens::Screen>>,
     pub exit: Exit,
     messages: Vec<String>,
+    /// `powerlineFontStatus.installed`.
+    fonts_installed: bool,
+    /// A `checkPowerlineFontsAsync()` still running.
+    font_check: Option<Receiver<bool>>,
+    installing_fonts: bool,
+    /// When the install runs: upstream defers it 50 ms so the "Installing..." frame is drawn first.
+    font_install_at: Option<Instant>,
+    font_install_message: Option<String>,
+}
+
+/// `void checkPowerlineFontsAsync().then(setPowerlineFontStatus)`, off the event loop.
+fn start_font_check() -> Receiver<bool> {
+    let (tx, rx) = mpsc::channel();
+    std::thread::spawn(move || {
+        let _ = tx.send(fonts::check_async());
+    });
+    rx
 }
 
 /// `JSON.stringify(v)`.
 fn json(v: &Value) -> String {
-    crate::jsjson::stringify(v)
+    crate::jsobj::stringify(v)
 }
 
 impl App {
@@ -112,8 +150,18 @@ impl App {
             terminal_width,
             flash: None,
             main_list: List::new(0),
+            selected_line: 0,
+            line_selector: LineSelector::new(),
+            items_editor: ItemsEditor::new(),
+            hosted: None,
             exit: Exit::No,
             messages,
+            // The sync check on startup, then the async one.
+            fonts_installed: fonts::check(),
+            font_check: Some(start_font_check()),
+            installing_fonts: false,
+            font_install_at: None,
+            font_install_message: None,
         }
     }
 
@@ -123,7 +171,7 @@ impl App {
     }
 
     fn typed(&self) -> Settings {
-        crate::settings::parse_settings(&self.settings).unwrap_or_default()
+        crate::settings::parse_settings(&crate::jsobj::strip_undefined(&self.settings)).unwrap_or_default()
     }
 
     fn set_settings(&mut self, v: Value) {
@@ -137,12 +185,39 @@ impl App {
 
     /// How long until a timer fires (the flash message clearing), for the event loop's wait.
     pub fn next_timer(&self) -> Option<Duration> {
-        self.flash.as_ref().map(|f| f.until.saturating_duration_since(Instant::now()))
+        let now = Instant::now();
+        [
+            self.flash.as_ref().map(|f| f.until.saturating_duration_since(now)),
+            self.font_install_at.map(|at| at.saturating_duration_since(now)),
+            // Poll a running font check.
+            self.font_check.as_ref().map(|_| Duration::from_millis(20)),
+        ]
+        .into_iter()
+        .flatten()
+        .min()
     }
 
     pub fn tick(&mut self) {
         if self.flash.as_ref().is_some_and(|f| Instant::now() >= f.until) {
             self.flash = None;
+        }
+        if let Some(rx) = &self.font_check {
+            match rx.try_recv() {
+                Ok(installed) => {
+                    self.fonts_installed = installed;
+                    self.font_check = None;
+                }
+                Err(TryRecvError::Disconnected) => self.font_check = None,
+                Err(TryRecvError::Empty) => {}
+            }
+        }
+        if self.font_install_at.is_some_and(|at| Instant::now() >= at) {
+            self.font_install_at = None;
+            let (_, message) = fonts::install();
+            self.installing_fonts = false;
+            self.font_install_message = Some(message);
+            // Refresh font status
+            self.font_check = Some(start_font_check());
         }
     }
 
@@ -160,7 +235,7 @@ impl App {
         if let Some(o) = v.as_object_mut() {
             o.insert("version".into(), crate::jsjson::num(crate::settings::CURRENT_VERSION));
         }
-        match self.store.write_settings_value(&v) {
+        match self.store.write_settings_value(&crate::jsobj::strip_undefined(&v)) {
             Ok(()) => {
                 crate::hooks::sync_widget_hooks(&self.typed());
                 true
@@ -215,12 +290,16 @@ impl App {
         let screen_before = self.screen;
         match self.screen {
             Screen::Main => self.handle_main(ev),
+            Screen::Lines | Screen::ColorLines => self.handle_lines(ev),
+            Screen::Items => self.handle_items(ev),
+            s if is_hosted(s) => self.handle_hosted(ev),
             Screen::Confirm => self.handle_confirm(ev),
             Screen::Pending => {
                 if ev.key.escape {
                     self.screen = Screen::Main;
                 }
             }
+            _ => self.handle_hosted(ev),
         }
         // The App's own handler: Ctrl+S saves from any screen but the confirm dialog.
         if ev.key.ctrl && ev.input == "s" && screen_before != Screen::Confirm && self.exit == Exit::No {
@@ -256,7 +335,187 @@ impl App {
                 None => self.save_and_exit(Exit::Now),
             },
             MainMenuOption::Exit => self.exit = Exit::Now,
+            MainMenuOption::Lines => self.go(Screen::Lines),
+            MainMenuOption::Colors => self.go(Screen::ColorLines),
+            MainMenuOption::TerminalConfig => self.go(Screen::TerminalConfig),
+            MainMenuOption::GlobalOverrides => self.go(Screen::GlobalOverrides),
+            MainMenuOption::Powerline => self.go(Screen::Powerline),
+            MainMenuOption::ConfigureStatusLine => self.go(Screen::RefreshInterval),
+            MainMenuOption::ExportConfig => self.go(Screen::ExportConfig),
+            MainMenuOption::ImportConfig => self.go(Screen::ImportConfig),
             _ => self.screen = Screen::Pending,
+        }
+    }
+
+    /// Switching screens mounts the new screen's components afresh.
+    fn go(&mut self, screen: Screen) {
+        self.hosted = None;
+        match screen {
+            Screen::Lines | Screen::ColorLines => self.line_selector = LineSelector::new(),
+            Screen::Items => self.items_editor = ItemsEditor::new(),
+            s if is_hosted(s) => {
+                let typed = self.typed();
+                let ctx = self.ctx(&typed);
+                let hosted: Box<dyn screens::Screen> = match s {
+                    Screen::Colors => Box::new(super::components::color_menu::ColorMenu::new(&ctx)),
+                    Screen::TerminalConfig => {
+                        Box::new(super::components::terminal_options::TerminalOptionsMenu::new(&ctx))
+                    }
+                    Screen::TerminalWidth => Box::new(super::components::terminal_width::TerminalWidthMenu::new(&ctx)),
+                    Screen::GlobalOverrides => {
+                        Box::new(super::components::global_overrides::GlobalOverridesMenu::new(&ctx))
+                    }
+                    Screen::Powerline => Box::new(super::components::powerline_setup::PowerlineSetup::new(&ctx)),
+                    Screen::RefreshInterval => {
+                        Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(&ctx))
+                    }
+                    Screen::ExportConfig => Box::new(super::components::export_config::ExportConfigDialog::new(&ctx)),
+                    _ => Box::new(super::components::import_config::ImportConfigDialog::new(&ctx)),
+                };
+                self.hosted = Some(hosted);
+            }
+            _ => {}
+        }
+        self.screen = screen;
+    }
+
+    fn ctx<'a>(&'a self, typed: &'a Settings) -> screens::Ctx<'a> {
+        screens::Ctx {
+            settings: &self.settings,
+            typed,
+            terminal_width: self.terminal_width,
+            selected_line: self.selected_line,
+            powerline_fonts_installed: self.fonts_installed,
+            installing_fonts: self.installing_fonts,
+            font_install_message: self.font_install_message.as_deref(),
+        }
+    }
+
+    fn handle_hosted(&mut self, ev: &Input) {
+        let typed = self.typed();
+        let actions = match self.hosted.as_mut() {
+            Some(h) => {
+                let ctx = screens::Ctx {
+                    settings: &self.settings,
+                    typed: &typed,
+                    terminal_width: self.terminal_width,
+                    selected_line: self.selected_line,
+                    powerline_fonts_installed: self.fonts_installed,
+                    installing_fonts: self.installing_fonts,
+                    font_install_message: self.font_install_message.as_deref(),
+                };
+                h.handle(ev, &ctx)
+            }
+            None => Vec::new(),
+        };
+        for action in actions {
+            self.apply(action);
+        }
+    }
+
+    /// Where each hosted screen's `onBack` leads, with the main menu selection the App records on the way.
+    fn back_from_hosted(&mut self) {
+        match self.screen {
+            Screen::Colors => self.go(Screen::ColorLines),
+            Screen::TerminalWidth => self.go(Screen::TerminalConfig),
+            Screen::TerminalConfig => {
+                self.menu_selections.insert("main", 3);
+                self.go(Screen::Main);
+            }
+            Screen::GlobalOverrides => {
+                self.menu_selections.insert("main", 4);
+                self.go(Screen::Main);
+            }
+            _ => self.go(Screen::Main),
+        }
+    }
+
+    fn apply(&mut self, action: Action) {
+        match action {
+            Action::SetSettings(v) => self.set_settings(v),
+            Action::SetLineWidgets(widgets) => {
+                let mut lines = self.lines();
+                if self.selected_line < lines.len() {
+                    lines[self.selected_line] = Value::Array(widgets);
+                    self.set_lines(lines);
+                }
+            }
+            Action::Back => self.back_from_hosted(),
+            Action::OpenTerminalWidth => self.go(Screen::TerminalWidth),
+            Action::Flash(text, color) => self.set_flash(text, color),
+            Action::InstallFonts => {
+                self.installing_fonts = true;
+                self.font_install_at = Some(Instant::now() + Duration::from_millis(50));
+            }
+            Action::ClearFontMessage => self.font_install_message = None,
+        }
+    }
+
+    fn lines(&self) -> Vec<Value> {
+        crate::jsobj::get(&self.settings, "lines").and_then(Value::as_array).cloned().unwrap_or_default()
+    }
+
+    /// `updateLines`: `{...settings, lines}`.
+    fn set_lines(&mut self, lines: Vec<Value>) {
+        let next = crate::jsobj::with(&self.settings, "lines", Value::Array(lines));
+        self.set_settings(next);
+    }
+
+    fn line_config(&self) -> (Option<&'static str>, bool, Option<String>) {
+        if self.screen == Screen::ColorLines {
+            let t = self.typed();
+            let managed = (t.powerline.enabled
+                && t.powerline.theme.as_deref().is_some_and(|th| !th.is_empty() && th != "custom"))
+            .then(|| t.powerline.theme.clone().unwrap_or_default());
+            (Some("Select Line to Edit Colors"), false, managed)
+        } else {
+            (Some("Select Line to Edit Items"), true, None)
+        }
+    }
+
+    fn handle_lines(&mut self, ev: &Input) {
+        let lines = self.lines();
+        let initial = self.menu_selections.get("lines").copied().unwrap_or(0);
+        self.line_selector.sync(&lines, initial);
+        let (title, allow_editing, managed) = self.line_config();
+        let cfg = line_selector::Config { title, allow_editing, managed_theme: managed.as_deref() };
+        match self.line_selector.handle(ev, &cfg) {
+            line_selector::Outcome::Select(line) => {
+                self.menu_selections.insert("lines", line);
+                self.selected_line = line;
+                let next = if self.screen == Screen::ColorLines { Screen::Colors } else { Screen::Items };
+                self.go(next);
+            }
+            line_selector::Outcome::Back => {
+                self.menu_selections.insert("main", if self.screen == Screen::ColorLines { 1 } else { 0 });
+                self.screen = Screen::Main;
+            }
+            line_selector::Outcome::LinesUpdated(lines) => self.set_lines(lines),
+            line_selector::Outcome::None => {}
+        }
+    }
+
+    fn handle_items(&mut self, ev: &Input) {
+        let typed = self.typed();
+        let lines = self.lines();
+        let widgets: Vec<Value> = lines.get(self.selected_line).and_then(Value::as_array).cloned().unwrap_or_default();
+        match self.items_editor.handle(ev, &widgets, &typed) {
+            items_editor::Outcome::Update(widgets) => {
+                // `updateLine`: newLines[selectedLine] = widgets.
+                let mut lines = lines;
+                if self.selected_line < lines.len() {
+                    lines[self.selected_line] = Value::Array(widgets);
+                } else {
+                    lines.resize(self.selected_line, crate::jsobj::undefined());
+                    lines.push(Value::Array(widgets));
+                }
+                self.set_lines(lines);
+            }
+            items_editor::Outcome::Back => {
+                self.menu_selections.insert("lines", self.selected_line);
+                self.go(Screen::Lines);
+            }
+            items_editor::Outcome::None => {}
         }
     }
 
@@ -338,9 +597,49 @@ impl App {
                 let message = self.confirm.as_ref().map(|c| c.message.clone());
                 message.map(|m| self.confirm_ui.view(Some(&m), false, false))
             }
+            Screen::Lines | Screen::ColorLines => {
+                let lines = self.lines();
+                let initial = self.menu_selections.get("lines").copied().unwrap_or(0);
+                self.line_selector.sync(&lines, initial);
+                let (title, allow_editing, managed) = self.line_config();
+                let cfg = line_selector::Config { title, allow_editing, managed_theme: managed.as_deref() };
+                Some(self.line_selector.view(&cfg))
+            }
+            Screen::Items => {
+                let widgets: Vec<Value> =
+                    self.lines().get(self.selected_line).and_then(Value::as_array).cloned().unwrap_or_default();
+                Some(self.items_editor.view(&widgets, self.selected_line + 1, &typed))
+            }
+            s if is_hosted(s) => {
+                let ctx = screens::Ctx {
+                    settings: &self.settings,
+                    typed: &typed,
+                    terminal_width: self.terminal_width,
+                    selected_line: self.selected_line,
+                    powerline_fonts_installed: self.fonts_installed,
+                    installing_fonts: self.installing_fonts,
+                    font_install_message: self.font_install_message.as_deref(),
+                };
+                self.hosted.as_mut().map(|h| h.view(&ctx))
+            }
             Screen::Pending => None,
+            _ => None,
         };
         children.push(boxed(BoxStyle::default().margin_top(1.0), screen.into_iter().collect()));
         col(children)
     }
+}
+
+fn is_hosted(s: Screen) -> bool {
+    matches!(
+        s,
+        Screen::Colors
+            | Screen::TerminalConfig
+            | Screen::TerminalWidth
+            | Screen::GlobalOverrides
+            | Screen::Powerline
+            | Screen::RefreshInterval
+            | Screen::ExportConfig
+            | Screen::ImportConfig
+    )
 }

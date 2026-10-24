@@ -7,6 +7,22 @@ mod claude;
 mod components;
 mod ink;
 mod open_url;
+mod random;
+pub mod screens;
+mod text_cursor;
+pub mod widget_editors;
+
+/// JavaScript truthiness of a JSON value (`undefined` properties are falsy).
+pub fn truthy(v: &serde_json::Value) -> bool {
+    use serde_json::Value;
+    match v {
+        Value::Null => false,
+        Value::Bool(b) => *b,
+        Value::Number(n) => n.as_f64().is_some_and(|f| f != 0.0 && !f.is_nan()),
+        Value::String(s) => !s.is_empty() && !crate::jsobj::is_undefined(v),
+        Value::Array(_) | Value::Object(_) => true,
+    }
+}
 
 use ink::layout::{plain, render_frame, Chalks};
 use ink::term::{self, Read};
