@@ -10,7 +10,10 @@ use crate::transcript::tail::{timer_state, TimerState};
 use crate::widgets::shared::{
     format_percent, format_tokens, is_flag, is_hidden, parse_usage_tokens, raw_or_labeled, resolve_number_format,
 };
-use crate::widgets::Widget;
+use crate::widgets::{editor, EditorDisplay, HideableState, Keybind, Widget};
+use serde_json::Value;
+
+use super::editor::{cache_action, cache_display, cache_keybinds, CACHE_EMPTY};
 
 struct CacheTokens {
     read: f64,
@@ -56,6 +59,8 @@ fn tokens_with_percentage(count: f64, pct: Option<f64>, tf: &NumberFormat, pf: &
     }
 }
 
+const HIT_RATE_LABEL: &str = "Cache Hit: ";
+
 pub struct HitRate;
 
 impl Widget for HitRate {
@@ -71,8 +76,26 @@ impl Widget for HitRate {
     fn category(&self) -> &'static str {
         "Cache"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(HIT_RATE_LABEL.into())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[CACHE_EMPTY]
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        cache_display(self.display_name(), item)
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        cache_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        cache_action(action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        const LABEL: &str = "Cache Hit: ";
+        const LABEL: &str = HIT_RATE_LABEL;
         let format = resolve_number_format("percent", item, ctx.settings);
         if ctx.is_preview {
             return Some(raw_or_labeled(item, LABEL, &format_percent(87.0, &format, 1)));
@@ -93,6 +116,16 @@ impl Widget for HitRate {
 
 pub struct ReadWrite {
     write: bool,
+}
+
+impl ReadWrite {
+    fn label(&self) -> &'static str {
+        if self.write {
+            "Cache Write: "
+        } else {
+            "Cache Read: "
+        }
+    }
 }
 
 impl Widget for ReadWrite {
@@ -120,8 +153,26 @@ impl Widget for ReadWrite {
     fn category(&self) -> &'static str {
         "Cache"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(self.label().into())
+    }
+    fn supports_number_format(&self) -> bool {
+        true
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[CACHE_EMPTY]
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        cache_display(self.display_name(), item)
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        cache_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        cache_action(action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        let label = if self.write { "Cache Write: " } else { "Cache Read: " };
+        let label = self.label();
         let tf = resolve_number_format("token", item, ctx.settings);
         let pf = resolve_number_format("percent", item, ctx.settings);
         if ctx.is_preview {
@@ -151,19 +202,45 @@ pub static WRITE: ReadWrite = ReadWrite { write: true };
 
 // ---------------------------------------------------------------- timer
 
+const TIMER_LABEL: &str = "Cache: ";
 const SAFETY_MARGIN: f64 = 5.0;
 const DEFAULT_TTL_SECONDS: f64 = 300.0;
+const TTL_OPTIONS: [f64; 2] = [300.0, 3600.0];
+const TOGGLE_TTL_ACTION: &str = "toggle-ttl";
 
 fn slot<'a>(item: &'a WidgetItem, id: &str, default: &'a str) -> &'a str {
     item.meta(id).unwrap_or(default)
 }
 
-/// `getTtlSeconds`
-fn ttl_seconds(item: &WidgetItem) -> f64 {
-    let Some(raw) = item.meta("ttlSeconds") else { return DEFAULT_TTL_SECONDS };
+/// `getTtlSeconds`, from `metadata.ttlSeconds`
+fn ttl_from(raw: Option<&str>) -> f64 {
+    let Some(raw) = raw else { return DEFAULT_TTL_SECONDS };
     match parse_int(raw) {
         Some(p) if p.is_finite() && p > SAFETY_MARGIN => p,
         _ => DEFAULT_TTL_SECONDS,
+    }
+}
+
+fn ttl_seconds(item: &WidgetItem) -> f64 {
+    ttl_from(item.meta("ttlSeconds"))
+}
+
+/// `cycleTtl`: 5m → 1h → 5m; the default is stored as no key.
+fn cycle_ttl(item: &Value) -> Value {
+    let current = ttl_from(crate::jsobj::metadata_str(item, "ttlSeconds"));
+    let next = TTL_OPTIONS[TTL_OPTIONS.iter().position(|t| *t == current).map_or(0, |i| (i + 1) % TTL_OPTIONS.len())];
+    if next == DEFAULT_TTL_SECONDS {
+        return crate::jsobj::remove_metadata_keys(item, &["ttlSeconds"]);
+    }
+    crate::jsobj::set_metadata(item, "ttlSeconds", &to_js_string(next))
+}
+
+/// `formatTtlLabel`
+fn ttl_label(ttl: f64) -> String {
+    if ttl % 3600.0 == 0.0 {
+        format!("{}h", to_js_string(ttl / 3600.0))
+    } else {
+        format!("{}m", to_js_string(crate::jsnum::js_round(ttl / 60.0)))
     }
 }
 
@@ -199,8 +276,28 @@ impl Widget for Timer {
     fn category(&self) -> &'static str {
         "Session"
     }
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some(TIMER_LABEL.into())
+    }
+    fn editor_display(&self, item: &WidgetItem) -> EditorDisplay {
+        let mut modifiers = Vec::new();
+        let ttl = ttl_seconds(item);
+        if ttl != DEFAULT_TTL_SECONDS {
+            modifiers.push(format!("ttl {}", ttl_label(ttl)));
+        }
+        EditorDisplay { text: self.display_name().into(), modifier: editor::make_modifier_text(&modifiers) }
+    }
+    fn hideable_states(&self) -> &'static [HideableState] {
+        &[CACHE_EMPTY]
+    }
+    fn handle_editor_action(&self, action: &str, item: &Value) -> Option<Value> {
+        (action == TOGGLE_TTL_ACTION).then(|| cycle_ttl(item))
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<Keybind> {
+        vec![Keybind::new("t", "(t)tl", TOGGLE_TTL_ACTION), editor::symbol_keybind()]
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
-        const LABEL: &str = "Cache: ";
+        const LABEL: &str = TIMER_LABEL;
         let hide = is_hidden(item, "empty", false);
         if ctx.is_preview {
             return Some(raw_or_labeled(item, LABEL, &with_glyph(slot(item, "symbolFresh", "🟢"), "4:52")));
