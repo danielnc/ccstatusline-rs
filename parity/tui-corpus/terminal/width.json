@@ -1,0 +1,38 @@
+[
+  {
+    "name": "browse-and-back",
+    "keys": ["down", "down", "down", "enter", "enter", "down", "down", "down", "up", "escape", "escape"]
+  },
+  {
+    "name": "back-button",
+    "keys": ["down", "down", "down", "enter", "enter", "down", "down", "enter", "escape"]
+  },
+  {
+    "name": "select-full-and-save",
+    "keys": ["down", "down", "down", "enter", "enter", "up", "enter", "ctrl+s"]
+  },
+  {
+    "name": "until-compact-threshold-and-save",
+    "keys": ["down", "down", "down", "enter", "enter", "down", "enter", "backspace", "backspace", { "text": "7" }, { "text": "5" }, "enter", "ctrl+s"]
+  },
+  {
+    "name": "threshold-validation",
+    "keys": [
+      "down", "down", "down", "enter", "enter", "down", "enter",
+      { "text": "1" }, "backspace", "backspace", "enter",
+      { "text": "x" }, { "text": "0" }, "enter",
+      { "text": "9" }, { "text": "9" }, "delete", "backspace", "enter",
+      "down", "escape", "escape"
+    ]
+  },
+  {
+    "name": "threshold-escape-restores",
+    "config": { "version": 4, "flexMode": "full-until-compact", "compactThreshold": 42 },
+    "keys": ["down", "down", "down", "enter", "enter", "enter", "backspace", { "text": "9" }, "escape", "enter", "enter", "ctrl+s"]
+  },
+  {
+    "name": "narrow",
+    "size": [60, 45],
+    "keys": ["down", "down", "down", "enter", "enter", "up", "down", "enter", "escape"]
+  }
+]
