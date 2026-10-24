@@ -6,6 +6,7 @@
 //! preview.
 
 use std::collections::HashMap;
+use std::sync::mpsc::{self, Receiver, TryRecvError};
 use std::time::{Duration, Instant};
 
 use serde_json::Value;
@@ -17,6 +18,7 @@ use super::components::items_editor::{self, ItemsEditor};
 use super::components::line_selector::{self, LineSelector};
 use super::components::list::{Event, List};
 use super::components::main_menu::{self, MainMenuOption};
+use super::components::powerline_setup::fonts;
 use super::components::preview;
 use super::ink::keys::Input;
 use super::ink::layout::*;
@@ -105,6 +107,23 @@ pub struct App {
     hosted: Option<Box<dyn screens::Screen>>,
     pub exit: Exit,
     messages: Vec<String>,
+    /// `powerlineFontStatus.installed`.
+    fonts_installed: bool,
+    /// A `checkPowerlineFontsAsync()` still running.
+    font_check: Option<Receiver<bool>>,
+    installing_fonts: bool,
+    /// When the install runs: upstream defers it 50 ms so the "Installing..." frame is drawn first.
+    font_install_at: Option<Instant>,
+    font_install_message: Option<String>,
+}
+
+/// `void checkPowerlineFontsAsync().then(setPowerlineFontStatus)`, off the event loop.
+fn start_font_check() -> Receiver<bool> {
+    let (tx, rx) = mpsc::channel();
+    std::thread::spawn(move || {
+        let _ = tx.send(fonts::check_async());
+    });
+    rx
 }
 
 /// `JSON.stringify(v)`.
@@ -149,6 +168,12 @@ impl App {
             hosted: None,
             exit: Exit::No,
             messages,
+            // The sync check on startup, then the async one.
+            fonts_installed: fonts::check(),
+            font_check: Some(start_font_check()),
+            installing_fonts: false,
+            font_install_at: None,
+            font_install_message: None,
         }
     }
 
@@ -172,12 +197,39 @@ impl App {
 
     /// How long until a timer fires (the flash message clearing), for the event loop's wait.
     pub fn next_timer(&self) -> Option<Duration> {
-        self.flash.as_ref().map(|f| f.until.saturating_duration_since(Instant::now()))
+        let now = Instant::now();
+        [
+            self.flash.as_ref().map(|f| f.until.saturating_duration_since(now)),
+            self.font_install_at.map(|at| at.saturating_duration_since(now)),
+            // Poll a running font check.
+            self.font_check.as_ref().map(|_| Duration::from_millis(20)),
+        ]
+        .into_iter()
+        .flatten()
+        .min()
     }
 
     pub fn tick(&mut self) {
         if self.flash.as_ref().is_some_and(|f| Instant::now() >= f.until) {
             self.flash = None;
+        }
+        if let Some(rx) = &self.font_check {
+            match rx.try_recv() {
+                Ok(installed) => {
+                    self.fonts_installed = installed;
+                    self.font_check = None;
+                }
+                Err(TryRecvError::Disconnected) => self.font_check = None,
+                Err(TryRecvError::Empty) => {}
+            }
+        }
+        if self.font_install_at.is_some_and(|at| Instant::now() >= at) {
+            self.font_install_at = None;
+            let (_, message) = fonts::install();
+            self.installing_fonts = false;
+            self.font_install_message = Some(message);
+            // Refresh font status
+            self.font_check = Some(start_font_check());
         }
     }
 
@@ -353,6 +405,9 @@ impl App {
             typed,
             terminal_width: self.terminal_width,
             selected_line: self.selected_line,
+            powerline_fonts_installed: self.fonts_installed,
+            installing_fonts: self.installing_fonts,
+            font_install_message: self.font_install_message.as_deref(),
         }
     }
 
@@ -365,6 +420,9 @@ impl App {
                     typed: &typed,
                     terminal_width: self.terminal_width,
                     selected_line: self.selected_line,
+                    powerline_fonts_installed: self.fonts_installed,
+                    installing_fonts: self.installing_fonts,
+                    font_install_message: self.font_install_message.as_deref(),
                 };
                 h.handle(ev, &ctx)
             }
@@ -420,6 +478,11 @@ impl App {
                 self.flow_notice = Some(FlowNotice::new(title, message, color));
                 self.go(Screen::FlowNotice);
             }
+            Action::InstallFonts => {
+                self.installing_fonts = true;
+                self.font_install_at = Some(Instant::now() + Duration::from_millis(50));
+            }
+            Action::ClearFontMessage => self.font_install_message = None,
         }
     }
 
@@ -588,6 +651,9 @@ impl App {
                     typed: &typed,
                     terminal_width: self.terminal_width,
                     selected_line: self.selected_line,
+                    powerline_fonts_installed: self.fonts_installed,
+                    installing_fonts: self.installing_fonts,
+                    font_install_message: self.font_install_message.as_deref(),
                 };
                 self.hosted.as_mut().map(|h| h.view(&ctx))
             }

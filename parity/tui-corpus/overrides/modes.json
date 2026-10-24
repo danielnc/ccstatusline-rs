@@ -1,0 +1,44 @@
+[
+  {
+    "name": "number-format-cycle-and-save",
+    "size": [100, 45],
+    "keys": [
+      "down", "down", "down", "down", "enter",
+      { "text": "n" }, "right", "down", "right", "right", "up", "up", "left", "left", "left", "down", "down", "down", "down",
+      "escape", "ctrl+s"
+    ]
+  },
+  {
+    "name": "number-format-existing",
+    "size": [100, 45],
+    "config": { "version": 4, "numberFormat": { "token": { "style": "whole", "decimals": 2 }, "cost": { "style": "precise" } } },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "N" }, "right", "right", "down", "down", "down", "down", "right", "escape", "ctrl+s"]
+  },
+  {
+    "name": "gradient-preset-apply",
+    "size": [100, 45],
+    "keys": ["down", "down", "down", "down", "enter", { "text": "g" }, "down", "down", "up", "down", "enter", "ctrl+s"]
+  },
+  {
+    "name": "gradient-truecolor-list",
+    "size": [100, 45],
+    "config": { "version": 4, "colorLevel": 3, "overrideForegroundColor": "gradient:Rainbow" },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "G" }, "up", "up", "escape", { "text": "g" }, "up", "enter", "escape", "escape"]
+  },
+  {
+    "name": "gradient-custom-and-save",
+    "size": [100, 45],
+    "keys": [
+      "down", "down", "down", "down", "enter", { "text": "g" }, "up", "enter",
+      { "text": "f" }, { "text": "z" }, { "text": "F" }, { "text": "8" }, "enter", { "text": "800" }, { "text": "0" }, { "text": "1" }, { "text": "2" }, "enter",
+      { "text": "0" }, { "text": "0" }, "backspace", "delete", { "text": "a" }, { "text": "b" }, { "text": "c" }, { "text": "d" }, { "text": "e" }, { "text": "f" }, { "text": "1" }, "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "gradient-basic-level",
+    "size": [100, 45],
+    "config": { "version": 4, "colorLevel": 1, "overrideForegroundColor": "gradient:ff0000-0000ff" },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "g" }, "down", "escape"]
+  }
+]

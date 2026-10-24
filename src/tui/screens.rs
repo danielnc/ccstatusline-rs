@@ -19,6 +19,12 @@ pub struct Ctx<'a> {
     pub terminal_width: usize,
     /// The line the colors screen edits.
     pub selected_line: usize,
+    /// `powerlineFontStatus.installed`.
+    pub powerline_fonts_installed: bool,
+    /// `installingFonts`.
+    pub installing_fonts: bool,
+    /// `fontInstallMessage`.
+    pub font_install_message: Option<&'a str>,
 }
 
 impl Ctx<'_> {
@@ -50,6 +56,10 @@ pub enum Action {
     SetRefreshInterval(Option<f64>),
     /// `setFlowNotice({title, message, color, continueScreen: 'main'})` and `setScreen('flowNotice')`.
     FlowNotice { title: String, message: String, color: &'static str },
+    /// PowerlineSetup's `onInstallFonts()`.
+    InstallFonts,
+    /// PowerlineSetup's `onClearMessage()`.
+    ClearFontMessage,
 }
 
 /// A screen hosted by the App.
