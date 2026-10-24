@@ -89,6 +89,18 @@ fn abbreviate_path(path: &str) -> String {
 
 impl Widget for CurrentWorkingDir {
     widget_info!("blue", "Current Working Dir", "Shows the current working directory", "Environment");
+    fn label_prefix(&self, _item: &WidgetItem) -> Option<String> {
+        Some("cwd: ".into())
+    }
+    fn editor_display(&self, item: &WidgetItem) -> crate::widgets::EditorDisplay {
+        super::editor::cwd_display(item, self.display_name())
+    }
+    fn custom_keybinds(&self, _item: &WidgetItem) -> Vec<crate::widgets::Keybind> {
+        super::editor::cwd_keybinds()
+    }
+    fn handle_editor_action(&self, action: &str, item: &serde_json::Value) -> Option<serde_json::Value> {
+        super::editor::cwd_action(action, item)
+    }
     fn render(&self, item: &WidgetItem, ctx: &RenderContext) -> Option<String> {
         // `metadata.segments ? parseInt(segments, 10) : undefined`, used when > 0
         let segments = item
