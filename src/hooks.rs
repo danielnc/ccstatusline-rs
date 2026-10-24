@@ -168,3 +168,17 @@ pub fn handle_hook_input(input: Option<&str>) {
 pub fn iso_now() -> String {
     crate::timefmt::iso_string(crate::clock::now_ms())
 }
+
+/// `removeManagedHooks`: the hooks ccstatusline added, gone from Claude's settings.
+pub fn remove_managed_hooks() {
+    let Ok(mut claude) = crate::claude_config::load_settings() else { return };
+    let Some(obj) = claude.as_object_mut() else { return };
+    let mut hooks = obj.get("hooks").and_then(Value::as_object).cloned().unwrap_or_default();
+    strip_managed(&mut hooks);
+    if hooks.is_empty() {
+        obj.shift_remove("hooks");
+    } else {
+        obj.insert("hooks".into(), Value::Object(hooks));
+    }
+    crate::claude_config::save_settings(&claude);
+}

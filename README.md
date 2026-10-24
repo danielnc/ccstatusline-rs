@@ -79,6 +79,10 @@ Known gaps:
   note. Keep editing with `npx ccstatusline@latest`: the config file is shared, so both read and write the same
   `~/.config/ccstatusline/settings.json`. The port is under way, screen by screen, behind `CCSTATUSLINE_RS_TUI=1`,
   with its own differential harness (`parity/tui.mjs`) that compares both editors' screens cell by cell.
+- The editor's install screens install ccstatusline-rs, not the npm package: Install writes the command that runs
+  this binary as `statusLine.command` (with `--config` when one is in use) and Uninstall removes it. Upstream's
+  npm/bun actions (global install, update check, pinned-version check, removing global packages) are left out, so
+  Manage Installation offers only Uninstall. These screens are covered by Rust tests rather than the parity harness.
 - Reset times shown in a time zone other than UTC are always formatted with en-US conventions, whatever locale is
   configured; UTC output is exact for every locale.
 - Only ISO-8601 timestamps are parsed in transcripts (upstream's `Date.parse` also accepts other forms, which
