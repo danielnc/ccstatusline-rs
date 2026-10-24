@@ -6,16 +6,19 @@
 //! preview.
 
 use std::collections::HashMap;
+use std::sync::mpsc::{self, Receiver, TryRecvError};
 use std::time::{Duration, Instant};
 
 use serde_json::Value;
 
 use super::claude;
 use super::components::confirm::{Answer, Confirm};
+use super::components::flow_notice::FlowNotice;
 use super::components::items_editor::{self, ItemsEditor};
 use super::components::line_selector::{self, LineSelector};
 use super::components::list::{Event, List};
 use super::components::main_menu::{self, MainMenuOption};
+use super::components::powerline_setup::fonts;
 use super::components::preview;
 use super::ink::keys::Input;
 use super::ink::layout::*;
@@ -33,7 +36,6 @@ pub enum Screen {
     Colors,
     Install,
     ManageInstallation,
-    FlowNotice,
     TerminalConfig,
     TerminalWidth,
     GlobalOverrides,
@@ -42,6 +44,7 @@ pub enum Screen {
     ExportConfig,
     ImportConfig,
     Confirm,
+    FlowNotice,
     /// A screen this build does not draw yet (its PR has not landed): blank, ESC returns to the main menu.
     Pending,
 }
@@ -97,6 +100,12 @@ pub struct App {
     confirm_ui: Confirm,
     installed: bool,
     existing_status_line: Option<String>,
+    /// `currentRefreshInterval`: Claude's `statusLine.refreshInterval`, read at mount.
+    refresh_interval: Option<Value>,
+    /// `supportsRefreshInterval`: `claude --version` is at least 2.1.97, checked once at mount.
+    supports_refresh_interval: bool,
+    /// `flowNotice` with its `continueScreen`.
+    flow_notice: Option<(FlowNotice, Screen)>,
     pub terminal_width: usize,
     flash: Option<Flash>,
     main_list: List,
@@ -107,9 +116,25 @@ pub struct App {
     hosted: Option<Box<dyn screens::Screen>>,
     install_menu: super::components::install_menu::InstallMenu,
     manage: super::components::install_menu::ManageInstallation,
-    flow_notice: Option<(super::components::install_menu::FlowNotice, Screen)>,
     pub exit: Exit,
     messages: Vec<String>,
+    /// `powerlineFontStatus.installed`.
+    fonts_installed: bool,
+    /// A `checkPowerlineFontsAsync()` still running.
+    font_check: Option<Receiver<bool>>,
+    installing_fonts: bool,
+    /// When the install runs: upstream defers it 50 ms so the "Installing..." frame is drawn first.
+    font_install_at: Option<Instant>,
+    font_install_message: Option<String>,
+}
+
+/// `void checkPowerlineFontsAsync().then(setPowerlineFontStatus)`, off the event loop.
+fn start_font_check() -> Receiver<bool> {
+    let (tx, rx) = mpsc::channel();
+    std::thread::spawn(move || {
+        let _ = tx.send(fonts::check_async());
+    });
+    rx
 }
 
 /// `JSON.stringify(v)`.
@@ -128,6 +153,8 @@ impl App {
         let original = json(&settings);
         let installed = claude::is_installed();
         let existing_status_line = claude::existing_status_line();
+        let refresh_interval = claude::refresh_interval();
+        let supports_refresh_interval = claude::is_claude_code_version_at_least("2.1.97");
         App {
             store,
             settings,
@@ -140,6 +167,9 @@ impl App {
             confirm_ui: Confirm::default(),
             installed,
             existing_status_line,
+            refresh_interval,
+            supports_refresh_interval,
+            flow_notice: None,
             terminal_width,
             flash: None,
             main_list: List::new(0),
@@ -149,9 +179,14 @@ impl App {
             hosted: None,
             install_menu: super::components::install_menu::InstallMenu::new(),
             manage: super::components::install_menu::ManageInstallation::new(),
-            flow_notice: None,
             exit: Exit::No,
             messages,
+            // The sync check on startup, then the async one.
+            fonts_installed: fonts::check(),
+            font_check: Some(start_font_check()),
+            installing_fonts: false,
+            font_install_at: None,
+            font_install_message: None,
         }
     }
 
@@ -175,12 +210,39 @@ impl App {
 
     /// How long until a timer fires (the flash message clearing), for the event loop's wait.
     pub fn next_timer(&self) -> Option<Duration> {
-        self.flash.as_ref().map(|f| f.until.saturating_duration_since(Instant::now()))
+        let now = Instant::now();
+        [
+            self.flash.as_ref().map(|f| f.until.saturating_duration_since(now)),
+            self.font_install_at.map(|at| at.saturating_duration_since(now)),
+            // Poll a running font check.
+            self.font_check.as_ref().map(|_| Duration::from_millis(20)),
+        ]
+        .into_iter()
+        .flatten()
+        .min()
     }
 
     pub fn tick(&mut self) {
         if self.flash.as_ref().is_some_and(|f| Instant::now() >= f.until) {
             self.flash = None;
+        }
+        if let Some(rx) = &self.font_check {
+            match rx.try_recv() {
+                Ok(installed) => {
+                    self.fonts_installed = installed;
+                    self.font_check = None;
+                }
+                Err(TryRecvError::Disconnected) => self.font_check = None,
+                Err(TryRecvError::Empty) => {}
+            }
+        }
+        if self.font_install_at.is_some_and(|at| Instant::now() >= at) {
+            self.font_install_at = None;
+            let (_, message) = fonts::install();
+            self.installing_fonts = false;
+            self.font_install_message = Some(message);
+            // Refresh font status
+            self.font_check = Some(start_font_check());
         }
     }
 
@@ -262,7 +324,7 @@ impl App {
                     let next = *next;
                     if notice.handle(ev) {
                         self.flow_notice = None;
-                        self.screen = next;
+                        self.go(next);
                     }
                 }
             }
@@ -352,9 +414,11 @@ impl App {
                         Box::new(super::components::global_overrides::GlobalOverridesMenu::new(&ctx))
                     }
                     Screen::Powerline => Box::new(super::components::powerline_setup::PowerlineSetup::new(&ctx)),
-                    Screen::RefreshInterval => {
-                        Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(&ctx))
-                    }
+                    Screen::RefreshInterval => Box::new(super::components::refresh_interval::RefreshIntervalMenu::new(
+                        &ctx,
+                        self.refresh_interval.clone(),
+                        self.supports_refresh_interval,
+                    )),
                     Screen::ExportConfig => Box::new(super::components::export_config::ExportConfigDialog::new(&ctx)),
                     _ => Box::new(super::components::import_config::ImportConfigDialog::new(&ctx)),
                 };
@@ -371,6 +435,9 @@ impl App {
             typed,
             terminal_width: self.terminal_width,
             selected_line: self.selected_line,
+            powerline_fonts_installed: self.fonts_installed,
+            installing_fonts: self.installing_fonts,
+            font_install_message: self.font_install_message.as_deref(),
         }
     }
 
@@ -383,6 +450,9 @@ impl App {
                     typed: &typed,
                     terminal_width: self.terminal_width,
                     selected_line: self.selected_line,
+                    powerline_fonts_installed: self.fonts_installed,
+                    installing_fonts: self.installing_fonts,
+                    font_install_message: self.font_install_message.as_deref(),
                 };
                 h.handle(ev, &ctx)
             }
@@ -423,6 +493,26 @@ impl App {
             Action::Back => self.back_from_hosted(),
             Action::OpenTerminalWidth => self.go(Screen::TerminalWidth),
             Action::Flash(text, color) => self.set_flash(text, color),
+            Action::SetRefreshInterval(interval) => {
+                let previous = self.refresh_interval.take();
+                self.refresh_interval = interval.map(crate::jsjson::num);
+                if claude::set_refresh_interval(interval).is_ok() {
+                    self.set_flash("✓ Refresh interval updated", "green");
+                } else {
+                    self.refresh_interval = previous;
+                    self.set_flash("✗ Failed to save refresh interval", "red");
+                }
+                self.go(Screen::Main);
+            }
+            Action::FlowNotice { title, message, color } => {
+                self.flow_notice = Some((FlowNotice::new(title, message, color), Screen::Main));
+                self.go(Screen::FlowNotice);
+            }
+            Action::InstallFonts => {
+                self.installing_fonts = true;
+                self.font_install_at = Some(Instant::now() + Duration::from_millis(50));
+            }
+            Action::ClearFontMessage => self.font_install_message = None,
         }
     }
 
@@ -593,7 +683,7 @@ impl App {
     }
 
     fn run_install(&mut self, command: &str) {
-        let supports = super::install::claude_code_version_at_least("2.1.97");
+        let supports = claude::is_claude_code_version_at_least("2.1.97");
         match super::install::install(&crate::claude_config::settings_path(), command, supports) {
             Ok(()) => {
                 // Hooks follow the saved config, as upstream re-reads it after installing.
@@ -610,7 +700,7 @@ impl App {
             Err(message) => {
                 self.flash = None;
                 self.flow_notice = Some((
-                    super::components::install_menu::FlowNotice::new("Install Failed", message, "red"),
+                    FlowNotice::new("Install Failed".into(), message, "red"),
                     Screen::Install,
                 ));
                 self.screen = Screen::FlowNotice;
@@ -719,6 +809,9 @@ impl App {
                     typed: &typed,
                     terminal_width: self.terminal_width,
                     selected_line: self.selected_line,
+                    powerline_fonts_installed: self.fonts_installed,
+                    installing_fonts: self.installing_fonts,
+                    font_install_message: self.font_install_message.as_deref(),
                 };
                 self.hosted.as_mut().map(|h| h.view(&ctx))
             }

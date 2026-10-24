@@ -51,10 +51,88 @@ pub fn existing_status_line() -> Option<String> {
     settings.get("statusLine")?.get("command")?.as_str().map(str::to_string)
 }
 
-/// `getRefreshInterval()`.
-pub fn refresh_interval() -> Option<f64> {
+/// `getRefreshInterval()`: `statusLine?.refreshInterval ?? null`, whatever its type.
+pub fn refresh_interval() -> Option<Value> {
     let settings = load().ok()?;
-    settings.get("statusLine")?.get("refreshInterval")?.as_f64()
+    settings.get("statusLine")?.get("refreshInterval").filter(|v| !v.is_null()).cloned()
+}
+
+/// `setRefreshInterval(interval)`: Ok without writing when the settings cannot be read or have no `statusLine`.
+pub fn set_refresh_interval(interval: Option<f64>) -> Result<(), ()> {
+    let Ok(mut settings) = load() else { return Ok(()) };
+    let Some(status_line) = settings.get_mut("statusLine").filter(|v| super::truthy(v)) else { return Ok(()) };
+    match status_line {
+        Value::Object(o) => match interval {
+            None => {
+                o.shift_remove("refreshInterval");
+            }
+            Some(n) => {
+                o.insert("refreshInterval".into(), crate::jsjson::num(n));
+            }
+        },
+        // A property set on an array is not serialized; one set on a primitive throws in strict mode.
+        Value::Array(_) => {}
+        _ => return Err(()),
+    }
+    crate::claude_config::try_save_settings(&settings).map_err(|_| ())
+}
+
+/// `getClaudeCodeVersion()`: the leading `x.y.z` of `claude --version`, run through the shell with a 5 s timeout.
+fn claude_code_version() -> Option<String> {
+    use std::io::Read;
+    use std::process::{Command, Stdio};
+    let mut child = Command::new("/bin/sh")
+        .args(["-c", "claude --version"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::null())
+        .spawn()
+        .ok()?;
+    drop(child.stdin.take());
+    let mut stdout = child.stdout.take()?;
+    let reader = std::thread::spawn(move || {
+        let mut out = Vec::new();
+        let _ = stdout.read_to_end(&mut out);
+        out
+    });
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+    let status = loop {
+        match child.try_wait() {
+            Ok(Some(status)) => break status,
+            Ok(None) if std::time::Instant::now() < deadline => std::thread::sleep(std::time::Duration::from_millis(5)),
+            _ => {
+                let _ = child.kill();
+                let _ = child.wait();
+                return None;
+            }
+        }
+    };
+    let out = reader.join().ok()?;
+    if !status.success() {
+        return None;
+    }
+    let text = String::from_utf8_lossy(&out);
+    let re = regex::Regex::new(r"^([0-9]+\.[0-9]+\.[0-9]+)").unwrap();
+    re.captures(crate::jsnum::js_trim(&text)).map(|c| c[1].to_string())
+}
+
+/// `isClaudeCodeVersionAtLeast(minVersion)`.
+pub fn is_claude_code_version_at_least(min_version: &str) -> bool {
+    let Some(version) = claude_code_version() else { return false };
+    let parts = |v: &str| -> Vec<f64> { v.split('.').map(|p| p.parse::<f64>().unwrap_or(f64::NAN)).collect() };
+    let current = parts(&version);
+    let minimum = parts(min_version);
+    for i in 0..3 {
+        let c = current.get(i).copied().unwrap_or(0.0);
+        let m = minimum.get(i).copied().unwrap_or(0.0);
+        if c > m {
+            return true;
+        }
+        if c < m {
+            return false;
+        }
+    }
+    true
 }
 
 fn method_of(metadata: Option<&Value>) -> Option<InstallMethod> {

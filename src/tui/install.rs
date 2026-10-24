@@ -119,49 +119,6 @@ pub fn uninstall(path: &Path) -> bool {
     true
 }
 
-/// `isClaudeCodeVersionAtLeast(min)`: `claude --version` (5 s timeout) compared component by component.
-pub fn claude_code_version_at_least(min: &str) -> bool {
-    let Some(version) = claude_code_version() else { return false };
-    let parse = |v: &str| v.split('.').map(|p| p.parse::<i64>().unwrap_or(0)).collect::<Vec<_>>();
-    let (current, minimum) = (parse(&version), parse(min));
-    for i in 0..3 {
-        let (c, m) = (current.get(i).copied().unwrap_or(0), minimum.get(i).copied().unwrap_or(0));
-        if c != m {
-            return c > m;
-        }
-    }
-    true
-}
-
-fn claude_code_version() -> Option<String> {
-    use std::io::Read;
-    use std::process::{Command, Stdio};
-    let mut child = Command::new("sh")
-        .args(["-c", "claude --version"])
-        .stdin(Stdio::null())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::null())
-        .spawn()
-        .ok()?;
-    let started = std::time::Instant::now();
-    loop {
-        match child.try_wait() {
-            Ok(Some(status)) if status.success() => break,
-            Ok(Some(_)) => return None,
-            Ok(None) if started.elapsed() > std::time::Duration::from_secs(5) => {
-                let _ = child.kill();
-                return None;
-            }
-            Ok(None) => std::thread::sleep(std::time::Duration::from_millis(10)),
-            Err(_) => return None,
-        }
-    }
-    let mut out = String::new();
-    child.stdout.take()?.read_to_string(&mut out).ok()?;
-    let re = regex::Regex::new(r"^(\d+\.\d+\.\d+)").ok()?;
-    re.captures(out.trim()).map(|c| c[1].to_string())
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

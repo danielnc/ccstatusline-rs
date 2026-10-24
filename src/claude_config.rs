@@ -47,13 +47,18 @@ pub fn load_settings() -> Result<Value, ()> {
     serde_json::from_str(&String::from_utf8_lossy(&text)).map_err(|_| ())
 }
 
-/// `saveClaudeSettings()`. Errors are dropped: its one caller, the hook sync,
-/// ignores them as upstream's `saveSettings` does.
+/// `saveClaudeSettings()`. Errors are dropped: the hook sync ignores them as
+/// upstream's `saveSettings` does.
 pub fn save_settings(v: &Value) {
-    save_settings_at(&settings_path(), v);
+    let _ = save_settings_at(&settings_path(), v);
 }
 
-fn save_settings_at(path: &Path, v: &Value) {
+/// `saveClaudeSettings()`, for a caller that reports a failed write (the editor's refresh interval).
+pub fn try_save_settings(v: &Value) -> std::io::Result<()> {
+    save_settings_at(&settings_path(), v)
+}
+
+fn save_settings_at(path: &Path, v: &Value) -> std::io::Result<()> {
     // backup first, with the original's permissions
     if let Ok(content) = std::fs::read(path) {
         use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
@@ -68,10 +73,10 @@ fn save_settings_at(path: &Path, v: &Value) {
     // Upstream overwrites in place, which a render killed mid-write leaves
     // empty; a rename cannot. Where that `writeFile` fails (a file it may not
     // write), the rename must not succeed either.
-    if path.exists() && std::fs::OpenOptions::new().write(true).open(path).is_err() {
-        return;
+    if path.exists() {
+        std::fs::OpenOptions::new().write(true).open(path)?;
     }
-    let _ = crate::settings::write_json_atomic(path, v);
+    crate::settings::write_json_atomic(path, v)
 }
 
 #[cfg(test)]
@@ -94,7 +99,7 @@ mod tests {
         std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o600)).unwrap();
         let ino = std::fs::metadata(&path).unwrap().ino();
         let v = serde_json::json!({"model": "opus", "hooks": {}});
-        save_settings_at(&path, &v);
+        let _ = save_settings_at(&path, &v);
         let md = std::fs::metadata(&path).unwrap();
         assert_ne!(md.ino(), ino, "the file is replaced by a rename, not truncated in place");
         assert_eq!(md.permissions().mode() & 0o777, 0o600);
@@ -113,14 +118,14 @@ mod tests {
         let path = dir.join("settings.json");
         std::os::unix::fs::symlink("dotfiles/settings.json", &path).unwrap();
         let v = serde_json::json!({"a": 1});
-        save_settings_at(&path, &v);
+        let _ = save_settings_at(&path, &v);
         assert!(std::fs::symlink_metadata(&path).unwrap().file_type().is_symlink());
         assert_eq!(std::fs::read_to_string(&path).unwrap(), crate::jsjson::stringify_pretty(&v));
 
         if unsafe { libc::geteuid() } != 0 {
             let ro = dir.join("dotfiles/settings.json");
             std::fs::set_permissions(&ro, std::fs::Permissions::from_mode(0o444)).unwrap();
-            save_settings_at(&ro, &serde_json::json!({"b": 2}));
+            let _ = save_settings_at(&ro, &serde_json::json!({"b": 2}));
             assert_eq!(std::fs::read_to_string(&ro).unwrap(), crate::jsjson::stringify_pretty(&v));
         }
         let _ = std::fs::remove_dir_all(&dir);

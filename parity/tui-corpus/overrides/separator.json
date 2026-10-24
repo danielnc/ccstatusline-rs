@@ -1,0 +1,32 @@
+[
+  {
+    "name": "manual-separators-confirm-yes",
+    "size": [100, 45],
+    "keys": ["down", "down", "down", "down", "enter", { "text": "s" }, { "text": " | " }, "enter", "enter", "ctrl+s"]
+  },
+  {
+    "name": "manual-separators-confirm-no",
+    "size": [100, 45],
+    "keys": ["down", "down", "down", "down", "enter", { "text": "s" }, { "text": "|" }, "enter", "down", "enter", { "text": "s" }, "escape", "ctrl+s"]
+  },
+  {
+    "name": "manual-separators-confirm-escape",
+    "size": [100, 45],
+    "keys": ["down", "down", "down", "down", "enter", { "text": "S" }, { "text": "|" }, "enter", "escape", "escape"]
+  },
+  {
+    "name": "no-manual-separators-applies-directly",
+    "size": [100, 45],
+    "config": {
+      "version": 4,
+      "lines": [[{ "id": "1", "type": "model", "color": "cyan" }, { "id": "2", "type": "git-branch", "color": "magenta" }]]
+    },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "s" }, { "text": "•" }, "enter", "ctrl+s"]
+  },
+  {
+    "name": "clear-default-separator",
+    "size": [100, 45],
+    "config": { "version": 4, "defaultSeparator": "|" },
+    "keys": ["down", "down", "down", "down", "enter", { "text": "s" }, "backspace", "enter", "ctrl+s"]
+  }
+]
