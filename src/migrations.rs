@@ -3,28 +3,10 @@
 
 use serde_json::{Map, Value};
 
+/// Upstream's `generateGuid()`, drawn from the same `Math.random` stream as the editor's, so an import that
+/// migrates a v1 file mints the ids upstream does under the parity harness's seed.
 fn guid() -> String {
-    // UUID v4 from the OS random source (upstream uses Math.random).
-    let mut bytes = [0u8; 16];
-    if let Ok(mut f) = std::fs::File::open("/dev/urandom") {
-        use std::io::Read;
-        let _ = f.read_exact(&mut bytes);
-    }
-    let mut out = String::with_capacity(36);
-    let template = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";
-    let mut i = 0;
-    for c in template.chars() {
-        match c {
-            'x' | 'y' => {
-                let r = (bytes[i / 2] >> ((i % 2) * 4)) & 0xf;
-                i += 1;
-                let v = if c == 'x' { r } else { (r & 0x3) | 0x8 };
-                out.push(std::char::from_digit(v as u32, 16).unwrap());
-            }
-            c => out.push(c),
-        }
-    }
-    out
+    crate::tui::random::generate_guid()
 }
 
 type FieldCheck = fn(&Value) -> bool;
