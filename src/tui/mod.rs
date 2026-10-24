@@ -7,7 +7,7 @@ mod claude;
 mod components;
 mod ink;
 mod open_url;
-mod random;
+pub(crate) mod random;
 pub mod screens;
 mod text_cursor;
 pub mod widget_editors;

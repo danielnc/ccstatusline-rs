@@ -1,0 +1,5034 @@
+[
+  {
+    "name": "import-replace",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/replace.json"
+      },
+      "enter",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "import-merge",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/replace.json"
+      },
+      "enter",
+      "down",
+      "down",
+      "up",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "import-cancel",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/replace.json"
+      },
+      "enter",
+      "down",
+      "down",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-escape-in-preview-does-nothing",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/replace.json"
+      },
+      "enter",
+      "escape",
+      "down"
+    ]
+  },
+  {
+    "name": "import-commands-confirm",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/commands.json"
+      },
+      "enter",
+      "enter",
+      "down",
+      "up",
+      "enter",
+      "down",
+      "enter",
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "import-one-command",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/one.json"
+      },
+      "enter",
+      "down",
+      "enter",
+      "enter",
+      "down"
+    ]
+  },
+  {
+    "name": "import-v1-migrates",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/v1.json"
+      },
+      "enter",
+      "down",
+      "enter",
+      "ctrl+s"
+    ]
+  },
+  {
+    "name": "import-color-level",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/color.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-missing-file",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/nope.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-empty-path",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      "enter",
+      "escape"
+    ]
+  },
+  {
+    "name": "import-directory",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-bad-json",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/bad.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-newer-version",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/newer.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-invalid-enum",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/flex.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-invalid-ttl",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/ttl.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-not-object",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/array.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-string-version",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/strver.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-empty-lines",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/empty-lines.json"
+      },
+      "enter",
+      "enter"
+    ]
+  },
+  {
+    "name": "import-typing-and-escape",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "abc"
+      },
+      "backspace",
+      {
+        "text": "d"
+      },
+      "escape",
+      "down"
+    ]
+  },
+  {
+    "name": "import-preview-narrow-60",
+    "config": {
+      "version": 4,
+      "lines": [
+        [
+          {
+            "id": "1",
+            "type": "model",
+            "color": "cyan"
+          },
+          {
+            "id": "2",
+            "type": "separator"
+          },
+          {
+            "id": "3",
+            "type": "context-length",
+            "color": "brightBlack"
+          },
+          {
+            "id": "4",
+            "type": "separator"
+          },
+          {
+            "id": "5",
+            "type": "git-branch",
+            "color": "magenta"
+          }
+        ],
+        [],
+        []
+      ],
+      "flexMode": "full",
+      "compactThreshold": 40,
+      "colorLevel": 2,
+      "defaultPaddingSide": "both",
+      "inheritSeparatorColors": false,
+      "globalBold": true,
+      "gitCacheTtlSeconds": 5,
+      "terminalWidthCacheTtlSeconds": 5,
+      "customCommandCacheTtlSeconds": 0,
+      "minimalistMode": false,
+      "powerline": {
+        "enabled": false,
+        "separators": [
+          ""
+        ],
+        "separatorInvertBackground": [
+          false
+        ],
+        "startCaps": [],
+        "endCaps": [],
+        "autoAlign": false,
+        "continueThemeAcrossLines": false
+      }
+    },
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/replace.json"
+      },
+      "enter",
+      "down"
+    ],
+    "size": [
+      60,
+      60
+    ]
+  },
+  {
+    "name": "import-defaults-replace",
+    "files": {
+      "imp/replace.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "a",
+                "type": "model",
+                "color": "green"
+              },
+              {
+                "id": "b",
+                "type": "separator"
+              },
+              {
+                "id": "c",
+                "type": "context-length",
+                "color": "brightBlack",
+                "bold": true
+              }
+            ],
+            [
+              {
+                "id": "d",
+                "type": "session-clock"
+              }
+            ],
+            []
+          ],
+          "flexMode": "full-minus-40",
+          "defaultSeparator": " | ",
+          "overrideForegroundColor": "tab\there",
+          "powerline": {
+            "enabled": true,
+            "separators": [
+              ""
+            ],
+            "separatorInvertBackground": [
+              false
+            ],
+            "startCaps": [],
+            "endCaps": [],
+            "theme": "nord",
+            "autoAlign": true,
+            "continueThemeAcrossLines": false
+          },
+          "installation": {
+            "method": "pinned"
+          },
+          "updatemessage": {
+            "message": "hi",
+            "remaining": 2
+          },
+          "exportedBy": "2.2.32"
+        }
+      },
+      "imp/commands.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "cyan"
+              },
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              },
+              {
+                "id": "10",
+                "type": "custom-command",
+                "commandPath": "date +%s"
+              },
+              {
+                "id": "11",
+                "type": "custom-command",
+                "commandPath": "echo one\u001b[31m"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/one.json": {
+        "json": {
+          "version": 4,
+          "lines": [
+            [
+              {
+                "id": "9",
+                "type": "custom-command",
+                "commandPath": "whoami"
+              }
+            ]
+          ]
+        }
+      },
+      "imp/v1.json": {
+        "json": {
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ],
+          "flexMode": "full-until-compact",
+          "globalBold": false
+        }
+      },
+      "imp/newer.json": {
+        "json": {
+          "version": 9,
+          "lines": [
+            []
+          ]
+        }
+      },
+      "imp/bad.json": "{ nope",
+      "imp/flex.json": {
+        "json": {
+          "version": 4,
+          "flexMode": "wide",
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/ttl.json": {
+        "json": {
+          "version": 4,
+          "gitCacheTtlSeconds": 99
+        }
+      },
+      "imp/array.json": {
+        "json": [
+          1
+        ]
+      },
+      "imp/strver.json": {
+        "json": {
+          "version": "4"
+        }
+      },
+      "imp/empty-lines.json": {
+        "json": {
+          "version": 4,
+          "lines": []
+        }
+      },
+      "imp/color.json": {
+        "json": {
+          "version": 4,
+          "colorLevel": 1,
+          "lines": [
+            [
+              {
+                "id": "1",
+                "type": "model",
+                "color": "red"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "keys": [
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "down",
+      "enter",
+      {
+        "text": "~/imp/replace.json"
+      },
+      "enter",
+      "enter"
+    ]
+  }
+]
