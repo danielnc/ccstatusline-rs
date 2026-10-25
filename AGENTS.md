@@ -13,7 +13,7 @@ the upstream release pinned in `parity/upstream/package.json`.
 ```bash
 make fmt            # cargo fmt
 make check          # rustfmt, clippy -D warnings and the offline test suite; what CI's test and lint jobs run
-make parity         # the differential harness against pinned upstream (needs node 24); what CI's parity job runs
+make parity         # the differential harness against pinned upstream (needs node 24); what CI runs in the coverage (macos) job
 make parity-tui     # the editor's harness: both programs on a pty, screens compared cell by cell (needs python3)
 make check-secrets  # gitleaks over the full history
 node parity/run.mjs --tag git-branch --show-diff   # one widget type, with diffs

@@ -11,9 +11,10 @@ on:
 permissions:
   contents: read
 
+# A newer push to the same PR or to main supersedes the run before it, so only the latest commit spends runners.
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 env:
   CARGO_TERM_COLOR: always
@@ -58,7 +59,8 @@ jobs:
 
   coverage:
     name: coverage (macos)
-    # Coverage counts the unit tests and the parity harness, which needs macOS and Node 24 like the parity job.
+    # Also the parity gate: the corpus was generated on macOS and upstream picks some code paths by platform, so the
+    # harnesses run here, once, against the instrumented build.
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -72,6 +74,7 @@ jobs:
         with:
           tool: cargo-llvm-cov
 
+      # Node's ICU decides upstream's Unicode widths, so pin the major the width tables were generated with.
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
@@ -82,8 +85,8 @@ jobs:
           npm ci --prefix parity/tui --ignore-scripts
 
       # One instrumented build runs the unit tests and every parity case (renders and editor), and one report
-      # merges them. The parity job is the parity gate (on the release build), so a parity failure here is only a
-      # warning; coverage is gated here, and uploading it can never fail CI.
+      # merges them. A failed harness fails the job, but only after the coverage report is written, so a parity
+      # failure still uploads coverage; uploading it can never fail CI.
       - name: cargo llvm-cov (unit tests and parity harnesses)
         run: |
           eval "$(cargo llvm-cov show-env --export-prefix)" # not `source <(...)`: macOS ships bash 3.2
@@ -91,14 +94,30 @@ jobs:
           cargo test --locked
           cargo build --locked
           bin="${CARGO_TARGET_DIR:-target}/debug/ccstatusline-rs"
-          node parity/run.mjs -q --rust-bin "$bin" \
-            || echo "::warning::parity cases failed against the instrumented build"
-          node parity/tui.mjs -q --rust-bin "$bin" \
-            || echo "::warning::TUI parity cases failed against the instrumented build"
+          parity=0
+          node parity/run.mjs -q --rust-bin "$bin" --json parity-report.json \
+            || { parity=1; echo "::error::parity cases failed"; }
+          sh parity/tmp-root-check.sh --rust-bin "$bin" \
+            || { parity=1; echo "::error::--tmp-root removed more than the harness's own scratch"; }
+          node parity/tui.mjs -q --rust-bin "$bin" --json tui-parity-report.json \
+            || { parity=1; echo "::error::TUI parity cases failed"; }
           cargo llvm-cov report --summary-only
           cargo llvm-cov report --lcov --output-path lcov.info --fail-under-lines 84
+          exit "$parity"
+
+      - name: Keep the parity reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: parity-report
+          path: |
+            parity-report.json
+            tui-parity-report.json
+          retention-days: 14
+          if-no-files-found: ignore
 
       - name: Upload coverage to Codecov
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -121,53 +140,6 @@ jobs:
 
       - name: clippy
         run: cargo clippy --locked --all-targets -- -D warnings
-
-  parity:
-    name: parity (macos)
-    # The corpus was generated on macOS and upstream picks some code paths by platform, so the harness runs there.
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Rust toolchain
-        run: rustup toolchain install stable --profile minimal && rustup default stable
-
-      # Node's ICU decides upstream's Unicode widths, so pin the major the width tables were generated with.
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 24
-
-      - name: Release build
-        run: cargo build --release --locked
-
-      - name: Install pinned upstream ccstatusline
-        run: npm ci --prefix parity/upstream --ignore-scripts
-
-      - name: Run the differential harness
-        run: node parity/run.mjs -q --json parity-report.json
-
-      - name: --tmp-root removes only the harness's own scratch
-        run: sh parity/tmp-root-check.sh
-
-      # The editor on a pseudo-terminal, both screens read through a terminal emulator and compared cell by cell.
-      - name: Install the TUI harness's terminal emulator
-        run: npm ci --prefix parity/tui --ignore-scripts
-
-      - name: Run the TUI differential harness
-        run: node parity/tui.mjs -q --json tui-parity-report.json
-
-      - name: Keep the reports
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: parity-report
-          path: |
-            parity-report.json
-            tui-parity-report.json
-          retention-days: 14
-          if-no-files-found: ignore
 
   scripts:
     name: scripts (${{ matrix.os }})
@@ -219,7 +191,7 @@ jobs:
   ci:
     name: ci
     if: always()
-    needs: [test, msrv, coverage, lint, parity, scripts, gitleaks]
+    needs: [test, msrv, coverage, lint, scripts, gitleaks]
     runs-on: ubuntu-latest
     steps:
       - name: Every job passed
