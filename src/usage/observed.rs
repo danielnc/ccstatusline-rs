@@ -150,9 +150,7 @@ pub fn attribute(
     let Some(reset) = weekly_reset.filter(|_| !prints.is_empty()) else {
         // Nothing to confirm against: only a session that names its own
         // account is trusted; a global one may have moved with a switch.
-        return candidate
-            .filter(|(_, s)| *s != Source::Global)
-            .map(|(name, s)| (name, s.as_str().to_string()));
+        return candidate.filter(|(_, s)| *s != Source::Global).map(|(name, s)| (name, s.as_str().to_string()));
     };
     let matches: Vec<&str> =
         prints.iter().filter(|(_, r)| same_hour_of_week(*r, reset)).map(|(n, _)| n.as_str()).collect();
@@ -310,9 +308,7 @@ mod tests {
             stale: false,
             fallback: None,
             windows: weekly_reset_iso
-                .map(|r| {
-                    vec![ClauthWindow { label: "7d".into(), utilization_pct: 10.0, resets_at: Some(r.into()) }]
-                })
+                .map(|r| vec![ClauthWindow { label: "7d".into(), utilization_pct: 10.0, resets_at: Some(r.into()) }])
                 .unwrap_or_default(),
         }
     }
@@ -469,12 +465,17 @@ mod tests {
 
     #[test]
     fn should_read_only_finite_windows() {
-        let mut d = StatusJson::default();
-        d.rate_limits = Some(crate::status::RateLimits {
-            five_hour: Some(RateLimitPeriod { used_percentage: Some(f64::NAN), resets_at: Some(1.0) }),
-            seven_day: Some(RateLimitPeriod { used_percentage: Some(35.0), resets_at: Some(PERSONAL_RESET as f64) }),
+        let d = StatusJson {
+            rate_limits: Some(crate::status::RateLimits {
+                five_hour: Some(RateLimitPeriod { used_percentage: Some(f64::NAN), resets_at: Some(1.0) }),
+                seven_day: Some(RateLimitPeriod {
+                    used_percentage: Some(35.0),
+                    resets_at: Some(PERSONAL_RESET as f64),
+                }),
+                ..Default::default()
+            }),
             ..Default::default()
-        });
+        };
         assert_eq!(readings(&d), vec![("7d", r(35.0, PERSONAL_RESET))]);
     }
 }
