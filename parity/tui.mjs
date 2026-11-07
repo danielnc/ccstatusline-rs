@@ -68,6 +68,7 @@ function usage() {
   --rust-bin PATH   Rust binary (default target/release/ccstatusline-rs)
   --filter SUBSTR   only cases whose name contains SUBSTR (repeatable, OR)
   --corpus DIR      load cases from DIR instead of parity/tui-corpus (repeatable)
+  --shard K/N       run only every Nth case, starting at the Kth (1-based), so N runs split the corpus
   --show-diff       print both screens of the first differing step
   --json PATH       also write the report to PATH (always written to parity/last-tui-report.json)
   --upstream-only   run only upstream and print its screens (exploration)
@@ -76,7 +77,7 @@ function usage() {
 }
 
 function parseArgs(argv) {
-    const opts = { rustBin: DEFAULT_RUST_BIN, filters: [], corpora: [], showDiff: false, jsonOut: null, upstreamOnly: false, keepTmp: false, quiet: false };
+    const opts = { rustBin: DEFAULT_RUST_BIN, filters: [], corpora: [], shard: null, showDiff: false, jsonOut: null, upstreamOnly: false, keepTmp: false, quiet: false };
     for (let i = 0; i < argv.length; i += 1) {
         const arg = argv[i];
         const value = () => {
@@ -90,6 +91,7 @@ function parseArgs(argv) {
             case '--rust-bin': opts.rustBin = path.resolve(value()); break;
             case '--filter': opts.filters.push(value()); break;
             case '--corpus': opts.corpora.push(path.resolve(value())); break;
+            case '--shard': opts.shard = parseShard(value()); break;
             case '--show-diff': opts.showDiff = true; break;
             case '--json': opts.jsonOut = path.resolve(value()); break;
             case '--upstream-only': opts.upstreamOnly = true; break;
@@ -102,6 +104,15 @@ function parseArgs(argv) {
         }
     }
     return opts;
+}
+
+function parseShard(value) {
+    const m = /^(\d+)\/(\d+)$/.exec(value);
+    const [k, n] = m ? [Number(m[1]), Number(m[2])] : [0, 0];
+    if (!(n >= 1 && k >= 1 && k <= n)) {
+        throw new Error(`--shard wants K/N with 1 <= K <= N, got "${value}"`);
+    }
+    return { k, n };
 }
 
 function loadCases(dirs) {
@@ -453,6 +464,10 @@ async function main() {
     let cases = loadCases(opts.corpora.length ? opts.corpora : [DEFAULT_CORPUS]);
     if (opts.filters.length) {
         cases = cases.filter(c => opts.filters.some(f => c.name.includes(f)));
+    }
+    if (opts.shard) {
+        // Every Nth case rather than a contiguous slice, so each shard gets a mix of the slow and fast corpora.
+        cases = cases.filter((_, i) => i % opts.shard.n === opts.shard.k - 1);
     }
     if (!opts.upstreamOnly && !fs.existsSync(opts.rustBin)) {
         throw new Error(`Rust binary not found: ${opts.rustBin} (cargo build --release)`);

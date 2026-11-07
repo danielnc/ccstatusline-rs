@@ -57,11 +57,17 @@ jobs:
       - name: cargo test
         run: cargo test --locked
 
-  coverage:
-    name: coverage (macos)
-    # Also the parity gate: the corpus was generated on macOS and upstream picks some code paths by platform, so the
-    # harnesses run here, once, against the instrumented build.
+  harness:
+    name: harness (macos, ${{ matrix.part }}/4)
+    # The parity gate, split over four runners, each also collecting coverage from its own instrumented build:
+    # part 1 runs the unit tests and the render harness, parts 2-4 a third of the editor harness each (it is the
+    # slow one). The corpus was generated on macOS and upstream picks some code paths by platform, so all of it
+    # runs here.
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -84,44 +90,69 @@ jobs:
           npm ci --prefix parity/upstream --ignore-scripts
           npm ci --prefix parity/tui --ignore-scripts
 
-      # One instrumented build runs the unit tests and every parity case (renders and editor), and one report
-      # merges them. A failed harness fails the job, but only after the coverage report is written, so a parity
-      # failure still uploads coverage; uploading it can never fail CI.
-      - name: cargo llvm-cov (unit tests and parity harnesses)
+      # A failed harness fails the job, but only after this part's coverage file is written.
+      - name: cargo llvm-cov (part ${{ matrix.part }})
+        env:
+          PART: ${{ matrix.part }}
         run: |
           eval "$(cargo llvm-cov show-env --export-prefix)" # not `source <(...)`: macOS ships bash 3.2
           cargo llvm-cov clean --workspace
-          cargo test --locked
+          if [ "$PART" = 1 ]; then cargo test --locked; fi
           cargo build --locked
           bin="${CARGO_TARGET_DIR:-target}/debug/ccstatusline-rs"
           parity=0
-          node parity/run.mjs -q --rust-bin "$bin" --json parity-report.json \
-            || { parity=1; echo "::error::parity cases failed"; }
-          sh parity/tmp-root-check.sh --rust-bin "$bin" \
-            || { parity=1; echo "::error::--tmp-root removed more than the harness's own scratch"; }
-          node parity/tui.mjs -q --rust-bin "$bin" --json tui-parity-report.json \
-            || { parity=1; echo "::error::TUI parity cases failed"; }
+          if [ "$PART" = 1 ]; then
+            node parity/run.mjs -q --rust-bin "$bin" --json parity-report.json \
+              || { parity=1; echo "::error::parity cases failed"; }
+            sh parity/tmp-root-check.sh --rust-bin "$bin" \
+              || { parity=1; echo "::error::--tmp-root removed more than the harness's own scratch"; }
+          else
+            node parity/tui.mjs -q --rust-bin "$bin" --shard "$((PART - 1))/3" --json "tui-parity-report-$PART.json" \
+              || { parity=1; echo "::error::TUI parity cases failed"; }
+          fi
           cargo llvm-cov report --summary-only
-          cargo llvm-cov report --lcov --output-path lcov.info --fail-under-lines 84
+          cargo llvm-cov report --lcov --output-path "lcov-$PART.info"
+          # Repo-relative paths, so the merge on Linux and Codecov see the same files.
+          sed -i '' "s|^SF:$GITHUB_WORKSPACE/|SF:|" "lcov-$PART.info"
           exit "$parity"
 
-      - name: Keep the parity reports
+      - name: Keep this part's coverage and parity reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: parity-report
+          name: harness-part-${{ matrix.part }}
           path: |
+            lcov-*.info
             parity-report.json
-            tui-parity-report.json
+            tui-parity-report-*.json
           retention-days: 14
           if-no-files-found: ignore
 
+  coverage:
+    name: coverage
+    # One report from the four parts: a line counts as covered when any part covered it.
+    needs: harness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: harness-part-*
+          path: parts
+          merge-multiple: true
+
+      - name: Merge the parts and gate line coverage
+        run: python3 -I tools/lcov-merge.py --expect 4 --fail-under-lines 84 --output lcov.info parts/lcov-*.info
+
       - name: Upload coverage to Codecov
-        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: lcov.info
+          disable_search: true
           fail_ci_if_error: false
 
   lint:
@@ -191,7 +222,7 @@ jobs:
   ci:
     name: ci
     if: always()
-    needs: [test, msrv, coverage, lint, scripts, gitleaks]
+    needs: [test, msrv, harness, coverage, lint, scripts, gitleaks]
     runs-on: ubuntu-latest
     steps:
       - name: Every job passed
