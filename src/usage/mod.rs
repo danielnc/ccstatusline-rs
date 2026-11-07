@@ -14,7 +14,6 @@
 pub mod clauth;
 pub mod currency;
 pub mod fetch;
-pub mod observed;
 pub mod refresh;
 pub mod service_status;
 pub mod sha256;
