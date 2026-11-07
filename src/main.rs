@@ -131,7 +131,6 @@ fn main() {
                 std::process::exit(1);
             }
         };
-        usage::observed::record(&data);
         render_multiple_lines(&data, &mut store);
     } else {
         let st = store.load();
