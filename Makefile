@@ -7,13 +7,13 @@ check:
 fmt:
 	cargo fmt
 
-# the differential harness against pinned upstream ccstatusline (needs node 24); what CI's parity job runs
+# the differential harness against pinned upstream ccstatusline (needs node 24); part 1 of CI's harness job
 parity:
 	cargo build --release --locked
 	npm ci --prefix parity/upstream --ignore-scripts
 	node parity/run.mjs -q
 
-# the editor's differential harness (needs node 24 and python3); also part of CI's parity job
+# the editor's differential harness (needs node 24 and python3); parts 2-4 of CI's harness job (node parity/tui.mjs --shard K/N runs one share)
 parity-tui:
 	cargo build --release --locked
 	npm ci --prefix parity/upstream --ignore-scripts

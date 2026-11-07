@@ -182,6 +182,7 @@ npm ci --prefix parity/tui --ignore-scripts      # once
 node parity/tui.mjs                              # all cases vs target/release/ccstatusline-rs
 node parity/tui.mjs --filter shell/configs --show-diff
 node parity/tui.mjs --filter star --upstream-only   # print upstream's screens
+node parity/tui.mjs --shard 2/3                  # every third case from the second: CI splits the corpus this way
 ```
 
 The two sides run one after the other in the same HOME path, since paths can show on
