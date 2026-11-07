@@ -152,6 +152,14 @@ types that upstream does not know are kept by upstream's editor and render nothi
   `weekly-usage`, the reset timers, the per-model weekly widgets) fill whatever stdin `rate_limits` lack from the
   session's clauth profile instead of the API and keychain. This avoids showing another account's numbers when
   several accounts are in use, without changing the config.
+- **Observed usage for clauth.** With `CCSTATUSLINE_RS_USAGE_SOURCE=clauth` set (or
+  `CCSTATUSLINE_RS_OBSERVE_USAGE=1`; `=0` turns it off), each render records the session's stdin `rate_limits`
+  (Claude Code's copy of the rate-limit headers on its last reply) in `~/.clauth/observed-usage/<profile>.json`.
+  clauth's `/api/oauth/usage` poll is rate limited for long stretches when many sessions share an account; with
+  these files, any live session keeps its account's 5h and 7d figures fresh for clauth and every other session, with
+  no extra request. The account is the session's clauth profile, confirmed by its weekly reset time, which differs
+  per account. Figures only go up within a window, so a render repeating an older reply cannot lower one. The file
+  format is documented in `src/usage/observed.rs`.
 - **herdr widgets.** In a [herdr](https://herdr.dev) pane, `herdr-tab`, `herdr-pane` and `herdr-workspace` show the
   tab, pane or workspace label (or its id), read from herdr's socket. They render nothing outside herdr.
 
